@@ -116,12 +116,12 @@ const ogTitle = `${product.data.title} | Hardware Tools | ScrewFast`;
           <div class="grid gap-12 md:grid-cols-2">
             <div class="lg:w-3/4">
               <h2
-                class="text-3xl font-bold tracking-tight text-balance text-neutral-800 md:leading-tight lg:text-4xl dark:text-neutral-200"
+                class="text-3xl font-bold tracking-tight text-balance text-white md:leading-tight lg:text-4xl"
               >
                 {product.data.longDescription.title}
               </h2>
               <p
-                class="mt-3 text-pretty text-neutral-600 dark:text-neutral-400"
+                class="mt-3 text-pretty text-neutral-300"
               >
                 {product.data.longDescription.subTitle}
               </p>
@@ -138,10 +138,10 @@ const ogTitle = `${product.data.title} | Hardware Tools | ScrewFast`;
                 product.data.descriptionList.map(list => (
                   <div class="flex">
                     <div>
-                      <h3 class="text-base font-bold text-neutral-800 sm:text-lg dark:text-neutral-200">
+                      <h3 class="text-base font-bold text-white sm:text-lg">
                         {list.title}
                       </h3>
-                      <p class="mt-1 text-neutral-600 dark:text-neutral-400">
+                      <p class="mt-1 text-neutral-300">
                         {list.subTitle}
                       </p>
                     </div>

@@ -1,34 +1,71 @@
 ---
-// Destructure the properties from Astro.props
 const { id, dataTab, title, first } = Astro.props;
 
-// Define TypeScript interface for the properties
 interface Props {
   id: string;
   dataTab: string;
   title: string;
   first?: boolean;
 }
-// Define constants for styling classes
+
 const BUTTON_CLASS =
   'flex w-full justify-center rounded-xl border border-transparent p-3 outline-hidden ring-zinc-500 transition duration-300 hover:bg-neutral-100 focus-visible:ring-3 dark:ring-zinc-200 dark:hover:bg-neutral-700 dark:focus:outline-hidden md:p-5';
 
 const HEADING_CLASS = 'block text-center font-bold';
-const INACTIVE_HEADING_CLASS = 'text-neutral-800 dark:text-neutral-200';
+const INACTIVE_HEADING_CLASS = 'text-neutral-400';
+const TAB_ID = id + '-tab';
+const TEXT_ID = id + '-text';
 ---
 
-{/* Tab button element */}
 <button
   type="button"
-  class={`${BUTTON_CLASS} ${first ? 'active bg-neutral-100 hover:border-transparent dark:bg-white/[.05]' : ''}`}
-  id={id}
+  class={`${BUTTON_CLASS} ${first ? 'active' : ''} tab-btn`}
+  id={TAB_ID}
   data-target={dataTab}
+  data-text-id={TEXT_ID}
   role="tab"
+  aria-selected={first ? 'true' : 'false'}
 >
-  {/* Tab text */}
   <span
-    class={`${HEADING_CLASS} ${first ? 'text-orange-400 dark:text-orange-300' : INACTIVE_HEADING_CLASS}`}
+    id={TEXT_ID}
+    class={`${HEADING_CLASS} ${first ? 'text-white' : INACTIVE_HEADING_CLASS}`}
+    style={first ? 'color: white !important' : ''}
   >
     {title}
   </span>
 </button>
+
+<style>
+.tab-btn[aria-selected="true"] span {
+  color: white !important;
+}
+</style>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Reset all buttons in this nav
+    const nav = btn.closest('nav');
+    if (!nav) return;
+    
+    nav.querySelectorAll('.tab-btn').forEach(b => {
+      b.setAttribute('aria-selected', 'false');
+      const span = b.querySelector('span');
+      if (span) {
+        span.style.color = '';
+        span.classList.remove('text-white');
+        span.classList.add('text-neutral-400');
+      }
+    });
+    
+    // Set clicked button to active
+    btn.setAttribute('aria-selected', 'true');
+    const span = btn.querySelector('span');
+    if (span) {
+      span.style.color = 'white';
+      span.classList.remove('text-neutral-400');
+      span.classList.add('text-white');
+    }
+  });
+});
+</script>

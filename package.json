@@ -30,6 +30,9 @@
     "sharp-ico": "^0.1.5",
     "tailwindcss": "^4.2.2"
   },
+  "overrides": {
+    "vite": "^7"
+  },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.19",
