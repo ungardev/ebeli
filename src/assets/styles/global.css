@@ -112,14 +112,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-  html {
-    overscroll-behavior: none;
-  }
-
-  body {
-    overscroll-behavior: none;
-  }
-
   *,
   ::after,
   ::before,
