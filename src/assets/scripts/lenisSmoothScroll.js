@@ -6,4 +6,5 @@ import Lenis from 'lenis';
 // https://github.com/darkroomengineering/lenis
 const lenis = new Lenis({
   autoRaf: true,
+  duration: 0.8,
 });
