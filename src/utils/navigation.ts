@@ -6,14 +6,15 @@ const navBarLinks = [
   { name: 'Blog', url: '/blog' },
   { name: 'Contact', url: '/contact' },
 ];
+
 // An array of links for footer
 const footerLinks = [
   {
-    section: 'Ecosystem',
+    section: 'Products',
     links: [
-      { name: 'Documentation', url: '/welcome-to-docs/' },
-      { name: 'Tools & Equipment', url: '/products' },
-      { name: 'Construction Services', url: '/services' },
+      { name: 'LED Lighting', url: '/products' },
+      { name: 'LED Strips', url: '/products' },
+      { name: 'Controllers', url: '/products' },
     ],
   },
   {
@@ -21,18 +22,18 @@ const footerLinks = [
     links: [
       { name: 'About us', url: '#' },
       { name: 'Blog', url: '/blog' },
-      { name: 'Careers', url: '#' },
-      { name: 'Customers', url: '#' },
+      { name: 'Contact', url: '/contact' },
     ],
   },
 ];
+
 // An object of links for social icons
 const socialLinks = {
-  facebook: 'https://www.facebook.com/',
-  x: 'https://twitter.com/',
-  github: 'https://github.com/mearashadowfax/ScrewFast',
-  google: 'https://www.google.com/',
-  slack: 'https://slack.com/',
+  facebook: 'https://www.facebook.com/ebeli',
+  x: 'https://www.x.com/ebeli',
+  github: 'https://github.com/ungardev/ebeli',
+  google: '#',
+  slack: '#',
 };
 
 export default {
