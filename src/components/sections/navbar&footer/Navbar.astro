@@ -19,17 +19,17 @@ const homeUrl = '/';
     class="relative mx-2 w-full rounded-[36px] border border-neutral-700/40 bg-neutral-800/80 px-4 py-3 backdrop-blur-md md:flex md:items-center md:justify-between md:px-6 md:py-0 lg:px-8 xl:mx-auto dark:border-neutral-700/40 dark:bg-neutral-800/80 dark:backdrop-blur-md"
     aria-label="Global"
   >
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-center md:justify-between">
       {/* Brand logo */}
       <a
-        class="flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
+        class="flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden md:flex-1"
         href={homeUrl}
         aria-label="Brand"
       >
-        <BrandLogo class="h-auto w-24" />
+        <BrandLogo class="h-auto w-24 mx-auto md:mx-0" />
       </a>
       {/* Collapse toggle for smaller screens */}
-      <div class="mr-5 md:hidden">
+      <div class="absolute right-0 mr-5 md:hidden">
         <button
           type="button"
           class="hs-collapse-toggle flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-neutral-600 transition duration-300 hover:bg-neutral-200 disabled:pointer-events-none disabled:opacity-50 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:outline-hidden"
@@ -68,14 +68,15 @@ const homeUrl = '/';
           </svg>
         </button>
       </div>
+    </div>
     {/* Contains navigation links */}
     <div
       id="navbar-collapse-with-animation"
-      class="hs-collapse hidden grow basis-full overflow-hidden transition-all duration-300 md:block"
+      class="hs-collapse hidden w-full grow basis-full overflow-hidden transition-all duration-300 md:block"
     >
       {/* Navigation links container */}
       <div
-        class="mt-5 flex flex-col justify-end gap-x-0 gap-y-4 md:mt-0 md:flex-row md:items-center md:justify-end md:gap-x-4 md:gap-y-0 md:ps-7 lg:gap-x-7"
+        class="mt-5 flex flex-col items-start gap-x-0 gap-y-4 md:mt-0 md:flex-row md:items-center md:justify-end md:gap-x-4 md:gap-y-0 md:ps-7 lg:gap-x-7"
       >
         {/* Navigation links and Authentication component */}
         {
