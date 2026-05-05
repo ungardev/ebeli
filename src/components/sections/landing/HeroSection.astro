@@ -23,36 +23,32 @@ const ledCols = 9;
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-black" id="hero">
   <!-- Background effects -->
-  <div class="absolute inset-0 overflow-hidden">
-    <!-- Central warm glow behind matrix -->
-    <div class="hero-glow-central absolute inset-0 flex items-center justify-center pointer-events-none">
-      <div class="w-[700px] h-[500px] bg-gradient-radial from-white/25 via-white/12 to-transparent rounded-full blur-3xl"></div>
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <!-- Central warm glow -->
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="w-[600px] h-[450px] bg-gradient-radial from-white/20 via-white/10 to-transparent rounded-full blur-3xl matrix-glow"></div>
     </div>
     
-    <!-- Top ray - vertical beam from heaven -->
-    <div class="hero-ray-top absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-full pointer-events-none">
-      <div class="w-full h-full bg-gradient-to-b from-white/15 via-white/4 to-transparent"></div>
+    <!-- Top ray - vertical beam -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-full">
+      <div class="w-full h-full bg-gradient-to-b from-white/12 via-white/3 to-transparent ray-top"></div>
     </div>
     
     <!-- Side rays -->
-    <div class="hero-ray-left absolute top-1/3 left-0 w-[150px] h-[300px] bg-gradient-to-r from-white/8 to-transparent blur-2xl pointer-events-none"></div>
-    <div class="hero-ray-right absolute top-1/3 right-0 w-[150px] h-[300px] bg-gradient-to-l from-white/8 to-transparent blur-2xl pointer-events-none"></div>
+    <div class="absolute top-1/3 left-0 w-[120px] h-[250px] bg-gradient-to-r from-white/6 to-transparent blur-xl ray-left"></div>
+    <div class="absolute top-1/3 right-0 w-[120px] h-[250px] bg-gradient-to-l from-white/6 to-transparent blur-xl ray-right"></div>
   </div>
 
-  <!-- Main content - centered with navbar offset -->
-  <div class="relative z-10 flex flex-col items-center justify-center pt-28 md:pt-32 lg:pt-36">
+  <!-- Main content -->
+  <div class="relative z-10 flex flex-col items-center justify-center pt-24 md:pt-28 lg:pt-32">
     
-    <!-- LED Matrix 9x8 - Clean and precise -->
-    <div class="hero-matrix opacity-0 p-4 bg-black rounded-xl border border-neutral-800/50">
-      <div class="flex flex-col gap-[4px]" id="led-matrix">
-        {Array.from({ length: ledRows }).map((_, rowIndex) => (
-          <div class="flex gap-[4px]">
-            {Array.from({ length: ledCols }).map((_, colIndex) => (
-              <div 
-                class="led-cell w-[24px] h-[24px] sm:w-[28px] sm:h-[28px] md:w-[32px] md:h-[32px] lg:w-[38px] lg:h-[38px] rounded-[2px] bg-[#FFFAF0]"
-                data-row={rowIndex}
-                data-col={colIndex}
-              />
+    <!-- LED Matrix 9x8 - Clean square LEDs -->
+    <div class="matrix-container opacity-0">
+      <div class="led-matrix">
+        {Array.from({ length: ledRows }).map(() => (
+          <div class="led-row">
+            {Array.from({ length: ledCols }).map(() => (
+              <div class="led"></div>
             ))}
           </div>
         ))}
@@ -60,30 +56,29 @@ const ledCols = 9;
     </div>
 
     <!-- Title -->
-    <h1 class="hero-title mt-12 sm:mt-14 md:mt-16 text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[0.25em] text-white opacity-0 drop-shadow-[0_0_50px_rgba(255,255,255,0.5)]">
+    <h1 class="hero-title mt-10 sm:mt-12 md:mt-14 text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-[0.2em] text-white opacity-0">
       {title}
     </h1>
     
     {subTitle && (
-      <p class="hero-subtitle mt-6 text-base sm:text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto text-center px-4 opacity-0">
+      <p class="hero-subtitle mt-5 sm:mt-6 text-base sm:text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto text-center px-4 opacity-0">
         {subTitle}
       </p>
     )}
     
     <!-- Buttons -->
-    <div class="hero-buttons mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 opacity-0">
+    <div class="hero-buttons mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 opacity-0">
       {primaryBtn && (
         <a
           href={primaryBtnURL}
-          class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-10 sm:px-12 py-4 sm:py-5 font-semibold text-black transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-white/50"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-8 sm:px-10 py-3.5 sm:py-4 font-semibold text-black transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]"
         >
-          <span class="relative z-10 flex items-center gap-3">
+          <span class="relative z-10 flex items-center gap-2.5">
             <span>{primaryBtn}</span>
-            <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </span>
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
         </a>
       )}
       
@@ -92,7 +87,7 @@ const ledCols = 9;
           href={secondaryBtnURL}
           target="_blank"
           rel="noopener noreferrer"
-          class="group inline-flex items-center justify-center gap-3 rounded-full border-2 border-neutral-600 px-10 sm:px-12 py-4 sm:py-5 font-semibold text-white transition-all duration-500 hover:border-green-500/80 hover:bg-green-600/20 hover:shadow-lg hover:shadow-green-500/30"
+          class="group inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-neutral-600 px-8 sm:px-10 py-3.5 sm:py-4 font-semibold text-white transition-all duration-300 hover:border-green-500/70 hover:bg-green-600/15"
         >
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -104,134 +99,151 @@ const ledCols = 9;
   </div>
 
   <!-- Scroll indicator -->
-  <div class="hero-scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0">
-    <div class="flex flex-col items-center gap-2 text-neutral-500">
-      <span class="text-xs uppercase tracking-widest">Scroll</span>
-      <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div class="scroll-indicator absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 opacity-0">
+    <div class="flex flex-col items-center gap-1.5 text-neutral-500">
+      <span class="text-[10px] sm:text-xs uppercase tracking-widest">Scroll</span>
+      <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
       </svg>
     </div>
   </div>
 </section>
 
-<script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-
-  const initHeroAnimations = () => {
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-    // 1. Matrix fade in with glow
-    tl.to('.hero-matrix', { 
-      opacity: 1, 
-      duration: 0.8,
-      ease: 'power2.out'
-    });
-
-    // 2. Add glow effect to all LEDs after matrix appears
-    tl.add(() => {
-      document.querySelectorAll('.led-cell').forEach((led) => {
-        gsap.to(led, {
-          boxShadow: '0 0 12px rgba(255,250,240,0.7), 0 0 25px rgba(255,250,240,0.4)',
-          duration: 0.3,
-        });
-      });
-    }, '-=0.3');
-
-    // 3. Central glow pulse loop
-    tl.to('.hero-glow-central > div', {
-      scale: 1.1,
-      opacity: 0.8,
-      duration: 3,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-    }, '-=0.5');
-
-    // 4. Title reveal with blur
-    tl.to('.hero-title', {
-      opacity: 1,
-      filter: 'blur(0px)',
-      duration: 1,
-      ease: 'power3.out',
-    }, '-=0.3');
-
-    // 5. Subtitle fade up
-    tl.to('.hero-subtitle', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-    }, '-=0.5');
-
-    // 6. Buttons fade up
-    tl.to('.hero-buttons', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-    }, '-=0.5');
-
-    // 7. Scroll indicator
-    tl.to('.hero-scroll-indicator', {
-      opacity: 1,
-      duration: 0.6,
-    }, '-=0.3');
-
-    // Parallax on scroll
-    gsap.to('.hero-matrix', {
-      y: '-8%',
-      scale: 0.97,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1,
-      },
-    });
-
-    gsap.to('.hero-ray-top', {
-      y: '-25%',
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1.5,
-      },
-    });
-
-    // Subtle continuous ray movement
-    gsap.to('.hero-ray-top > div', {
-      x: 30,
-      duration: 7,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-    });
-
-    gsap.to('.hero-ray-left', {
-      x: -20,
-      duration: 9,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-    });
-
-    gsap.to('.hero-ray-right', {
-      x: 20,
-      duration: 8,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-    });
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeroAnimations);
-  } else {
-    initHeroAnimations();
+<style>
+  .bg-gradient-radial {
+    background: radial-gradient(ellipse at center, var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to));
   }
-</script>
+
+  /* LED Matrix - 9x8 grid of square LEDs */
+  .led-matrix {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 6px;
+    background: #000;
+    border-radius: 3px;
+  }
+
+  .led-row {
+    display: flex;
+    gap: 3px;
+  }
+
+  .led {
+    width: 8px;
+    height: 8px;
+    background: #FFFAF0;
+    border-radius: 1.5px;
+    box-shadow: 
+      0 0 6px rgba(255,250,240,0.9),
+      0 0 12px rgba(255,250,240,0.5),
+      0 0 18px rgba(255,250,240,0.2);
+    animation: ledPulse 4s ease-in-out infinite;
+  }
+
+  /* Glow pulse animation for LEDs */
+  @keyframes ledPulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
+  }
+
+  /* Central glow pulse */
+  .matrix-glow {
+    animation: glowPulse 5s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.05); }
+  }
+
+  /* Hero content animations */
+  .matrix-container {
+    animation: fadeIn 0.6s ease-out 0.1s forwards;
+  }
+
+  .hero-title {
+    animation: titleReveal 1s ease-out 0.4s forwards;
+    text-shadow: 0 0 60px rgba(255,255,255,0.4);
+  }
+
+  .hero-subtitle {
+    animation: fadeUp 0.8s ease-out 0.6s forwards;
+  }
+
+  .hero-buttons {
+    animation: fadeUp 0.8s ease-out 0.9s forwards;
+  }
+
+  .scroll-indicator {
+    animation: fadeIn 0.6s ease-out 1.3s forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes titleReveal {
+    from { opacity: 0; filter: blur(15px); transform: translateY(15px); }
+    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+
+  /* Ray subtle movement */
+  .ray-top {
+    animation: rayMoveX 10s ease-in-out infinite alternate;
+  }
+
+  .ray-left {
+    animation: rayMoveX 12s ease-in-out infinite alternate-reverse;
+  }
+
+  .ray-right {
+    animation: rayMoveX 11s ease-in-out infinite alternate;
+  }
+
+  @keyframes rayMoveX {
+    from { transform: translateX(-15px); }
+    to { transform: translateX(15px); }
+  }
+
+  /* Responsive LED sizes */
+  @media (min-width: 640px) {
+    .led {
+      width: 9px;
+      height: 9px;
+    }
+    .led-matrix {
+      gap: 3px;
+    }
+    .led-row {
+      gap: 3px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .led {
+      width: 10px;
+      height: 10px;
+    }
+    .led-matrix {
+      gap: 4px;
+      padding: 8px;
+    }
+    .led-row {
+      gap: 4px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .led {
+      width: 11px;
+      height: 11px;
+    }
+  }
+</style>
