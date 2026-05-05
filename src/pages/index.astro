@@ -1,119 +1,149 @@
 ---
-// Import the necessary components
 import MainLayout from '@/layouts/MainLayout.astro';
 import HeroSection from '@components/sections/landing/HeroSection.astro';
-import ClientsSection from '@components/sections/landing/ClientsSection.astro';
-import FeaturesGeneral from '@components/sections/features/FeaturesGeneral.astro';
-import FeaturesNavs from '@components/sections/features/FeaturesNavs.astro';
-import TestimonialsSection from '@components/sections/testimonials/TestimonialsSection.astro';
-import FAQ from '@components/sections/misc/FAQ.astro';
 import heroImage from '@images/hero-image.avif';
-import faqs from '@data/faqs.json';
-import features from '@data/features.json';
-
-import featureImage from '@images/features-image.avif';
-import construction from '@images/construction-image.avif';
-import tools from '@images/automated-tools.avif';
-import dashboard from '@images/dashboard-image.avif';
-import { partnersData } from '@/data_files/constants';
 ---
 
 <MainLayout>
   <HeroSection
-    title=`Equip Your Projects with <span
-        class="text-yellow-500 dark:text-yellow-400">ScrewFast</span>`
-    subTitle="Top-quality hardware tools and expert construction services for every project need."
-    primaryBtn="Start Exploring"
+    title="ÉBELI"
+    subTitle="Iluminación LED Premium"
+    primaryBtn="Ver Productos"
     primaryBtnURL="/products"
-    secondaryBtn="Contact Sales Team"
-    secondaryBtnURL="/contact"
-    withReview={false}
+    secondaryBtn="Hablar por WhatsApp"
+    secondaryBtnURL="https://wa.me/"
     src={heroImage}
-    alt="Stack of ScrewFast product boxes containing assorted hardware tools"
+    alt="Ébeli LED Lighting products"
   />
 
-  <ClientsSection
-    title="Trusted by Industry Leaders"
-    subTitle="Experience the reliability chosen by industry giants."
-    partners={partnersData}
-  />
+  <section class="py-16 md:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Productos Destacados</h2>
+        <p class="text-neutral-400">Soluciones de iluminación para cada espacio</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="/products/item-a765" class="group relative overflow-hidden rounded-xl bg-neutral-800 p-4 transition-transform duration-300 hover:scale-[1.02]">
+          <div class="aspect-square bg-neutral-700 rounded-lg mb-4 overflow-hidden">
+            <img src="/_astro/product-image-main-1.DocbQbk7_Zg1lkn.avif" alt="LED Product 1" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <h3 class="text-white font-medium">Línea A</h3>
+          <p class="text-neutral-400 text-sm">Iluminación Interior</p>
+        </a>
+        
+        <a href="/products/item-b203" class="group relative overflow-hidden rounded-xl bg-neutral-800 p-4 transition-transform duration-300 hover:scale-[1.02]">
+          <div class="aspect-square bg-neutral-700 rounded-lg mb-4 overflow-hidden">
+            <img src="/_astro/product-image-main-2.CcfjfBQ9_ZCouPA.avif" alt="LED Product 2" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <h3 class="text-white font-medium">Línea B</h3>
+          <p class="text-neutral-400 text-sm">Iluminación Exterior</p>
+        </a>
+        
+        <a href="/products/item-f303" class="group relative overflow-hidden rounded-xl bg-neutral-800 p-4 transition-transform duration-300 hover:scale-[1.02]">
+          <div class="aspect-square bg-neutral-700 rounded-lg mb-4 overflow-hidden">
+            <img src="/_astro/product-image-main-3.CZjWzLDc_1vPkhV.avif" alt="LED Product 3" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <h3 class="text-white font-medium">Línea F</h3>
+          <p class="text-neutral-400 text-sm">Paneles LED</p>
+        </a>
+        
+        <a href="/products/item-t845" class="group relative overflow-hidden rounded-xl bg-neutral-800 p-4 transition-transform duration-300 hover:scale-[1.02]">
+          <div class="aspect-square bg-neutral-700 rounded-lg mb-4 overflow-hidden">
+            <img src="/_astro/product-image-main-4.Bkgr1GB5_JJQIe.avif" alt="LED Product 4" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <h3 class="text-white font-medium">Línea T</h3>
+          <p class="text-neutral-400 text-sm">Tiras LED</p>
+        </a>
+      </div>
+      
+      <div class="text-center mt-10">
+        <a href="/products" class="inline-flex items-center gap-2 text-white font-medium hover:text-neutral-300 transition-colors">
+          Ver Todos los Productos
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
 
-  <FeaturesGeneral
-    title="Meeting Industry Demands"
-    subTitle="At ScrewFast, we tackle the unique challenges encountered in the hardware and construction sectors. From cutting-edge tools to expert services, we're dedicated to helping you overcome obstacles and achieve your goals."
-    src={featureImage}
-    alt="ScrewFast products in floating boxes"
-    features={features}
-  />
+  <section id="nosotros" class="py-16 md:py-24 bg-neutral-900/50">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Transformamos tus espacios</h2>
+      <p class="text-neutral-400 text-lg max-w-2xl mx-auto mb-12">
+        En Ébeli diseñamos soluciones de iluminación LED que combinan eficiencia energética, diseño elegante y tecnología de vanguardia para hogares y negocios.
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-white mb-2" data-counter="500">0</div>
+          <p class="text-neutral-400">Clientes satisfechos</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-white mb-2" data-counter="10">0</div>
+          <p class="text-neutral-400">Años de experiencia</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-white mb-2" data-counter="50">0</div>
+          <p class="text-neutral-400">Productos disponibles</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <FeaturesNavs
-    title=`Customize <span class="text-yellow-500 dark:text-yellow-400">ScrewFast</span>'s offerings to perfectly suit your hardware and construction needs.`
-    tabs={[
-      {
-        heading: 'Cutting-Edge Tools',
-        content:
-          "Empower your projects with ScrewFast's cutting-edge tools. Experience enhanced efficiency in construction management with our sophisticated automated solutions.",
-        svg: 'tools',
-        src: tools,
-        alt: 'Yellow and black heavy equipment on brown grass field',
-        first: true,
-      },
-      {
-        heading: 'Intuitive Dashboards',
-        content:
-          "Navigate with ease using ScrewFast's intuitive dashboards. Set up and oversee your projects seamlessly, with user-friendly interfaces designed for quick and effective workflow management.",
-        svg: 'dashboard',
-        src: dashboard,
-        alt: 'A screenshot or graphic representation of the intuitive dashboard',
-        second: true,
-      },
-      {
-        heading: 'Robust Features',
-        content:
-          "Minimize complexity, maximize productivity. ScrewFast's robust features are engineered to streamline your construction process, delivering results that stand out for their excellence.",
-        svg: 'house',
-        src: construction,
-        alt: 'Gray metal building frame near tower crane during daytime',
-      },
-    ]}
-  />
+  <section class="py-16 md:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">¿Listo para iluminar?</h2>
+      <p class="text-neutral-400 mb-8 max-w-xl mx-auto">
+        Contáctanos por WhatsApp y te ayudamos a encontrar la solución perfecta para tu proyecto.
+      </p>
+      <a
+        href="https://wa.me/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-3 bg-green-600 hover:bg-green-700 text-white font-medium px-8 py-4 rounded-full transition-colors"
+      >
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Hablar por WhatsApp
+      </a>
+    </div>
+  </section>
 
-  <TestimonialsSection
-    title="Fast-Track Your Projects"
-    subTitle="At ScrewFast, we ensure a swift start with instant account setup. Experience the speed of construction redefined."
-    ;
-    testimonials={[
-      {
-        content:
-          'ScrewFast dramatically boosted our project efficiency. Setup was instant, and their rapid response times are phenomenal. Truly a game-changer in hardware and construction support!',
-        author: 'Samantha Ruiz',
-        role: 'Chief Operating Officer | ConstructIt Inc.',
-        avatarSrc:
-          'https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?q=80&w=1453&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
-      },
-    ]}
-    statistics={[
-      {
-        count: '70k+',
-        description:
-          'customers equipped — from DIY to major construction firms',
-      },
-      {
-        count: '35%',
-        description:
-          'uptick in project efficiency with ScrewFast tools and services',
-      },
-      {
-        count: '15.3%',
-        description:
-          'reduction in maintenance costs reported by long-term clients',
-      },
-      {
-        count: '2x',
-        description: 'quicker assembly using innovative fastening solutions',
-      },
-    ]}
-  />
-
-<FAQ title="Frequently<br />asked questions" faqs={faqs} />
+  <script>
+    const counters = document.querySelectorAll('[data-counter]');
+    
+    const observerOptions = {
+      threshold: 0.5
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = entry.target as HTMLElement;
+          const endValue = parseInt(target.dataset.counter || '0');
+          let current = 0;
+          const duration = 2000;
+          const increment = endValue / (duration / 16);
+          
+          const updateCounter = () => {
+            current += increment;
+            if (current < endValue) {
+              target.textContent = Math.floor(current) + '+';
+              requestAnimationFrame(updateCounter);
+            } else {
+              target.textContent = endValue + '+';
+            }
+          };
+          
+          updateCounter();
+          observer.unobserve(target);
+        }
+      });
+    }, observerOptions);
+    
+    counters.forEach(counter => observer.observe(counter));
+  </script>
 </MainLayout>
