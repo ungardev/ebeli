@@ -128,3 +128,41 @@
   padding: 11.232px 33.696px;
   color: var(--color-frost-white);
 }
+
+/* Animated Warm Gradient Background - monopo saigon style */
+.animated-warm-gradient {
+  background:
+    radial-gradient(
+      ellipse at 15% 25%,
+      rgba(255, 172, 46, 0.18) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 85% 75%,
+      rgba(165, 45, 37, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(255, 250, 240, 0.1) 0%,
+      transparent 60%
+    );
+  background-color: #000000;
+  animation: gradientShift 20s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 25%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  75% {
+    background-position: 25% 0%;
+  }
+}

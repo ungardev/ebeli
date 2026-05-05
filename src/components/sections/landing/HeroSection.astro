@@ -21,13 +21,13 @@ const ledRows = 8;
 const ledCols = 9;
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden" id="hero">
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden animated-warm-gradient" id="hero">
 
   <!-- Main content - centered, higher position to show all in viewport -->
-  <div class="relative z-10 flex flex-col items-center justify-center pt-8 md:pt-12 lg:pt-16">
+  <div class="relative z-10 flex flex-col items-center justify-center pt-4 md:pt-8 lg:pt-12">
     
-    <!-- LED Matrix 9x8 - Bigger (1.5x scale), cleaner, no halos -->
-    <div class="matrix-container opacity-0" style="transform: scale(1.5);">
+    <!-- LED Matrix 9x8 - Responsive scale -->
+    <div class="matrix-container opacity-0 scale-75 md:scale-100 lg:scale-[1.15]">
       <div class="led-matrix">
         {Array.from({ length: ledRows }).map((_, rowIndex) => (
           <div class="led-row">
