@@ -111,26 +111,6 @@
   }
 }
 
-/* Deep Ocean Gradient - Ébeli Warm Blend */
-.gradient-deep-ocean {
-  background: linear-gradient(
-    135deg,
-    rgba(160, 224, 171, 0.15) 0%,
-    rgba(255, 172, 46, 0.08) 40%,
-    rgba(165, 45, 37, 0.12) 100%
-  );
-}
-
-.gradient-deep-ocean-hero {
-  background: linear-gradient(
-    135deg,
-    rgba(160, 224, 171, 0.12) 0%,
-    rgba(255, 250, 240, 0.06) 30%,
-    rgba(255, 172, 46, 0.08) 50%,
-    rgba(165, 45, 37, 0.1) 100%
-  );
-}
-
 /* Ghost Button Style - Brand */
 .btn-ghost {
   background: rgba(0, 0, 0, 0);

@@ -1,0 +1,168 @@
+/**
+ * Ébeli Scroll Reveal Animations
+ * CSS + IntersectionObserver implementation
+ * No dependencies - vanilla JS
+ */
+
+/* Base reveal class */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delay variants for stagger effect */
+.reveal-delay-1 {
+  transition-delay: 0.1s;
+}
+.reveal-delay-2 {
+  transition-delay: 0.2s;
+}
+.reveal-delay-3 {
+  transition-delay: 0.3s;
+}
+.reveal-delay-4 {
+  transition-delay: 0.4s;
+}
+.reveal-delay-5 {
+  transition-delay: 0.5s;
+}
+
+/* Fade from left */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Fade from right */
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale up */
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Product card specific reveal */
+.reveal-card {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Title reveal with blur */
+.reveal-blur {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(20px);
+  transition:
+    opacity 0.8s ease-out,
+    filter 0.8s ease-out,
+    transform 0.8s ease-out;
+  will-change: opacity, filter, transform;
+}
+
+.reveal-blur.visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* Stagger children within a container */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+}
+
+.stagger-children.visible > *:nth-child(1) {
+  transition-delay: 0s;
+}
+.stagger-children.visible > *:nth-child(2) {
+  transition-delay: 0.1s;
+}
+.stagger-children.visible > *:nth-child(3) {
+  transition-delay: 0.2s;
+}
+.stagger-children.visible > *:nth-child(4) {
+  transition-delay: 0.3s;
+}
+.stagger-children.visible > *:nth-child(5) {
+  transition-delay: 0.4s;
+}
+.stagger-children.visible > *:nth-child(6) {
+  transition-delay: 0.5s;
+}
+.stagger-children.visible > *:nth-child(7) {
+  transition-delay: 0.6s;
+}
+.stagger-children.visible > *:nth-child(8) {
+  transition-delay: 0.7s;
+}
+
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale,
+  .reveal-card,
+  .reveal-blur,
+  .stagger-children > * {
+    transition: opacity 0.3s ease-out;
+    transform: none;
+  }
+}
