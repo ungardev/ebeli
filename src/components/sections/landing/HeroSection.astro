@@ -23,8 +23,8 @@ const ledCols = 9;
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden" id="hero">
 
-  <!-- Main content - centered, much higher position -->
-  <div class="relative z-10 flex flex-col items-center justify-center pt-16 md:pt-20 lg:pt-24">
+  <!-- Main content - centered, higher position to show all in viewport -->
+  <div class="relative z-10 flex flex-col items-center justify-center pt-8 md:pt-12 lg:pt-16">
     
     <!-- LED Matrix 9x8 - Bigger (1.5x scale), cleaner, no halos -->
     <div class="matrix-container opacity-0" style="transform: scale(1.5);">
@@ -46,7 +46,7 @@ const ledCols = 9;
     </div>
 
     <!-- Title - Brand: Roobert weight 400 -->
-    <h1 class="hero-title mt-10 sm:mt-12 md:mt-14 text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-[400] tracking-[0.2em] text-white opacity-0" style="font-family: var(--font-roobert);">
+    <h1 class="hero-title mt-6 sm:mt-8 md:mt-10 text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-[400] tracking-[0.2em] text-white opacity-0" style="font-family: var(--font-roobert);">
       {title}
     </h1>
     
@@ -154,20 +154,20 @@ const ledCols = 9;
   }
 
   .hero-title {
-    animation: titleReveal 0.6s ease-out 3s forwards;
+    animation: titleReveal 0.6s ease-out 1.5s forwards;
     text-shadow: 0 0 60px rgba(255,255,255,0.4);
   }
 
   .hero-subtitle {
-    animation: fadeUp 0.5s ease-out 3.5s forwards;
+    animation: fadeUp 0.5s ease-out 1.8s forwards;
   }
 
   .hero-buttons {
-    animation: fadeUp 0.5s ease-out 4s forwards;
+    animation: fadeUp 0.5s ease-out 2.1s forwards;
   }
 
   .scroll-indicator {
-    animation: fadeIn 0.4s ease-out 4.5s forwards;
+    animation: fadeIn 0.4s ease-out 2.5s forwards;
   }
 
   @keyframes fadeIn {

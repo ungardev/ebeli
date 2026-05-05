@@ -7,6 +7,8 @@
 (function () {
   'use strict';
 
+  console.log('[CanvasNoise] Initializing...');
+
   // Configuration
   const CONFIG = {
     // Colors - warm blend for Ébeli (warm white to amber to soft coral)
@@ -58,6 +60,7 @@
     for (let i = 0; i < 256; i++) {
       p[i] = Math.floor(Math.random() * 256);
     }
+
     const perm = [];
     for (let i = 0; i < 512; i++) {
       perm[i] = p[i & 255];
@@ -207,10 +210,13 @@
 
   // Create or get canvas
   function createCanvas() {
+    console.log('[CanvasNoise] Creating canvas...');
     let existingCanvas = document.getElementById('ebeli-canvas-bg');
     if (existingCanvas) {
+      console.log('[CanvasNoise] Canvas already exists, using it');
       canvas = existingCanvas;
     } else {
+      console.log('[CanvasNoise] Creating new canvas element');
       canvas = document.createElement('canvas');
       canvas.id = 'ebeli-canvas-bg';
       canvas.style.cssText = `
@@ -225,8 +231,10 @@
         transition: opacity 1s ease;
       `;
       document.body.appendChild(canvas);
+      console.log('[CanvasNoise] Canvas appended to body');
     }
     ctx = canvas.getContext('2d');
+    console.log('[CanvasNoise] Canvas context:', ctx ? 'OK' : 'FAILED');
   }
 
   // Resize handler
@@ -282,27 +290,34 @@
   // Public API
   window.EbeliCanvasBg = {
     init: function () {
-      createCanvas();
-      resize();
-      showCanvas();
-      lastTime = performance.now();
-      animate(lastTime);
+      console.log('[CanvasNoise] Init called');
+      try {
+        createCanvas();
+        resize();
+        showCanvas();
+        lastTime = performance.now();
+        animate(lastTime);
 
-      // Event listeners
-      window.addEventListener('resize', resize);
-      document.addEventListener('visibilitychange', handleVisibility);
+        // Event listeners
+        window.addEventListener('resize', resize);
+        document.addEventListener('visibilitychange', handleVisibility);
 
-      // Cleanup function
-      return function destroy() {
-        if (animationId) {
-          cancelAnimationFrame(animationId);
-        }
-        window.removeEventListener('resize', resize);
-        document.removeEventListener('visibilitychange', handleVisibility);
-        if (canvas && canvas.parentNode) {
-          canvas.parentNode.removeChild(canvas);
-        }
-      };
+        console.log('[CanvasNoise] Init complete, animation running');
+
+        // Cleanup function
+        return function destroy() {
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+          }
+          window.removeEventListener('resize', resize);
+          document.removeEventListener('visibilitychange', handleVisibility);
+          if (canvas && canvas.parentNode) {
+            canvas.parentNode.removeChild(canvas);
+          }
+        };
+      } catch (err) {
+        console.error('[CanvasNoise] Init error:', err);
+      }
     },
 
     setOpacity: function (opacity) {
@@ -316,10 +331,13 @@
 })();
 
 // Auto-initialize when DOM is ready
+console.log('[CanvasNoise] Document ready state:', document.readyState);
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function () {
+    console.log('[CanvasNoise] DOMContentLoaded fired, calling init');
     window.EbeliCanvasBg.init();
   });
 } else {
+  console.log('[CanvasNoise] DOM already loaded, calling init directly');
   window.EbeliCanvasBg.init();
 }
