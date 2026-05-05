@@ -44,7 +44,7 @@ const ledCols = 9;
         {Array.from({ length: ledRows }).map((_, rowIndex) => (
           <div class="led-row">
             {Array.from({ length: ledCols }).map((_, colIndex) => {
-              const delay = (rowIndex * ledCols + colIndex) * 0.04;
+              const delay = (rowIndex * ledCols + colIndex) * 0.06;
               return (
                 <div 
                   class="led"
@@ -140,9 +140,9 @@ const ledCols = 9;
     height: 5px;
     background: #FFFAF0;
     border-radius: 1px;
-    box-shadow: 
-      0 0 4px rgba(255,250,240,0.9),
-      0 0 8px rgba(255,250,240,0.5);
+    box-shadow: none;
+    opacity: 0.2;
+    transform: scale(0.7);
   }
 
   /* Vertical beam that sweeps across the matrix */
@@ -164,15 +164,15 @@ const ledCols = 9;
     pointer-events: none;
   }
 
-  /* One-by-one LED turn on animation with cascade delay */
+  /* LED turn on - starts OFF (via .led class), turns ON with delay */
   @keyframes ledOn {
-    0%, 15% { 
-      opacity: 0.2; 
+    0% {
+      opacity: 0.2;
       transform: scale(0.7);
       box-shadow: none;
     }
-    25%, 100% { 
-      opacity: 1; 
+    100% {
+      opacity: 1;
       transform: scale(1);
       box-shadow: 
         0 0 4px rgba(255,250,240,0.9),
@@ -180,9 +180,23 @@ const ledCols = 9;
     }
   }
 
-  /* Each LED has inline delay, so we just use the animation */
+  /* Each LED: cascade on then glow pulse loop */
   .led {
-    animation: ledOn 4s ease-out forwards, ledPulse 3s ease-in-out 4s infinite;
+    animation: 
+      ledOn 0.3s ease-out forwards,
+      ledPulse 2s ease-in-out 5s infinite;
+  }
+  
+  /* Glow pulse after LEDs turn on */
+  @keyframes ledPulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
+  }
+
+  /* Glow pulse after LEDs are on - loops forever */
+  @keyframes ledPulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
   }
 
   /* Glow pulse after LEDs are on */
@@ -210,26 +224,26 @@ const ledCols = 9;
     100% { transform: translateX(-50px); opacity: 0; }
   }
 
-  /* Hero content animations */
+  /* Hero content animations - delayed to let LED cascade finish */
   .matrix-container {
-    animation: fadeIn 0.5s ease-out 0.2s forwards;
+    animation: fadeIn 0.3s ease-out 0.1s forwards;
   }
 
   .hero-title {
-    animation: titleReveal 1s ease-out 3.5s forwards;
+    animation: titleReveal 1s ease-out 5s forwards;
     text-shadow: 0 0 60px rgba(255,255,255,0.4);
   }
 
   .hero-subtitle {
-    animation: fadeUp 0.8s ease-out 4s forwards;
+    animation: fadeUp 0.8s ease-out 5.5s forwards;
   }
 
   .hero-buttons {
-    animation: fadeUp 0.8s ease-out 4.5s forwards;
+    animation: fadeUp 0.8s ease-out 6s forwards;
   }
 
   .scroll-indicator {
-    animation: fadeIn 0.6s ease-out 5s forwards;
+    animation: fadeIn 0.6s ease-out 6.5s forwards;
   }
 
   @keyframes fadeIn {
