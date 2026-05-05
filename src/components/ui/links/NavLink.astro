@@ -12,7 +12,7 @@ interface Props {
   id={url === '/' ? 'home' : url.replace('/', '')}
   href={url}
   data-astro-prefetch
-  class={`rounded-lg text-base font-medium text-white ring-zinc-500 outline-hidden hover:text-neutral-200 focus-visible:ring-3 md:py-3 md:text-sm 2xl:text-base dark:text-white dark:ring-zinc-200 dark:hover:text-neutral-300 dark:focus:outline-hidden ${customClass}`}
+  class={`rounded-lg text-base font-medium text-[#6d6d6d] ring-zinc-500 outline-hidden hover:text-white focus-visible:ring-3 md:py-3 md:text-sm 2xl:text-base dark:text-[#6d6d6d] dark:ring-zinc-200 dark:hover:text-white dark:focus:outline-hidden font-[400] ${customClass}`}
 >
   {name}
 </a>

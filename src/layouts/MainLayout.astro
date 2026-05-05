@@ -27,8 +27,13 @@ interface Props {
 }
 ---
 
-<html lang={lang} class="scrollbar-hide scroll-smooth scroll-pt-16 dark bg-black overflow-x-hidden">
+<html lang={lang} class="scrollbar-hide scroll-smooth scroll-pt-16 dark bg-black overflow-x-hidden" style="font-family: var(--font-roobert);">
   <head>
+    <!-- Google Fonts - Roobert & Raleway -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roobert:wght@300;400;600&family=Raleway:wght@400&display=swap" rel="stylesheet">
+    
     <!-- Adding metadata to the HTML document -->
     <Meta
       meta={meta}
@@ -44,7 +49,7 @@ interface Props {
     </script>
   </head>
   <body class="flex min-h-screen flex-col bg-black selection:bg-yellow-400 selection:text-neutral-700 overflow-x-hidden">
-    <div class="mx-auto w-full max-w-(--breakpoint-2xl) grow px-4 sm:px-6 lg:px-8 bg-black">
+    <div class="mx-auto w-full max-w-[1078px] grow px-4 sm:px-6 lg:px-8 bg-black">
       <Navbar />
       <main>
         <slot />

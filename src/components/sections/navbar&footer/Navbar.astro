@@ -7,9 +7,9 @@ const strings = enStrings;
 const homeUrl = '/';
 ---
 
-<!-- Navbar wrapper - floating rounded container with backdrop blur -->
+<!-- Navbar wrapper - floating rounded container with backdrop blur - Brand: deep-shadow bg -->
 <div class="sticky top-4 z-50 px-4">
-  <header class="rounded-[36px] bg-black/80 backdrop-blur-xl border border-neutral-600/50">
+  <header class="rounded-[36px] bg-[#181818]/90 backdrop-blur-xl border border-white/10">
     <nav
       class="flex items-center justify-between px-5 py-4 md:px-6 lg:px-8"
       aria-label="Global"
@@ -82,7 +82,7 @@ const homeUrl = '/';
       id="navbar-collapse-with-animation"
       class="hidden w-full overflow-hidden md:hidden"
     >
-      <div class="flex flex-col gap-4 px-5 py-6 border-t border-neutral-600/50">
+      <div class="flex flex-col gap-4 px-5 py-6 border-t border-white/10">
         {
           strings.navBarLinks.map(link => (
             <NavLink url={link.url} name={link.name} />
