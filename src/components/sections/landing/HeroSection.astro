@@ -23,11 +23,11 @@ const ledCols = 9;
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-black" id="hero">
 
-  <!-- Main content - centered, higher position -->
-  <div class="relative z-10 flex flex-col items-center justify-center pt-20 md:pt-24 lg:pt-28">
+  <!-- Main content - centered, much higher position -->
+  <div class="relative z-10 flex flex-col items-center justify-center pt-16 md:pt-20 lg:pt-24">
     
-    <!-- LED Matrix 9x8 - Bigger, cleaner, no halos -->
-    <div class="matrix-container opacity-0">
+    <!-- LED Matrix 9x8 - Bigger (1.5x scale), cleaner, no halos -->
+    <div class="matrix-container opacity-0" style="transform: scale(1.5);">
       <div class="led-matrix">
         {Array.from({ length: ledRows }).map((_, rowIndex) => (
           <div class="led-row">
@@ -88,8 +88,8 @@ const ledCols = 9;
     </div>
   </div>
 
-  <!-- Scroll indicator -->
-  <div class="scroll-indicator absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 opacity-0">
+  <!-- Scroll indicator - moved up to avoid buttons collision -->
+  <div class="scroll-indicator absolute bottom-10 sm:bottom-12 left-1/2 -translate-x-1/2 z-10 opacity-0">
     <div class="flex flex-col items-center gap-1.5 text-neutral-500">
       <span class="text-[10px] sm:text-xs uppercase tracking-widest">Scroll</span>
       <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
