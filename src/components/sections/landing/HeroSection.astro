@@ -1,6 +1,5 @@
 ---
 const {
-  title,
   subTitle,
   primaryBtn,
   primaryBtnURL,
@@ -9,46 +8,23 @@ const {
 } = Astro.props;
 
 interface Props {
-  title: string;
   subTitle?: string;
   primaryBtn?: string;
   primaryBtnURL?: string;
   secondaryBtn?: string;
   secondaryBtnURL?: string;
 }
-
-const ledRows = 8;
-const ledCols = 9;
 ---
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden animated-warm-gradient" id="hero">
 
-  <!-- Main content - centered, higher position to show all in viewport -->
   <div class="relative z-10 flex flex-col items-center justify-center pt-4 md:pt-8 lg:pt-12">
     
-    <!-- LED Matrix 9x8 - Responsive scale -->
-    <div class="matrix-container opacity-0 scale-75 md:scale-100 lg:scale-[1.15]">
-      <div class="led-matrix">
-        {Array.from({ length: ledRows }).map((_, rowIndex) => (
-          <div class="led-row">
-            {Array.from({ length: ledCols }).map((_, colIndex) => {
-              const delay = (rowIndex * ledCols + colIndex) * 0.025;
-              return (
-                <div 
-                  class="led"
-                  style={`animation-delay: ${delay}s`}
-                />
-              );
-            })}
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Title - Brand: Roobert weight 400 -->
-    <h1 class="hero-title mt-6 sm:mt-8 md:mt-10 text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-[400] tracking-[0.2em] text-white opacity-0" style="font-family: var(--font-roobert);">
-      {title}
-    </h1>
+    <img 
+      src="/logoebeli1-removebg-preview.png" 
+      alt="Ébeli - Iluminación LED Premium"
+      class="w-48 md:w-64 lg:w-72 mb-8 md:mb-10 opacity-0 logo-reveal"
+    />
     
     {subTitle && (
       <p class="hero-subtitle mt-5 sm:mt-6 text-base sm:text-lg md:text-xl text-[#6d6d6d] max-w-2xl mx-auto text-center px-4 opacity-0" style="font-family: var(--font-roobert);">
@@ -56,12 +32,11 @@ const ledCols = 9;
       </p>
     )}
     
-    <!-- Buttons - Brand: rounded-full (75.024px) -->
     <div class="hero-buttons mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 opacity-0">
       {primaryBtn && (
         <a
           href={primaryBtnURL}
-          class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-8 sm:px-10 py-3.5 sm:py-4 font-[600] text-black transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-8 sm:px-10 py-3.5 sm:py-4 font-[600] text-black transition-all duration-200 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]"
           style="font-family: var(--font-roobert);"
         >
           <span class="relative z-10 flex items-center gap-2.5">
@@ -78,7 +53,7 @@ const ledCols = 9;
           href={secondaryBtnURL}
           target="_blank"
           rel="noopener noreferrer"
-          class="group inline-flex items-center justify-center gap-2.5 rounded-full border border-white/30 px-8 sm:px-10 py-3.5 sm:py-4 font-[400] text-white transition-all duration-300 hover:border-white/50 hover:bg-white/5"
+          class="group inline-flex items-center justify-center gap-2.5 rounded-full border border-white/30 px-8 sm:px-10 py-3.5 sm:py-4 font-[400] text-white transition-all duration-200 hover:border-white/50 hover:bg-white/5"
           style="font-family: var(--font-roobert);"
         >
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -90,7 +65,6 @@ const ledCols = 9;
     </div>
   </div>
 
-  <!-- Scroll indicator - moved up to avoid buttons collision -->
   <div class="scroll-indicator absolute bottom-10 sm:bottom-12 left-1/2 -translate-x-1/2 z-10 opacity-0 md:hidden">
     <div class="flex flex-col items-center gap-1.5 text-[#6d6d6d]">
       <span class="text-[10px] sm:text-xs uppercase tracking-widest">Scroll</span>
@@ -102,72 +76,25 @@ const ledCols = 9;
 </section>
 
 <style>
-  /* LED Matrix - Bigger LEDs (12px), cleaner gaps (10px) */
-  .led-matrix {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 12px;
-    background: #000;
-    border-radius: 4px;
-  }
-
-  .led-row {
-    display: flex;
-    gap: 10px;
-  }
-
-  .led {
-    width: 12px;
-    height: 12px;
-    background: #FFFAF0;
-    border-radius: 1px;
-    opacity: 0.2;
-    transform: scale(0.7);
-    box-shadow: none;
-  }
-
-  /* LED turn on - cascade effect */
-  @keyframes ledOn {
-    0% {
-      opacity: 0.2;
-      transform: scale(0.7);
-      box-shadow: none;
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-      box-shadow: 
-        0 0 8px rgba(255,250,240,0.9),
-        0 0 16px rgba(255,250,240,0.5);
-    }
-  }
-
-  /* Each LED has inline delay for cascade */
-  .led {
-    animation: ledOn 0.15s ease-out forwards;
-  }
-
-  /* Hero content animations - delayed to let LED cascade finish */
-  .matrix-container {
-    animation: fadeIn 0.2s ease-out 0.05s forwards;
-  }
-
-  .hero-title {
-    animation: titleReveal 0.6s ease-out 1.5s forwards;
-    text-shadow: 0 0 60px rgba(255,255,255,0.4);
+  .logo-reveal {
+    animation: logoReveal 0.8s ease-out 0.1s forwards;
   }
 
   .hero-subtitle {
-    animation: fadeUp 0.5s ease-out 1.8s forwards;
+    animation: fadeUp 0.5s ease-out 0.5s forwards;
   }
 
   .hero-buttons {
-    animation: fadeUp 0.5s ease-out 2.1s forwards;
+    animation: fadeUp 0.5s ease-out 0.8s forwards;
   }
 
   .scroll-indicator {
-    animation: fadeIn 0.4s ease-out 2.5s forwards;
+    animation: fadeIn 0.4s ease-out 1.2s forwards;
+  }
+
+  @keyframes logoReveal {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
   }
 
   @keyframes fadeIn {
@@ -178,10 +105,5 @@ const ledCols = 9;
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes titleReveal {
-    from { opacity: 0; filter: blur(15px); transform: translateY(15px); }
-    to { opacity: 1; filter: blur(0); transform: translateY(0); }
   }
 </style>
