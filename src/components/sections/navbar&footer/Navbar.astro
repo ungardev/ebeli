@@ -33,17 +33,18 @@ const homeUrl = '/';
           }
         </div>
         
-        <!-- Mobile menu button - WHITE ICON -->
+        <!-- Mobile menu button - WHITE ICON (Lighter, no HSCollapse) -->
         <div class="flex items-center md:hidden">
           <button
             type="button"
-            class="hs-collapse-toggle flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors hover:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700 dark:focus:outline-hidden"
-            data-hs-collapse="#navbar-collapse-with-animation"
+            class="flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors hover:bg-neutral-800 focus:outline-hidden"
+            data-mobile-menu-toggle
             aria-controls="navbar-collapse-with-animation"
             aria-label="Toggle navigation"
+            aria-expanded="false"
           >
             <svg
-              class="hs-collapse-open:hidden h-5 w-5 shrink-0"
+              class="menu-open h-5 w-5 shrink-0"
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -58,7 +59,7 @@ const homeUrl = '/';
               <line x1="3" x2="21" y1="18" y2="18"></line>
             </svg>
             <svg
-              class="hs-collapse-open:block hidden h-5 w-5 shrink-0"
+              class="menu-close hidden h-5 w-5 shrink-0"
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -76,10 +77,10 @@ const homeUrl = '/';
       </div>
     </nav>
 
-    <!-- Mobile Navigation (collapsible) - WHITE TEXT -->
+    <!-- Mobile Navigation (lightweight JS toggle) -->
     <div
       id="navbar-collapse-with-animation"
-      class="hs-collapse hidden w-full overflow-hidden transition-all duration-300 md:hidden"
+      class="hidden w-full overflow-hidden md:hidden"
     >
       <div class="flex flex-col gap-4 px-5 py-6 border-t border-neutral-600/50">
         {

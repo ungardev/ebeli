@@ -24,35 +24,35 @@ interface Props {
 }
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden" id="hero">
   <!-- Animated radial gradient light effect - MORE VISIBLE -->
   <div class="absolute inset-0 bg-black">
     <!-- Main glow from top - MUCH MORE INTENSE -->
-    <div class="absolute inset-0 animate-pulse-slow">
+    <div class="hero-glow absolute inset-0">
       <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[700px] bg-gradient-radial from-white/20 via-white/10 to-transparent rounded-full blur-3xl"></div>
     </div>
     <!-- Secondary glow from bottom - MORE VISIBLE -->
-    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1200px] h-[500px] bg-gradient-to-t from-neutral-800/80 via-neutral-900/40 to-transparent"></div>
+    <div class="hero-glow-secondary absolute bottom-0 left-1/2 -translate-x-1/2 w-[1200px] h-[500px] bg-gradient-to-t from-neutral-800/80 via-neutral-900/40 to-transparent"></div>
     <!-- Central light ray - MORE VISIBLE -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-full bg-gradient-to-b from-white/15 via-white/5 to-transparent"></div>
+    <div class="hero-ray absolute top-0 left-1/2 -translate-x-1/2 w-1 h-full bg-gradient-to-b from-white/15 via-white/5 to-transparent"></div>
     <!-- Side glows for depth -->
-    <div class="absolute top-1/4 left-0 w-[300px] h-[400px] bg-gradient-to-r from-white/10 to-transparent blur-3xl"></div>
-    <div class="absolute top-1/4 right-0 w-[300px] h-[400px] bg-gradient-to-l from-white/10 to-transparent blur-3xl"></div>
+    <div class="hero-side-glow absolute top-1/4 left-0 w-[300px] h-[400px] bg-gradient-to-r from-white/10 to-transparent blur-3xl"></div>
+    <div class="hero-side-glow absolute top-1/4 right-0 w-[300px] h-[400px] bg-gradient-to-l from-white/10 to-transparent blur-3xl"></div>
   </div>
 
   <!-- Content -->
   <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
-    <h1 class="text-6xl font-bold tracking-tight text-white sm:text-7xl lg:text-8xl drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] fade-in animate-title">
+    <h1 class="hero-title text-6xl font-bold tracking-tight text-white sm:text-7xl lg:text-8xl drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
       {title}
     </h1>
     
     {subTitle && (
-      <p class="mt-8 text-lg md:text-xl text-neutral-200 max-w-2xl mx-auto fade-in animate-subtitle">
+      <p class="hero-subtitle mt-8 text-lg md:text-xl text-neutral-200 max-w-2xl mx-auto">
         {subTitle}
       </p>
     )}
     
-    <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-5 fade-in animate-buttons">
+    <div class="hero-buttons mt-12 flex flex-col sm:flex-row items-center justify-center gap-5">
       {primaryBtn && (
         <a
           href={primaryBtnURL}
@@ -100,7 +100,7 @@ interface Props {
   )}
 
   <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+  <div class="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
     <div class="flex flex-col items-center gap-2 text-neutral-400">
       <span class="text-xs uppercase tracking-widest">Scroll</span>
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,66 +111,105 @@ interface Props {
 </section>
 
 <style>
-  /* Radial gradient animation - 6 seconds for elegant slow pulse */
-  .animate-pulse-slow {
-    animation: pulseGlow 6s ease-in-out infinite;
-  }
-
-  @keyframes pulseGlow {
-    0%, 100% {
-      opacity: 0.7;
-      transform: translateX(-50%) scale(1);
-    }
-    50% {
-      opacity: 1;
-      transform: translateX(-50%) scale(1.05);
-    }
-  }
-
-  /* Title fade in with blur reveal */
-  .animate-title {
-    animation: titleReveal 1.2s ease-out forwards;
-    opacity: 0;
-  }
-
-  @keyframes titleReveal {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-      filter: blur(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-  }
-
-  /* Subtitle staggered animation */
-  .animate-subtitle {
-    animation: fadeInUp 1s ease-out 0.3s forwards;
-    opacity: 0;
-  }
-
-  /* Buttons staggered animation */
-  .animate-buttons {
-    animation: fadeInUp 1s ease-out 0.6s forwards;
-    opacity: 0;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   /* Radial gradient background utility */
   .bg-gradient-radial {
     background: radial-gradient(ellipse at center, var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to));
   }
 </style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initHeroAnimations = () => {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    // Title reveal with blur
+    tl.fromTo('.hero-title', 
+      { opacity: 0, y: 50, filter: 'blur(20px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }
+    );
+
+    // Subtitle fade up
+    tl.fromTo('.hero-subtitle',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1 },
+      '-=0.6'
+    );
+
+    // Buttons fade up
+    tl.fromTo('.hero-buttons',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1 },
+      '-=0.6'
+    );
+
+    // Parallax on hero glow (moves slower on scroll)
+    gsap.to('.hero-glow', {
+      y: '30%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+
+    // Glow pulse animation
+    gsap.to('.hero-glow', {
+      scale: 1.1,
+      opacity: 0.8,
+      duration: 4,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1
+    });
+
+    // Side glows parallax
+    gsap.to('.hero-side-glow', {
+      y: '20%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.5
+      }
+    });
+
+    // Light ray subtle movement
+    gsap.to('.hero-ray', {
+      x: 30,
+      duration: 8,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1
+    });
+
+    // Secondary glow parallax
+    gsap.to('.hero-glow-secondary', {
+      y: '-15%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 2
+      }
+    });
+
+    // Scroll indicator bounce
+    gsap.fromTo('.scroll-indicator',
+      { opacity: 0, y: -20 },
+      { opacity: 1, y: 0, duration: 1, delay: 1.5 }
+    );
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroAnimations);
+  } else {
+    initHeroAnimations();
+  }
+</script>

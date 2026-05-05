@@ -27,7 +27,7 @@ interface Props {
 }
 ---
 
-<html lang={lang} class="scrollbar-hide lenis lenis-smooth scroll-pt-16 dark bg-black">
+<html lang={lang} class="scrollbar-hide lenis lenis-smooth scroll-pt-16 dark bg-black overflow-x-hidden">
   <head>
     <!-- Adding metadata to the HTML document -->
     <Meta
@@ -70,15 +70,21 @@ interface Props {
     </a>
 
     <script>
-      // https://preline.co
-      import 'preline';
-      const init = () =>
-        (
-          window as Window & { HSStaticMethods?: { autoInit?: () => void } }
-        ).HSStaticMethods?.autoInit?.();
-      if (document.readyState === 'loading')
-        document.addEventListener('DOMContentLoaded', init);
-      else init();
+      // Mobile menu toggle - replaces heavy HSCollapse
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.querySelector('[data-mobile-menu-toggle]');
+        const menu = document.getElementById('navbar-collapse-with-animation');
+        const menuOpen = btn?.querySelector('.menu-open');
+        const menuClose = btn?.querySelector('.menu-close');
+        if (btn && menu) {
+          btn.addEventListener('click', () => {
+            const isHidden = menu.classList.toggle('hidden');
+            btn.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
+            menuOpen?.classList.toggle('hidden', !isHidden);
+            menuClose?.classList.toggle('hidden', isHidden);
+          });
+        }
+      });
     </script>
     <style>
       /* CSS rules for the page scrollbar */
