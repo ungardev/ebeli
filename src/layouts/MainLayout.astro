@@ -27,7 +27,7 @@ interface Props {
 }
 ---
 
-<html lang={lang} class="scrollbar-hide lenis lenis-smooth scroll-pt-16 dark bg-black overflow-x-hidden">
+<html lang={lang} class="scrollbar-hide scroll-smooth scroll-pt-16 dark bg-black overflow-x-hidden">
   <head>
     <!-- Adding metadata to the HTML document -->
     <Meta
@@ -41,9 +41,6 @@ interface Props {
     <script is:inline>
       // Force dark mode
       document.documentElement.classList.add('dark');
-    </script>
-    <script>
-      import '@scripts/lenisSmoothScroll.js';
     </script>
   </head>
   <body class="flex min-h-screen flex-col bg-black selection:bg-yellow-400 selection:text-neutral-700 overflow-x-hidden">

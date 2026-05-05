@@ -26,33 +26,38 @@ const ledCols = 9;
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
     <!-- Central warm glow -->
     <div class="absolute inset-0 flex items-center justify-center">
-      <div class="w-[600px] h-[450px] bg-gradient-radial from-white/20 via-white/10 to-transparent rounded-full blur-3xl matrix-glow"></div>
+      <div class="w-[500px] h-[400px] bg-gradient-radial from-white/15 via-white/8 to-transparent rounded-full blur-3xl matrix-glow"></div>
     </div>
     
     <!-- Top ray - vertical beam -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-full">
-      <div class="w-full h-full bg-gradient-to-b from-white/12 via-white/3 to-transparent ray-top"></div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-full overflow-hidden">
+      <div class="w-full h-full bg-gradient-to-b from-white/10 via-white/2 to-transparent ray-top"></div>
     </div>
-    
-    <!-- Side rays -->
-    <div class="absolute top-1/3 left-0 w-[120px] h-[250px] bg-gradient-to-r from-white/6 to-transparent blur-xl ray-left"></div>
-    <div class="absolute top-1/3 right-0 w-[120px] h-[250px] bg-gradient-to-l from-white/6 to-transparent blur-xl ray-right"></div>
   </div>
 
   <!-- Main content -->
   <div class="relative z-10 flex flex-col items-center justify-center pt-24 md:pt-28 lg:pt-32">
     
-    <!-- LED Matrix 9x8 - Clean square LEDs -->
+    <!-- LED Matrix 9x8 - Matching real Ébeli matrix -->
     <div class="matrix-container opacity-0">
       <div class="led-matrix">
-        {Array.from({ length: ledRows }).map(() => (
+        {Array.from({ length: ledRows }).map((_, rowIndex) => (
           <div class="led-row">
-            {Array.from({ length: ledCols }).map(() => (
-              <div class="led"></div>
-            ))}
+            {Array.from({ length: ledCols }).map((_, colIndex) => {
+              const delay = (rowIndex * ledCols + colIndex) * 0.04;
+              return (
+                <div 
+                  class="led"
+                  style={`animation-delay: ${delay}s`}
+                />
+              );
+            })}
           </div>
         ))}
       </div>
+      
+      <!-- Vertical beam that sweeps -->
+      <div class="beam"></div>
     </div>
 
     <!-- Title -->
@@ -114,34 +119,73 @@ const ledCols = 9;
     background: radial-gradient(ellipse at center, var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to));
   }
 
-  /* LED Matrix - 9x8 grid of square LEDs */
+  /* LED Matrix - 9x8 grid matching real Ébeli matrix */
   .led-matrix {
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    padding: 6px;
+    gap: 8px;
+    padding: 10px;
     background: #000;
-    border-radius: 3px;
+    border-radius: 4px;
+    position: relative;
   }
 
   .led-row {
     display: flex;
-    gap: 3px;
+    gap: 8px;
   }
 
   .led {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
     background: #FFFAF0;
-    border-radius: 1.5px;
+    border-radius: 1px;
     box-shadow: 
-      0 0 6px rgba(255,250,240,0.9),
-      0 0 12px rgba(255,250,240,0.5),
-      0 0 18px rgba(255,250,240,0.2);
-    animation: ledPulse 4s ease-in-out infinite;
+      0 0 4px rgba(255,250,240,0.9),
+      0 0 8px rgba(255,250,240,0.5);
   }
 
-  /* Glow pulse animation for LEDs */
+  /* Vertical beam that sweeps across the matrix */
+  .beam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255,250,240,0.3) 40%,
+      rgba(255,250,240,0.4) 50%,
+      rgba(255,250,240,0.3) 60%,
+      transparent 100%
+    );
+    animation: beamSweep 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* One-by-one LED turn on animation with cascade delay */
+  @keyframes ledOn {
+    0%, 15% { 
+      opacity: 0.2; 
+      transform: scale(0.7);
+      box-shadow: none;
+    }
+    25%, 100% { 
+      opacity: 1; 
+      transform: scale(1);
+      box-shadow: 
+        0 0 4px rgba(255,250,240,0.9),
+        0 0 8px rgba(255,250,240,0.5);
+    }
+  }
+
+  /* Each LED has inline delay, so we just use the animation */
+  .led {
+    animation: ledOn 4s ease-out forwards, ledPulse 3s ease-in-out 4s infinite;
+  }
+
+  /* Glow pulse after LEDs are on */
   @keyframes ledPulse {
     0%, 100% { opacity: 0.85; }
     50% { opacity: 1; }
@@ -149,34 +193,43 @@ const ledCols = 9;
 
   /* Central glow pulse */
   .matrix-glow {
-    animation: glowPulse 5s ease-in-out infinite;
+    animation: glowPulse 6s ease-in-out infinite;
   }
 
   @keyframes glowPulse {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 0.9; transform: scale(1.05); }
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+
+  /* Beam sweep animation */
+  @keyframes beamSweep {
+    0% { transform: translateX(-50px); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translateX(calc(100% + 50px)); }
+    60% { opacity: 0; }
+    100% { transform: translateX(-50px); opacity: 0; }
   }
 
   /* Hero content animations */
   .matrix-container {
-    animation: fadeIn 0.6s ease-out 0.1s forwards;
+    animation: fadeIn 0.5s ease-out 0.2s forwards;
   }
 
   .hero-title {
-    animation: titleReveal 1s ease-out 0.4s forwards;
+    animation: titleReveal 1s ease-out 3.5s forwards;
     text-shadow: 0 0 60px rgba(255,255,255,0.4);
   }
 
   .hero-subtitle {
-    animation: fadeUp 0.8s ease-out 0.6s forwards;
+    animation: fadeUp 0.8s ease-out 4s forwards;
   }
 
   .hero-buttons {
-    animation: fadeUp 0.8s ease-out 0.9s forwards;
+    animation: fadeUp 0.8s ease-out 4.5s forwards;
   }
 
   .scroll-indicator {
-    animation: fadeIn 0.6s ease-out 1.3s forwards;
+    animation: fadeIn 0.6s ease-out 5s forwards;
   }
 
   @keyframes fadeIn {
@@ -196,54 +249,11 @@ const ledCols = 9;
 
   /* Ray subtle movement */
   .ray-top {
-    animation: rayMoveX 10s ease-in-out infinite alternate;
-  }
-
-  .ray-left {
-    animation: rayMoveX 12s ease-in-out infinite alternate-reverse;
-  }
-
-  .ray-right {
-    animation: rayMoveX 11s ease-in-out infinite alternate;
+    animation: rayMoveX 12s ease-in-out infinite alternate;
   }
 
   @keyframes rayMoveX {
-    from { transform: translateX(-15px); }
-    to { transform: translateX(15px); }
-  }
-
-  /* Responsive LED sizes */
-  @media (min-width: 640px) {
-    .led {
-      width: 9px;
-      height: 9px;
-    }
-    .led-matrix {
-      gap: 3px;
-    }
-    .led-row {
-      gap: 3px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .led {
-      width: 10px;
-      height: 10px;
-    }
-    .led-matrix {
-      gap: 4px;
-      padding: 8px;
-    }
-    .led-row {
-      gap: 4px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .led {
-      width: 11px;
-      height: 11px;
-    }
+    from { transform: translateX(-10px); }
+    to { transform: translateX(10px); }
   }
 </style>
