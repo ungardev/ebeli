@@ -8,8 +8,8 @@ const homeUrl = '/';
 ---
 
 <!-- Navbar wrapper - floating rounded container with backdrop blur -->
-<div class="sticky top-4 z-50 mx-4 lg:mx-8">
-  <header class="rounded-[36px] bg-black/80 backdrop-blur-xl border border-neutral-700/40">
+<div class="sticky top-4 z-50 px-4">
+  <header class="rounded-[36px] bg-black/80 backdrop-blur-xl border border-neutral-600/50">
     <nav
       class="flex items-center justify-between px-5 py-4 md:px-6 lg:px-8"
       aria-label="Global"
@@ -24,7 +24,7 @@ const homeUrl = '/';
           <BrandLogo class="h-auto w-24 mx-auto md:mx-0" />
         </a>
         
-        <!-- Desktop Navigation Links -->
+        <!-- Desktop Navigation Links - WHITE TEXT -->
         <div class="hidden md:flex items-center gap-6 lg:gap-8">
           {
             strings.navBarLinks.map(link => (
@@ -33,11 +33,11 @@ const homeUrl = '/';
           }
         </div>
         
-        <!-- Mobile menu button -->
+        <!-- Mobile menu button - WHITE ICON -->
         <div class="flex items-center md:hidden">
           <button
             type="button"
-            class="hs-collapse-toggle flex h-10 w-10 items-center justify-center rounded-full text-neutral-400 transition-colors hover:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:outline-hidden"
+            class="hs-collapse-toggle flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors hover:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700 dark:focus:outline-hidden"
             data-hs-collapse="#navbar-collapse-with-animation"
             aria-controls="navbar-collapse-with-animation"
             aria-label="Toggle navigation"
@@ -76,12 +76,12 @@ const homeUrl = '/';
       </div>
     </nav>
 
-    <!-- Mobile Navigation (collapsible) -->
+    <!-- Mobile Navigation (collapsible) - WHITE TEXT -->
     <div
       id="navbar-collapse-with-animation"
       class="hs-collapse hidden w-full overflow-hidden transition-all duration-300 md:hidden"
     >
-      <div class="flex flex-col gap-4 px-5 py-6 border-t border-neutral-700/40">
+      <div class="flex flex-col gap-4 px-5 py-6 border-t border-neutral-600/50">
         {
           strings.navBarLinks.map(link => (
             <NavLink url={link.url} name={link.name} />
