@@ -16,13 +16,13 @@
       { r: 165, g: 45, b: 37 }, // #A52D25 soft coral
     ],
     // Opacity for the gradient blobs
-    opacity: 0.12,
+    opacity: 0.4,
     // Animation speed (lower = slower)
-    speed: 0.0008,
+    speed: 0.001,
     // Blob size (higher = larger blobs)
-    size: 1.2,
+    size: 1.8,
     // Number of gradient blobs
-    blobCount: 5,
+    blobCount: 7,
     // Whether to use simplex noise (more organic) or simple noise
     useSimplex: true,
   };

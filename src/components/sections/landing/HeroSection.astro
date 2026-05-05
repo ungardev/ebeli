@@ -32,7 +32,7 @@ const ledCols = 9;
         {Array.from({ length: ledRows }).map((_, rowIndex) => (
           <div class="led-row">
             {Array.from({ length: ledCols }).map((_, colIndex) => {
-              const delay = (rowIndex * ledCols + colIndex) * 0.06;
+              const delay = (rowIndex * ledCols + colIndex) * 0.025;
               return (
                 <div 
                   class="led"
@@ -145,29 +145,29 @@ const ledCols = 9;
 
   /* Each LED has inline delay for cascade */
   .led {
-    animation: ledOn 0.3s ease-out forwards;
+    animation: ledOn 0.15s ease-out forwards;
   }
 
   /* Hero content animations - delayed to let LED cascade finish */
   .matrix-container {
-    animation: fadeIn 0.3s ease-out 0.1s forwards;
+    animation: fadeIn 0.2s ease-out 0.05s forwards;
   }
 
   .hero-title {
-    animation: titleReveal 1s ease-out 5s forwards;
+    animation: titleReveal 0.6s ease-out 3s forwards;
     text-shadow: 0 0 60px rgba(255,255,255,0.4);
   }
 
   .hero-subtitle {
-    animation: fadeUp 0.8s ease-out 5.5s forwards;
+    animation: fadeUp 0.5s ease-out 3.5s forwards;
   }
 
   .hero-buttons {
-    animation: fadeUp 0.8s ease-out 6s forwards;
+    animation: fadeUp 0.5s ease-out 4s forwards;
   }
 
   .scroll-indicator {
-    animation: fadeIn 0.6s ease-out 6.5s forwards;
+    animation: fadeIn 0.4s ease-out 4.5s forwards;
   }
 
   @keyframes fadeIn {

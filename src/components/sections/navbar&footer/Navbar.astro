@@ -9,7 +9,7 @@ const homeUrl = '/';
 
 <!-- Navbar wrapper - Premium floating container -->
 <div class="sticky top-4 z-50 px-4">
-  <header class="rounded-2xl bg-[#181818]/90 backdrop-blur-md border border-white/10">
+  <header class="relative rounded-2xl bg-[#181818]/90 backdrop-blur-md border border-white/10">
     <nav
       class="flex items-center justify-between px-6 py-5 md:px-10 md:py-6"
       aria-label="Global"
@@ -77,17 +77,19 @@ const homeUrl = '/';
       </div>
     </nav>
 
-    <!-- Mobile Navigation -->
+    <!-- Mobile Navigation - Overlay instead of push -->
     <div
       id="navbar-collapse-with-animation"
-      class="hidden w-full overflow-hidden md:hidden"
+      class="hidden absolute top-full left-0 right-0 z-40 md:hidden"
     >
-      <div class="flex flex-col gap-5 px-6 py-7 border-t border-white/10">
-        {
-          strings.navBarLinks.map(link => (
-            <NavLink url={link.url} name={link.name} customClass="mobile-nav-link" />
-          ))
-        }
+      <div class="bg-[#181818]/95 backdrop-blur-xl border-t border-white/10 px-6 py-7">
+        <div class="flex flex-col gap-5">
+          {
+            strings.navBarLinks.map(link => (
+              <NavLink url={link.url} name={link.name} customClass="mobile-nav-link" />
+            ))
+          }
+        </div>
       </div>
     </div>
   </header>
