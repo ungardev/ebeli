@@ -22,23 +22,11 @@ const ledCols = 9;
 ---
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-black" id="hero">
-  <!-- Background effects -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <!-- Central warm glow -->
-    <div class="absolute inset-0 flex items-center justify-center">
-      <div class="w-[500px] h-[400px] bg-gradient-radial from-white/15 via-white/8 to-transparent rounded-full blur-3xl matrix-glow"></div>
-    </div>
-    
-    <!-- Top ray - vertical beam -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-full overflow-hidden">
-      <div class="w-full h-full bg-gradient-to-b from-white/10 via-white/2 to-transparent ray-top"></div>
-    </div>
-  </div>
 
-  <!-- Main content -->
-  <div class="relative z-10 flex flex-col items-center justify-center pt-24 md:pt-28 lg:pt-32">
+  <!-- Main content - centered, higher position -->
+  <div class="relative z-10 flex flex-col items-center justify-center pt-20 md:pt-24 lg:pt-28">
     
-    <!-- LED Matrix 9x8 - Matching real Ébeli matrix -->
+    <!-- LED Matrix 9x8 - Bigger, cleaner, no halos -->
     <div class="matrix-container opacity-0">
       <div class="led-matrix">
         {Array.from({ length: ledRows }).map((_, rowIndex) => (
@@ -55,9 +43,6 @@ const ledCols = 9;
           </div>
         ))}
       </div>
-      
-      <!-- Vertical beam that sweeps -->
-      <div class="beam"></div>
     </div>
 
     <!-- Title -->
@@ -115,56 +100,32 @@ const ledCols = 9;
 </section>
 
 <style>
-  .bg-gradient-radial {
-    background: radial-gradient(ellipse at center, var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to));
-  }
-
-  /* LED Matrix - 9x8 grid matching real Ébeli matrix */
+  /* LED Matrix - Bigger LEDs (12px), cleaner gaps (10px) */
   .led-matrix {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 10px;
+    gap: 10px;
+    padding: 12px;
     background: #000;
     border-radius: 4px;
-    position: relative;
   }
 
   .led-row {
     display: flex;
-    gap: 8px;
+    gap: 10px;
   }
 
   .led {
-    width: 5px;
-    height: 5px;
+    width: 12px;
+    height: 12px;
     background: #FFFAF0;
     border-radius: 1px;
-    box-shadow: none;
     opacity: 0.2;
     transform: scale(0.7);
+    box-shadow: none;
   }
 
-  /* Vertical beam that sweeps across the matrix */
-  .beam {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 40px;
-    height: 100%;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      rgba(255,250,240,0.3) 40%,
-      rgba(255,250,240,0.4) 50%,
-      rgba(255,250,240,0.3) 60%,
-      transparent 100%
-    );
-    animation: beamSweep 5s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  /* LED turn on - starts OFF (via .led class), turns ON with delay */
+  /* LED turn on - cascade effect */
   @keyframes ledOn {
     0% {
       opacity: 0.2;
@@ -175,53 +136,14 @@ const ledCols = 9;
       opacity: 1;
       transform: scale(1);
       box-shadow: 
-        0 0 4px rgba(255,250,240,0.9),
-        0 0 8px rgba(255,250,240,0.5);
+        0 0 8px rgba(255,250,240,0.9),
+        0 0 16px rgba(255,250,240,0.5);
     }
   }
 
-  /* Each LED: cascade on then glow pulse loop */
+  /* Each LED has inline delay for cascade */
   .led {
-    animation: 
-      ledOn 0.3s ease-out forwards,
-      ledPulse 2s ease-in-out 5s infinite;
-  }
-  
-  /* Glow pulse after LEDs turn on */
-  @keyframes ledPulse {
-    0%, 100% { opacity: 0.85; }
-    50% { opacity: 1; }
-  }
-
-  /* Glow pulse after LEDs are on - loops forever */
-  @keyframes ledPulse {
-    0%, 100% { opacity: 0.85; }
-    50% { opacity: 1; }
-  }
-
-  /* Glow pulse after LEDs are on */
-  @keyframes ledPulse {
-    0%, 100% { opacity: 0.85; }
-    50% { opacity: 1; }
-  }
-
-  /* Central glow pulse */
-  .matrix-glow {
-    animation: glowPulse 6s ease-in-out infinite;
-  }
-
-  @keyframes glowPulse {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-  }
-
-  /* Beam sweep animation */
-  @keyframes beamSweep {
-    0% { transform: translateX(-50px); opacity: 0; }
-    10% { opacity: 1; }
-    50% { transform: translateX(calc(100% + 50px)); }
-    60% { opacity: 0; }
-    100% { transform: translateX(-50px); opacity: 0; }
+    animation: ledOn 0.3s ease-out forwards;
   }
 
   /* Hero content animations - delayed to let LED cascade finish */
@@ -259,15 +181,5 @@ const ledCols = 9;
   @keyframes titleReveal {
     from { opacity: 0; filter: blur(15px); transform: translateY(15px); }
     to { opacity: 1; filter: blur(0); transform: translateY(0); }
-  }
-
-  /* Ray subtle movement */
-  .ray-top {
-    animation: rayMoveX 12s ease-in-out infinite alternate;
-  }
-
-  @keyframes rayMoveX {
-    from { transform: translateX(-10px); }
-    to { transform: translateX(10px); }
   }
 </style>

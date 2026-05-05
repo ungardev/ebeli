@@ -45,15 +45,12 @@ const ogTitle = `${product.data.title} | Hardware Tools | ScrewFast`;
     },
   }}
 >
-  <div id="overlay" class="fixed inset-0 bg-neutral-200 dark:bg-neutral-800">
-  </div>
 
   <section
     class="mx-auto flex max-w-[85rem] flex-col px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
   >
     <div>
       <p
-        id="fadeText"
         class="mb-8 max-w-prose font-light text-pretty text-neutral-700 sm:text-xl dark:text-neutral-300"
       >
         {product.data.main.content}
@@ -62,7 +59,7 @@ const ogTitle = `${product.data.title} | Hardware Tools | ScrewFast`;
     <div
       class="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0"
     >
-      <div id="fadeInUp">
+      <div>
         <h1
           class="block text-4xl font-bold tracking-tighter text-neutral-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-neutral-200"
         >
@@ -74,7 +71,6 @@ const ogTitle = `${product.data.title} | Hardware Tools | ScrewFast`;
       </div>
       <div>
         <Image
-          id="fadeInMoveRight"
           src={product.data.main.imgMain}
           class="w-[600px]"
           alt={product.data.main.imgAlt}
