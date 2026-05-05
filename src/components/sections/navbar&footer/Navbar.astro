@@ -10,7 +10,7 @@ const homeUrl = '/';
 <div class="sticky top-4 z-50 px-4">
   <header class="relative rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
     <nav
-      class="flex items-center justify-between px-6 py-5 md:px-10 md:py-6"
+      class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4"
       aria-label="Global"
     >
       <div class="flex items-center justify-center md:justify-between w-full">
@@ -20,7 +20,7 @@ const homeUrl = '/';
           href={homeUrl}
           aria-label="Brand"
         >
-          <img src="/ebeli-logo.png" alt="Ébeli" class="h-auto w-48 md:w-56" />
+          <img src="/ebeli-fuente.png" alt="Ébeli" class="h-auto w-32 md:w-40" />
         </a>
         
         <!-- Desktop Navigation Links - Premium spacing + animated underline -->
@@ -36,14 +36,14 @@ const homeUrl = '/';
         <div class="flex items-center md:hidden">
           <button
             type="button"
-            class="flex h-11 w-11 items-center justify-center rounded-full text-white transition-all duration-200 hover:bg-white/10 focus:outline-hidden"
+            class="flex h-13 w-13 items-center justify-center rounded-full text-white transition-all duration-200 hover:bg-white/10 focus:outline-hidden"
             data-mobile-menu-toggle
             aria-controls="navbar-collapse-with-animation"
             aria-label="Toggle navigation"
             aria-expanded="false"
           >
             <svg
-              class="menu-open h-5 w-5 shrink-0"
+              class="menu-open h-6 w-6 shrink-0"
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -58,7 +58,7 @@ const homeUrl = '/';
               <line x1="3" x2="21" y1="18" y2="18"></line>
             </svg>
             <svg
-              class="menu-close hidden h-5 w-5 shrink-0"
+              class="menu-close hidden h-6 w-6 shrink-0"
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -81,8 +81,8 @@ const homeUrl = '/';
       id="navbar-collapse-with-animation"
       class="hidden absolute top-full left-0 right-0 z-40 md:hidden navbar-mobile-menu"
     >
-      <div class="bg-[#0a0a0a]/98 backdrop-blur-xl border-t border-white/5 px-6 py-8">
-        <div class="flex flex-col gap-6">
+      <div class="bg-[#0a0a0a]/98 backdrop-blur-xl border-t border-white/5 px-4 py-6">
+        <div class="flex flex-col gap-5">
           {
             strings.navBarLinks.map(link => (
               <NavLink url={link.url} name={link.name} customClass="mobile-nav-link" />
@@ -98,9 +98,10 @@ const homeUrl = '/';
   /* Premium nav link with animated underline */
   :global(.nav-link-premium) {
     position: relative;
-    padding: 0.5rem 0;
+    padding: 0.375rem 0;
     color: #8d8d8d !important;
     font-weight: 400;
+    font-size: 1.125rem;
     transition: color 0.2s ease;
   }
   
@@ -133,8 +134,8 @@ const homeUrl = '/';
   
   /* Mobile nav link */
   :global(.mobile-nav-link) {
-    padding: 0.875rem 0;
-    font-size: 1.5rem;
+    padding: 1rem 0;
+    font-size: 1.75rem;
     font-weight: 400;
     color: #ffffff !important;
     border-bottom: 1px solid rgba(255,255,255,0.05);
