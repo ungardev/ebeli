@@ -1,0 +1,225 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import '@styles/reveal.css';
+
+const pageTitle = 'ÚNETE Y SÉ DISTRIBUIDOR | Ébeli';
+const metaDescription = 'Forma parte de la red de distribución exclusiva de iluminación LED premium. Regístrate hoy y lleva la excelencia de Ébeli a tu negocio.';
+---
+
+<MainLayout
+  title={pageTitle}
+  customDescription={metaDescription}
+>
+  <!-- Hero Section - BLACK -->
+  <section class="relative bg-black py-20 md:py-24 lg:py-28">
+    <div class="mx-auto max-w-[1078px] px-4 text-center">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-[300] text-white uppercase tracking-[0.12em] mb-4 reveal" style="font-family: var(--font-roobert);">
+        ÚNETE Y SÉ DISTRIBUIDOR
+      </h1>
+      <p class="text-xl md:text-2xl text-neutral-400 reveal reveal-delay-1" style="font-family: var(--font-roobert);">
+        Forma parte de la red de distribución exclusiva de iluminación LED premium
+      </p>
+    </div>
+  </section>
+
+  <!-- Form Section - BLACK -->
+  <section class="relative bg-black py-16 md:py-20 lg:py-24">
+    <div class="mx-auto max-w-[1078px] px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-xl">
+
+        <!-- Form Card Glass -->
+        <div class="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-sm p-8 lg:p-12 reveal">
+          <h2 class="text-2xl md:text-3xl font-[300] text-white text-center mb-8" style="font-family: var(--font-roobert);">
+            Solicitud de Distribuidor
+          </h2>
+
+          <!--
+            FORM CONFIGURATION:
+            Replace the action attribute with your Formspree endpoint.
+            Example: action="https://formspree.io/f/xyzabc"
+            
+            Formspree setup:
+            1. Go to https://formspree.io and create a free account
+            2. Create a new form for distributor applications
+            3. Copy your form endpoint (e.g., https://formspree.io/f/xyzabc)
+            4. Replace the placeholder action below with your endpoint
+            5. Update the name attributes if needed to match your Formspree field names
+          -->
+          <form 
+            action="https://formspree.io/f/TU_FORM_ID" 
+            method="POST"
+            class="space-y-6"
+          >
+            <!-- Nombre completo -->
+            <div>
+              <label for="nombre" class="block text-sm font-[400] text-neutral-300 mb-2" style="font-family: var(--font-roobert);">
+                Nombre completo *
+              </label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                required
+                placeholder="Tu nombre completo"
+                class="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder:text-neutral-500 transition-all duration-200 focus:border-white/40 focus:ring-1 focus:ring-white/10 focus:outline-none"
+                style="font-family: var(--font-roobert);"
+              />
+            </div>
+
+            <!-- Empresa / Negocio -->
+            <div>
+              <label for="empresa" class="block text-sm font-[400] text-neutral-300 mb-2" style="font-family: var(--font-roobert);">
+                Empresa / Negocio *
+              </label>
+              <input
+                type="text"
+                id="empresa"
+                name="empresa"
+                required
+                placeholder="Nombre de tu empresa o negocio"
+                class="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder:text-neutral-500 transition-all duration-200 focus:border-white/40 focus:ring-1 focus:ring-white/10 focus:outline-none"
+                style="font-family: var(--font-roobert);"
+              />
+            </div>
+
+            <!-- Email y Teléfono -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="email" class="block text-sm font-[400] text-neutral-300 mb-2" style="font-family: var(--font-roobert);">
+                  Correo electrónico *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  placeholder="correo@ejemplo.com"
+                  class="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder:text-neutral-500 transition-all duration-200 focus:border-white/40 focus:ring-1 focus:ring-white/10 focus:outline-none"
+                  style="font-family: var(--font-roobert);"
+                />
+              </div>
+              <div>
+                <label for="telefono" class="block text-sm font-[400] text-neutral-300 mb-2" style="font-family: var(--font-roobert);">
+                  Teléfono / WhatsApp *
+                </label>
+                <input
+                  type="tel"
+                  id="telefono"
+                  name="telefono"
+                  required
+                  placeholder="+52 123 456 7890"
+                  class="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder:text-neutral-500 transition-all duration-200 focus:border-white/40 focus:ring-1 focus:ring-white/10 focus:outline-none"
+                  style="font-family: var(--font-roobert);"
+                />
+              </div>
+            </div>
+
+            <!-- Tipo de negocio -->
+            <div>
+              <label for="tipo_negocio" class="block text-sm font-[400] text-neutral-300 mb-2" style="font-family: var(--font-roobert);">
+                Tipo de negocio *
+              </label>
+              <select
+                id="tipo_negocio"
+                name="tipo_negocio"
+                required
+                class="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-xl text-white transition-all duration-200 focus:border-white/40 focus:ring-1 focus:ring-white/10 focus:outline-none appearance-none cursor-pointer"
+                style="font-family: var(--font-roobert);"
+              >
+                <option value="" disabled selected class="bg-neutral-900">Selecciona una opción</option>
+                <option value="lighting_store" class="bg-neutral-900">Tienda de iluminación</option>
+                <option value="constructor" class="bg-neutral-900">Constructor</option>
+                <option value="arquitecto" class="bg-neutral-900">Arquitecto</option>
+                <option value="interiorista" class="bg-neutral-900">Diseñador de interiores</option>
+                <option value="distribuidor" class="bg-neutral-900">Distribuidor</option>
+                <option value="otro" class="bg-neutral-900">Otro</option>
+              </select>
+            </div>
+
+            <!-- Ciudad / País -->
+            <div>
+              <label for="ubicacion" class="block text-sm font-[400] text-neutral-300 mb-2" style="font-family: var(--font-roobert);">
+                Ciudad / País *
+              </label>
+              <input
+                type="text"
+                id="ubicacion"
+                name="ubicacion"
+                required
+                placeholder="Ciudad, País"
+                class="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder:text-neutral-500 transition-all duration-200 focus:border-white/40 focus:ring-1 focus:ring-white/10 focus:outline-none"
+                style="font-family: var(--font-roobert);"
+              />
+            </div>
+
+            <!-- Cuéntanos de tu negocio -->
+            <div>
+              <label for="mensaje" class="block text-sm font-[400] text-neutral-300 mb-2" style="font-family: var(--font-roobert);">
+                Cuéntanos sobre tu negocio
+              </label>
+              <textarea
+                id="mensaje"
+                name="mensaje"
+                rows="4"
+                placeholder="Describe brevemente tu experiencia en el sector de iluminación o construcción..."
+                class="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder:text-neutral-500 transition-all duration-200 focus:border-white/40 focus:ring-1 focus:ring-white/10 focus:outline-none resize-none"
+                style="font-family: var(--font-roobert);"
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4">
+              <button
+                type="submit"
+                class="w-full group inline-flex items-center justify-center gap-3 bg-[#059669] hover:bg-[#047857] text-white font-[600] px-10 py-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(5,150,105,0.4)]"
+                style="font-family: var(--font-roobert); border-radius: 75.024px;"
+              >
+                <span class="text-lg">Enviar Solicitud</span>
+                <svg class="w-6 h-6 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+            </div>
+
+            <p class="text-center text-sm text-neutral-500 mt-4" style="font-family: var(--font-roobert);">
+              * Campos obligatorios
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section - BLACK -->
+  <section class="relative py-24 md:py-28 lg:py-32 bg-black">
+    <div class="mx-auto max-w-[1078px] px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white mb-6 tracking-[0.02em] reveal" style="font-family: var(--font-roobert);">
+        ¿Prefieres <span class="text-shadow-glow">hablar</span> directamente?
+      </h2>
+      <p class="text-lg md:text-xl text-neutral-400 mb-12 max-w-xl mx-auto reveal reveal-delay-1" style="font-family: var(--font-roobert);">
+        Contáctanos por WhatsApp y con gusto te atendemos.
+      </p>
+
+      <a
+        href="https://wa.me/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center gap-3 border border-white/30 bg-white/10 backdrop-blur-sm hover:bg-white/15 hover:border-white/50 text-white font-[600] px-14 py-6 transition-all duration-300 hover:scale-105 scale-in reveal reveal-delay-2"
+        style="font-family: var(--font-roobert); border-radius: 75.024px;"
+      >
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span class="text-lg">Hablar por WhatsApp</span>
+      </a>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  select option {
+    background-color: #181818;
+    color: #ffffff;
+  }
+</style>
