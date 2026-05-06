@@ -16,14 +16,29 @@ interface Props {
 }
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden animated-warm-gradient" id="hero">
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden animated-warm-gradient hero-section" id="hero">
+
+  <!-- Light Particles -->
+  <div class="light-particles" aria-hidden="true">
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+  </div>
 
   <div class="relative z-10 flex flex-col items-center justify-center pt-0 md:pt-6 lg:pt-8">
     
     <img 
       src="/ebeli-logo.png" 
       alt="Ébeli - Iluminación LED Premium"
-      class="w-[95vw] md:w-[50vw] lg:w-[650px] mb-4 md:mb-8 mt-[-14vh] opacity-0 logo-reveal"
+      class="w-[95vw] md:w-[50vw] lg:w-[650px] mb-4 md:mb-8 mt-[-14vh] opacity-0 logo-reveal hero-logo"
+      id="hero-logo"
     />
     
     {subTitle && (
@@ -66,44 +81,128 @@ interface Props {
   </div>
 
   <div class="scroll-indicator absolute bottom-10 sm:bottom-12 left-1/2 -translate-x-1/2 z-10 opacity-0 md:hidden">
-    <div class="flex flex-col items-center gap-1.5 text-[#6d6d6d]">
-      <span class="text-[10px] sm:text-xs uppercase tracking-widest">Scroll</span>
-      <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    <div class="flex flex-col items-center gap-2 text-[#6d6d6d]">
+      <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em]">Scroll</span>
+      <svg class="w-5 h-5 scroll-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
       </svg>
     </div>
   </div>
 </section>
 
 <style>
+  .hero-section {
+    will-change: opacity;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .hero-section.faded {
+    opacity: 0.4;
+  }
+
   .logo-reveal {
-    animation: logoReveal 0.8s ease-out 0.1s forwards;
+    animation: logoReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+    will-change: opacity, transform, filter;
   }
 
   .hero-subtitle {
-    animation: fadeUp 0.5s ease-out 0.5s forwards;
+    animation: fadeUpBlur 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+    will-change: opacity, transform, filter;
   }
 
   .hero-buttons {
-    animation: fadeUp 0.5s ease-out 0.8s forwards;
+    animation: fadeUpBlur 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+    will-change: opacity, transform;
   }
 
   .scroll-indicator {
-    animation: fadeIn 0.4s ease-out 1.2s forwards;
+    animation: fadeIn 0.4s ease-out 1.3s forwards;
+  }
+
+  .scroll-pulse {
+    animation: scrollPulse 2s ease-in-out infinite;
   }
 
   @keyframes logoReveal {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+    0% {
+      opacity: 0;
+      transform: scale(0.85) translateY(20px);
+      filter: blur(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes fadeUpBlur {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    0% { opacity: 0; }
+    100% { opacity: 1; }
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes scrollPulse {
+    0%, 100% {
+      opacity: 0.5;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(5px);
+    }
+  }
+
+  /* Parallax for hero logo */
+  @media (min-width: 768px) {
+    .hero-logo {
+      transform: translateY(0);
+      transition: transform 0.1s linear;
+    }
   }
 </style>
+
+<script>
+  // Hero fade out on scroll
+  const heroSection = document.querySelector('.hero-section');
+  const heroLogo = document.getElementById('hero-logo');
+  
+  if (heroSection && heroLogo) {
+    let lastScroll = 0;
+    
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.scrollY;
+      const heroHeight = window.innerHeight;
+      
+      if (currentScroll > 100) {
+        const fadeProgress = Math.min((currentScroll - 100) / (heroHeight * 0.5), 1);
+        heroSection.classList.toggle('faded', fadeProgress > 0.3);
+        
+        // Parallax effect for logo
+        if (heroLogo instanceof HTMLElement) {
+          const parallaxOffset = currentScroll * 0.15;
+          heroLogo.style.transform = `translateY(${parallaxOffset}px) ${fadeProgress > 0.5 ? 'scale(' + (1 - fadeProgress * 0.2) + ')' : ''}`;
+        }
+      } else {
+        heroSection.classList.remove('faded');
+        if (heroLogo instanceof HTMLElement) {
+          heroLogo.style.transform = 'translateY(0)';
+        }
+      }
+      
+      lastScroll = currentScroll;
+    }, { passive: true });
+  }
+</script>

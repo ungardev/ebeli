@@ -47,6 +47,24 @@ interface Props {
       // Force dark mode
       document.documentElement.classList.add('dark');
     </script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" is:inline></script>
+    <script is:inline>
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    </script>
   </head>
   <body class="flex min-h-screen flex-col bg-black selection:bg-yellow-400 selection:text-neutral-700 overflow-x-hidden">
     <Navbar />

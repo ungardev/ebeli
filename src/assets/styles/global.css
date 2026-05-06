@@ -129,40 +129,244 @@
   color: var(--color-frost-white);
 }
 
-/* Animated Warm Gradient Background - monopo saigon style */
+/* Animated Warm Gradient Background - Ébeli Elite */
 .animated-warm-gradient {
   background:
     radial-gradient(
       ellipse at 15% 25%,
-      rgba(255, 172, 46, 0.18) 0%,
+      rgba(255, 172, 46, 0.25) 0%,
       transparent 50%
     ),
     radial-gradient(
       ellipse at 85% 75%,
-      rgba(165, 45, 37, 0.15) 0%,
+      rgba(165, 45, 37, 0.2) 0%,
       transparent 50%
     ),
     radial-gradient(
       ellipse at 50% 50%,
-      rgba(255, 250, 240, 0.1) 0%,
+      rgba(255, 250, 240, 0.12) 0%,
       transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 80% 20%,
+      rgba(255, 140, 50, 0.1) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 20% 80%,
+      rgba(180, 60, 40, 0.08) 0%,
+      transparent 40%
     );
   background-color: #000000;
-  animation: gradientShift 20s ease-in-out infinite;
+  animation: gradientShift 25s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
 }
 
 @keyframes gradientShift {
   0%,
   100% {
     background-position: 0% 50%;
+    background-size: 100% 100%;
   }
   25% {
     background-position: 100% 25%;
+    background-size: 120% 120%;
   }
   50% {
     background-position: 50% 100%;
+    background-size: 110% 110%;
   }
   75% {
     background-position: 25% 0%;
+    background-size: 105% 105%;
   }
+}
+
+/* Light Particles - Floating Dust Effect */
+.light-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.light-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 250, 240, 0.9) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: floatParticle linear infinite;
+  opacity: 0;
+}
+
+@keyframes floatParticle {
+  0% {
+    opacity: 0;
+    transform: translateY(100vh) translateX(0) scale(0.5);
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10vh) translateX(30px) scale(1);
+  }
+}
+
+.light-particle:nth-child(1) {
+  left: 10%;
+  animation-duration: 18s;
+  animation-delay: 0s;
+  width: 2px;
+  height: 2px;
+}
+.light-particle:nth-child(2) {
+  left: 25%;
+  animation-duration: 22s;
+  animation-delay: 3s;
+  width: 4px;
+  height: 4px;
+}
+.light-particle:nth-child(3) {
+  left: 40%;
+  animation-duration: 20s;
+  animation-delay: 6s;
+  width: 2px;
+  height: 2px;
+}
+.light-particle:nth-child(4) {
+  left: 55%;
+  animation-duration: 25s;
+  animation-delay: 2s;
+  width: 3px;
+  height: 3px;
+}
+.light-particle:nth-child(5) {
+  left: 70%;
+  animation-duration: 19s;
+  animation-delay: 8s;
+  width: 2px;
+  height: 2px;
+}
+.light-particle:nth-child(6) {
+  left: 85%;
+  animation-duration: 23s;
+  animation-delay: 4s;
+  width: 4px;
+  height: 4px;
+}
+.light-particle:nth-child(7) {
+  left: 15%;
+  animation-duration: 21s;
+  animation-delay: 10s;
+  width: 3px;
+  height: 3px;
+}
+.light-particle:nth-child(8) {
+  left: 60%;
+  animation-duration: 17s;
+  animation-delay: 5s;
+  width: 2px;
+  height: 2px;
+}
+.light-particle:nth-child(9) {
+  left: 80%;
+  animation-duration: 24s;
+  animation-delay: 7s;
+  width: 3px;
+  height: 3px;
+}
+.light-particle:nth-child(10) {
+  left: 35%;
+  animation-duration: 26s;
+  animation-delay: 1s;
+  width: 2px;
+  height: 2px;
+}
+
+/* Section Transition Overlay */
+.section-transition {
+  position: relative;
+}
+
+.section-transition::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.8) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-100%);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.section-transition.revealed::before {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero Fade Out on Scroll */
+.hero-fade-out {
+  transition: opacity 0.3s ease-out;
+}
+
+.hero-fade-out.faded {
+  opacity: 0.3;
+}
+
+/* White Section Styles */
+.section-white {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.section-white h2,
+.section-white h3,
+.section-white p {
+  color: inherit;
+}
+
+/* Warm Beige Section */
+.section-warm {
+  background-color: #f8f6f1;
+  color: #1a1a1a;
+}
+
+/* WhatsApp Pulse Animation */
+@keyframes whatsappPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.whatsapp-pulse {
+  animation: whatsappPulse 2s ease-in-out infinite;
 }
