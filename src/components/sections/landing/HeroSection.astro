@@ -18,8 +18,16 @@ interface Props {
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden animated-warm-gradient hero-section" id="hero">
 
+  <!-- Light Follower - Mouse Tracking Radial Gradient -->
+  <div id="light-follower" class="fixed w-[500px] h-[500px] rounded-full pointer-events-none opacity-0 transition-opacity duration-500 -translate-x-1/2 -translate-y-1/2" aria-hidden="true"></div>
+
   <!-- Light Particles -->
   <div class="light-particles" aria-hidden="true">
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
+    <div class="light-particle"></div>
     <div class="light-particle"></div>
     <div class="light-particle"></div>
     <div class="light-particle"></div>
@@ -42,7 +50,7 @@ interface Props {
     />
     
     {subTitle && (
-      <p class="hero-subtitle mt-6 sm:mt-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-[0.15em] max-w-4xl mx-auto text-center px-6 opacity-0" style="font-family: var(--font-roobert);">
+      <p class="hero-subtitle mt-6 sm:mt-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase tracking-[0.15em] max-w-4xl mx-auto text-center px-6 opacity-0" style="font-family: var(--font-roobert); background: linear-gradient(180deg, #ffffff 0%, #d4d4d4 50%, #e8e8e8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
         {subTitle}
       </p>
     )}
@@ -51,12 +59,12 @@ interface Props {
       {primaryBtn && (
         <a
           href={primaryBtnURL}
-          class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-12 sm:px-14 py-5 sm:py-6 font-[600] text-black transition-all duration-300 hover:scale-[1.05] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white/10 border border-white/30 backdrop-blur-sm px-14 sm:px-16 py-6 sm:py-7 font-[600] text-white transition-all duration-300 hover:scale-[1.05] hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_50px_rgba(255,255,255,0.35)]"
           style="font-family: var(--font-roobert);"
         >
           <span class="relative z-10 flex items-center gap-3">
             <span class="text-lg sm:text-xl">{primaryBtn}</span>
-            <svg class="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </span>
@@ -93,7 +101,7 @@ interface Props {
   .hero-subtitle {
     animation: heroSubtitleReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
     will-change: opacity, transform, filter;
-    text-shadow: 0 2px 30px rgba(255, 250, 240, 0.15);
+    filter: drop-shadow(0 2px 30px rgba(255, 250, 240, 0.2));
   }
 
   .hero-buttons {
@@ -107,6 +115,19 @@ interface Props {
 
   .scroll-pulse {
     animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* Light Follower - Mouse Tracking Radial Gradient */
+  #light-follower {
+    background: radial-gradient(circle, rgba(255, 250, 240, 0.12) 0%, transparent 70%);
+    left: 0;
+    top: 0;
+    z-index: 5;
+    transition: opacity 0.5s ease;
+  }
+
+  .hero-section:hover #light-follower {
+    opacity: 1;
   }
 
   @keyframes logoReveal {
@@ -178,6 +199,7 @@ interface Props {
   // Hero fade out on scroll
   const heroSection = document.querySelector('.hero-section');
   const heroLogo = document.getElementById('hero-logo');
+  const lightFollower = document.getElementById('light-follower');
   
   if (heroSection && heroLogo) {
     let lastScroll = 0;
@@ -190,7 +212,6 @@ interface Props {
         const fadeProgress = Math.min((currentScroll - 100) / (heroHeight * 0.5), 1);
         heroSection.classList.toggle('faded', fadeProgress > 0.3);
         
-        // Parallax effect for logo
         if (heroLogo instanceof HTMLElement) {
           const parallaxOffset = currentScroll * 0.15;
           heroLogo.style.transform = `translateY(${parallaxOffset}px) ${fadeProgress > 0.5 ? 'scale(' + (1 - fadeProgress * 0.2) + ')' : ''}`;
@@ -204,5 +225,42 @@ interface Props {
       
       lastScroll = currentScroll;
     }, { passive: true });
+  }
+
+  // Light Follower - Mouse Tracking Radial Gradient
+  if (lightFollower && heroSection) {
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    const smoothing = 0.08;
+
+    document.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const isInHero = (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      );
+      
+      if (isInHero) {
+        targetX = e.clientX - 250;
+        targetY = e.clientY - 250;
+        lightFollower.style.opacity = '1';
+      } else {
+        lightFollower.style.opacity = '0';
+      }
+    });
+
+    function animateFollower() {
+      currentX += (targetX - currentX) * smoothing;
+      currentY += (targetY - currentY) * smoothing;
+      
+      lightFollower.style.transform = `translate(${currentX}px, ${currentY}px)`;
+      requestAnimationFrame(animateFollower);
+    }
+    
+    animateFollower();
   }
 </script>
