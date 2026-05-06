@@ -48,22 +48,50 @@ interface Props {
       document.documentElement.classList.add('dark');
     </script>
     
-    <!-- Lenis Smooth Scroll -->
+    <!-- Lenis Smooth Scroll - Elite Top Tier -->
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" is:inline></script>
     <script is:inline>
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 2,
-      });
+      (function() {
+        const lenis = new Lenis({
+          duration: 1.4,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          gestureOrientation: 'vertical',
+          smoothWheel: true,
+          wheelMultiplier: 0.8,
+          touchMultiplier: 1.5,
+          infinite: false,
+        });
 
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
+        lenis.on('scroll', (e) => {
+          // Optional: Add scroll-based effects here
+          // document.documentElement.setAttribute('data-scrolling', 'true');
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        
+        // Start with a slight delay for smoother initial load
+        let initialized = false;
+        function initLenis() {
+          if (!initialized) {
+            initialized = true;
+            requestAnimationFrame(raf);
+          }
+        }
+        
+        // Wait for DOM ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initLenis);
+        } else {
+          initLenis();
+        }
+
+        // Expose lenis globally for potential use
+        window.lenis = lenis;
+      })();
     </script>
   </head>
   <body class="flex min-h-screen flex-col bg-black selection:bg-yellow-400 selection:text-neutral-700 overflow-x-hidden">
