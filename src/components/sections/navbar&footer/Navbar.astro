@@ -19,7 +19,7 @@ const homeUrl = '/';
           href={homeUrl}
           aria-label="Brand"
         >
-          <img src="/ebeli-fuente.png" alt="Ébeli" class="h-12 md:h-14" />
+          <img src="/ebeli-fuente.png" alt="Ébeli" class="w-45 md:h-14" />
         </a>
         
         <!-- Desktop Navigation Links - Premium spacing + animated underline -->
@@ -102,31 +102,12 @@ const homeUrl = '/';
     transition: color 0.2s ease;
   }
   
-  :global(.nav-link-premium::after) {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: linear-gradient(90deg, #FFFAF0, rgba(255,250,240,0.3));
-    transition: width 0.2s ease;
-  }
-  
   :global(.nav-link-premium:hover) {
     color: #ffffff !important;
   }
   
-  :global(.nav-link-premium:hover::after) {
-    width: 100%;
-  }
-  
   :global(.nav-link-premium[aria-current="page"]) {
     color: #ffffff !important;
-  }
-  
-  :global(.nav-link-premium[aria-current="page"]::after) {
-    width: 100%;
   }
   
   /* Mobile nav link */
