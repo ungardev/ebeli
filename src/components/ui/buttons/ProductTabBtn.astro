@@ -75,6 +75,17 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
       span.classList.remove('text-neutral-400');
       span.classList.add('text-white');
     }
+
+    const tabId = btn.getAttribute('data-target');
+    if (tabId) {
+      document.querySelectorAll('[role="tabpanel"]').forEach(panel => {
+        panel.classList.add('hidden');
+      });
+      const contentElement = document.querySelector(tabId);
+      if (contentElement) {
+        contentElement.classList.remove('hidden');
+      }
+    }
   });
 });
 </script>
