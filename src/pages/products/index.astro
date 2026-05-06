@@ -1,19 +1,10 @@
 ---
-// Importing necessary components
 import MainLayout from '@/layouts/MainLayout.astro';
-import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro';
-import CardSmall from '@components/ui/cards/CardSmall.astro';
-import CardWide from '@components/ui/cards/CardWide.astro';
-import FeaturesStatsAlt from '@components/sections/features/FeaturesStatsAlt.astro';
-import TestimonialsSectionAlt from '@components/sections/testimonials/TestimonialsSectionAlt.astro';
-
-// Importing necessary functions from Astro
+import '@styles/reveal.css';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { SITE } from '@data/constants';
 
-// Fetching all the product related content and sorting it by main.id
-const product: CollectionEntry<'products'>[] = (
+const products: CollectionEntry<'products'>[] = (
   await getCollection('products', ({ id }) => {
     return id.startsWith('en/');
   })
@@ -22,123 +13,148 @@ const product: CollectionEntry<'products'>[] = (
     a.data.main.id - b.data.main.id
 );
 
-// Define variables for page content
-const title: string = 'Products';
-const subTitle: string =
-  'Explore the durability and precision of ScrewFast tools, designed for both professionals and enthusiasts. Each of our products is crafted with precision and built to last, ensuring you have the right tool for every job.';
+const title: string = 'PRODUCTOS';
+const subTitle: string = 'ILUMINACIÓN LED PREMIUM';
 
-// Testimonial data that will be rendered in the component
-const testimonials = [
-  // First testimonial data
-  {
-    content:
-      ' "Since switching to ScrewFast\'s hardware tools, the efficiency on our construction sites has skyrocketed. The durability of the hex bolts and precision of the machine screws are simply unmatched. It\'s refreshing to work with a company that truly understands the daily demands of the industry." ',
-    author: 'Jason Clark',
-    role: 'Site Foreman | TopBuild',
-    avatarSrc:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
-    avatarAlt: 'Image Description',
-  },
-  // Second testimonial data
-  {
-    content:
-      ' "As an interior designer, I\'m always looking for high-quality materials and tools that help bring my visions to life. ScrewFast\'s mixed screws assortment has been a game-changer for my projects, providing the perfect blend of quality and variety. The outstanding customer support was just the cherry on top!" ',
-    author: 'Maria Gonzalez',
-    role: 'Interior Designer | Creative Spaces',
-    avatarSrc:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1376&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
-    avatarAlt: 'Image Description',
-  },
-  // Third testimonial data
-  {
-    content:
-      " \"I've been a professional carpenter for over 15 years, and I can sincerely say that ScrewFast's tap bolts and nuts are some of the best I've used. They grip like no other, and I have full confidence in every joint and fixture. Plus, the service is impeccable – they truly care about my project's success.\" ",
-    author: 'Richard Kim',
-    role: 'Master Carpenter | WoodWright',
-    avatarSrc:
-      'https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
-    avatarAlt: 'Image Description',
-  },
-];
-
-const pageTitle: string = `Products | ${SITE.title}`;
-const metaDescription =
-  'Explore the durability and precision of ScrewFast tools, designed for both professionals and enthusiasts.';
-const ogTitle = 'Hardware Tools | ScrewFast';
+const pageTitle: string = `PRODUCTOS | Ébeli`;
+const metaDescription = 'Soluciones de iluminación LED premium para hogares y negocios. Eficiencia, diseño y tecnología de vanguardia.';
 ---
 
 <MainLayout
   title={pageTitle}
   customDescription={metaDescription}
-  customOgTitle={ogTitle}
-  structuredData={{
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    '@id': 'https://screwfast.uk/products',
-    url: 'https://screwfast.uk/products',
-    name: 'Hardware Tools | ScrewFast',
-    description:
-      'Explore the durability and precision of ScrewFast tools, designed for both professionals and enthusiasts.',
-    isPartOf: {
-      '@type': 'WebSite',
-      url: 'https://screwfast.uk',
-      name: 'ScrewFast',
-      description:
-        'ScrewFast offers top-tier hardware tools and expert construction services to meet all your project needs.',
-    },
-    inLanguage: 'en-US',
-  }}
 >
-  <div
-    class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
-  >
-    <div class="mb-4 flex items-center justify-between gap-8 sm:mb-8 md:mb-12">
-      <div class="flex items-center gap-12">
-        <h1
-          class="text-2xl font-bold tracking-tight text-balance text-neutral-800 md:text-4xl md:leading-tight dark:text-neutral-200"
-        >
-          {title}
-        </h1>
-        {
-          subTitle && (
-            <p class="hidden max-w-(--breakpoint-sm) text-pretty text-neutral-600 md:block dark:text-neutral-400">
-              {subTitle}
-            </p>
-          )
-        }
-      </div>
-      <PrimaryCTA title="Customer Stories" url="#testimonials" noArrow={true} />
+  <!-- Hero Section - BLACK -->
+  <section class="relative bg-black py-20 md:py-24 lg:py-28">
+    <div class="mx-auto max-w-[1078px] px-4 text-center">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white uppercase tracking-[0.15em] mb-4 reveal" style="font-family: var(--font-roobert);">
+        {title}
+      </h1>
+      <p class="text-xl md:text-2xl text-neutral-400 uppercase tracking-[0.1em] reveal reveal-delay-1" style="font-family: var(--font-roobert);">
+        {subTitle}
+      </p>
     </div>
-    {
-      /* Displaying products in alternating styles. Alternative product gets different card styling.
-    Maps through all product entries and displays them with either CardSmall or CardWide based on their position. */
-    }
-    <section class="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
-      {
-        product.map((product, index) => {
-          const position = index % 4;
-          if (position === 0 || position === 3) {
-            return <CardSmall product={product} />;
-          } else {
-            return <CardWide product={product} />;
-          }
-        })
-      }
-    </section>
-  </div>
-  {/* Features statistics section */}
-  <FeaturesStatsAlt
-    title="Why Choose ScrewFast?"
-    subTitle="Transform your ideas into tangible results with ScrewFast tools. Whether you're starting with a sketch on a napkin or diving into a comprehensive construction project, our tools are engineered to help you build with confidence."
-    benefits={[
-      'Robust and reliable tools for long-lasting performance.',
-      'Innovative solutions tailored to modern construction needs.',
-      "Customer support dedicated to your project's success.",
-    ]}
-  />
-  {/* Testimonials section */}
-  <TestimonialsSectionAlt
-    title="What Our Customers Say"
-    testimonials={testimonials}
-  />
+  </section>
+
+  <!-- Products Section - WHITE -->
+  <section class="relative py-16 md:py-20 lg:py-24 bg-white">
+    <div class="mx-auto max-w-[1078px] px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12 reveal">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-black mb-4 tracking-[0.02em] reveal-blur" style="font-family: var(--font-roobert);">
+          Nuestra Colección
+        </h2>
+        <p class="text-xl md:text-2xl text-neutral-500 reveal-delay-1">
+          Soluciones de iluminación para cada espacio
+        </p>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 stagger-children">
+        {products.map((product) => (
+          <a 
+            href={`/products/${product.id}`} 
+            class="product-card group relative overflow-hidden rounded-2xl bg-neutral-100 border border-neutral-200 p-6 lg:p-7 transition-all duration-300 hover:scale-[1.02] hover:border-neutral-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.15)]"
+          >
+            <div class="aspect-square bg-neutral-200 rounded-xl mb-6 overflow-hidden relative">
+              {product.data.main.image ? (
+                <img 
+                  src={product.data.main.image} 
+                  alt={product.data.main.title} 
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-full h-full bg-gradient-to-br from-neutral-300 to-neutral-400 flex items-center justify-center">
+                  <svg class="w-12 h-12 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                <span class="text-xs text-white font-[400] tracking-wider uppercase">Ver producto</span>
+              </div>
+            </div>
+            <h3 class="text-black font-[300] text-xl md:text-2xl group-hover:text-neutral-700 transition-colors duration-200" style="font-family: var(--font-roobert);">
+              {product.data.main.title}
+            </h3>
+            <p class="text-neutral-500 text-base md:text-lg mt-1">
+              {product.data.main.description}
+            </p>
+          </a>
+        ))}
+      </div>
+
+      <div class="text-center mt-16 reveal">
+        <a href="/products" class="group inline-flex items-center gap-3 text-black font-[400] text-lg transition-all duration-200 hover:text-neutral-600 hover:gap-4" style="font-family: var(--font-roobert);">
+          <span>Ver Todos los Productos</span>
+          <svg class="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section - BLACK -->
+  <section class="relative py-24 md:py-28 lg:py-32 bg-black">
+    <div class="mx-auto max-w-[1078px] px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white mb-6 tracking-[0.02em] reveal" style="font-family: var(--font-roobert);">
+        ¿Listo para <span class="text-shadow-glow">iluminar</span>?
+      </h2>
+      <p class="text-lg md:text-xl text-neutral-400 mb-12 max-w-xl mx-auto reveal reveal-delay-1">
+        Contáctanos por WhatsApp y te ayudamos a encontrar la solución perfecta para tu proyecto.
+      </p>
+
+      <a
+        href="https://wa.me/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center gap-3 border border-white/30 bg-transparent hover:bg-white/5 text-white font-[600] px-14 py-6 transition-all duration-300 hover:scale-105 hover:border-white/50 scale-in reveal reveal-delay-2"
+        style="font-family: var(--font-roobert); border-radius: 75.024px;"
+      >
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span class="text-lg">Hablar por WhatsApp</span>
+      </a>
+    </div>
+  </section>
 </MainLayout>
+
+<style>
+  .product-card {
+    cursor: pointer;
+  }
+
+  .product-card:hover h3 {
+    color: #1a1a1a;
+  }
+
+  img {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  img[loading="lazy"] {
+    opacity: 0;
+  }
+
+  img[loading="lazy"].loaded,
+  img:not([loading="lazy"]) {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    lazyImages.forEach(img => {
+      if ((img as HTMLImageElement).complete) {
+        img.classList.add('loaded');
+      } else {
+        img.addEventListener('load', () => img.classList.add('loaded'));
+      }
+    });
+  });
+</script>
