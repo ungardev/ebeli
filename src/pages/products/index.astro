@@ -52,7 +52,7 @@ const metaDescription = 'Soluciones de iluminación LED premium para hogares y n
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 stagger-children">
         {products.map((product) => (
           <a 
-            href={`/products/${product.id}`} 
+            href={`/products/${product.id.replace(/^en\//, '')}`} 
             class="product-card group relative overflow-hidden rounded-2xl bg-neutral-100 border border-neutral-200 p-6 lg:p-7 transition-all duration-300 hover:scale-[1.02] hover:border-neutral-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.15)]"
           >
             <div class="aspect-square bg-neutral-200 rounded-xl mb-6 overflow-hidden relative">
