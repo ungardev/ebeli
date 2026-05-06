@@ -1,20 +1,16 @@
 ---
-// Import section components
 import MainLayout from '@/layouts/MainLayout.astro';
 import ProductTabBtn from '@components/ui/buttons/ProductTabBtn.astro';
-import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { SITE } from '@data/constants';
-
-// This gets the static paths for all the unique products
 
 export async function getStaticPaths() {
   const productEntries = await getCollection('products', ({ id }) =>
     id.startsWith('en/')
   );
   return productEntries.map(product => {
-    const idWithoutLang = product.id.replace(/^en\//, ''); // Remove the "en/" prefix
+    const idWithoutLang = product.id.replace(/^en\//, '');
     return {
       params: { id: idWithoutLang },
       props: { product },
@@ -26,7 +22,7 @@ const { product } = Astro.props;
 
 const pageTitle: string = `${product.data.title} | ${SITE.title}`;
 const metaDescription = product.data.description;
-const ogTitle = `${product.data.title} | Hardware Tools | ScrewFast`;
+const ogTitle = `${product.data.title} | Iluminación LED | Ébeli`;
 ---
 
 <MainLayout
@@ -36,304 +32,226 @@ const ogTitle = `${product.data.title} | Hardware Tools | ScrewFast`;
   structuredData={{
     '@context': 'https://schema.org',
     '@type': 'Product',
-    '@id': `https://screwfast.uk/products/${product.data.title.toLowerCase().replace(/\s+/g, '-')}`,
+    '@id': `https://ebelive.com/products/${product.data.title.toLowerCase().replace(/\s+/g, '-')}`,
     name: product.data.title,
     description: product.data.description,
     brand: {
       '@type': 'Brand',
-      name: 'ScrewFast',
+      name: 'Ébeli',
     },
   }}
 >
 
-  <section
-    class="mx-auto flex max-w-[85rem] flex-col px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
-  >
-    <div>
-      <p
-        class="mb-8 max-w-prose font-light text-pretty text-neutral-700 sm:text-xl dark:text-neutral-300"
-      >
+  <section class="bg-black">
+    <div class="mx-auto max-w-[1078px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <p class="mb-8 max-w-prose font-light text-pretty text-neutral-400 sm:text-xl" style="font-family: var(--font-roobert);">
         {product.data.main.content}
       </p>
-    </div>
-    <div
-      class="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0"
-    >
-      <div>
-        <h1
-          class="block text-4xl font-bold tracking-tighter text-neutral-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-neutral-200"
-        >
-          {product.data.title}
-        </h1>
-        <p class="text-lg text-neutral-600 dark:text-neutral-400">
-          {product.data.description}
-        </p>
-      </div>
-      <div>
-        <Image
-          src={product.data.main.imgMain}
-          class="w-[600px]"
-          alt={product.data.main.imgAlt}
-          format={'avif'}
-          loading={'eager'}
-        />
+      <div class="flex flex-col items-center justify-between space-y-8 sm:flex-row sm:space-y-0">
+        <div class="text-center sm:text-left max-w-lg">
+          <h1 class="block text-4xl font-[300] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl mb-4" style="font-family: var(--font-roobert);">
+            {product.data.title}
+          </h1>
+          <p class="text-lg text-neutral-400" style="font-family: var(--font-roobert);">
+            {product.data.description}
+          </p>
+        </div>
+        <div class="relative w-full max-w-md sm:max-w-lg">
+          {product.data.main.imgMain?.src && (
+            <Image
+              src={product.data.main.imgMain.src}
+              class="w-full rounded-2xl"
+              alt={product.data.main.imgAlt}
+              format={'avif'}
+              loading={'eager'}
+            />
+          )}
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="mx-auto max-w-[85rem] px-4 pt-10 sm:px-6 lg:px-8 lg:pt-14">
-    <nav
-      class="mx-auto grid max-w-6xl gap-y-px sm:flex sm:gap-x-4 sm:gap-y-0"
-      aria-label="Tabs"
-      role="tablist"
-    >
-      {
-        product.data.tabs.map((tab, index) => (
-          <ProductTabBtn
-            title={tab.title}
-            id={tab.id}
-            dataTab={tab.dataTab}
-            first={index === 0}
-          />
-        ))
-      }
-    </nav>
+  <div class="bg-black">
+    <div class="mx-auto max-w-[1078px] px-4 pt-10 sm:px-6 lg:px-8 lg:pt-14">
+      <nav
+        class="mx-auto grid max-w-4xl gap-y-px sm:flex sm:gap-x-4 sm:gap-y-0"
+        aria-label="Tabs"
+        role="tablist"
+      >
+        {
+          product.data.tabs.map((tab, index) => (
+            <ProductTabBtn
+              title={tab.title}
+              id={tab.id}
+              dataTab={tab.dataTab}
+              first={index === 0}
+            />
+          ))
+        }
+      </nav>
 
-    <div class="mt-12 md:mt-16">
-      <div id="tabs-with-card-1" role="tabpanel">
-        <div class="mx-auto max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
-          <div class="grid gap-12 md:grid-cols-2">
-            <div class="lg:w-3/4">
-              <h2
-                class="text-3xl font-bold tracking-tight text-balance text-white md:leading-tight lg:text-4xl"
-              >
-                {product.data.longDescription.title}
-              </h2>
-              <p
-                class="mt-3 text-pretty text-neutral-300"
-              >
-                {product.data.longDescription.subTitle}
-              </p>
-              <p class="mt-5">
-                <PrimaryCTA
-                  title={product.data.longDescription.btnTitle}
-                  url={product.data.longDescription.btnURL}
-                />
-              </p>
-            </div>
+      <div class="mt-12 md:mt-16">
 
-            <div class="space-y-6 lg:space-y-10">
-              {
-                product.data.descriptionList.map(list => (
-                  <div class="flex">
-                    <div>
-                      <h3 class="text-base font-bold text-white sm:text-lg">
-                        {list.title}
-                      </h3>
-                      <p class="mt-1 text-neutral-300">
-                        {list.subTitle}
-                      </p>
+        <div id="tabs-with-card-1" role="tabpanel">
+          <div class="mx-auto max-w-[1078px] px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
+            <div class="grid gap-12 md:grid-cols-2">
+              <div class="lg:w-3/4">
+                <h2 class="text-3xl font-[300] tracking-tight text-white md:leading-tight lg:text-4xl mb-4" style="font-family: var(--font-roobert);">
+                  {product.data.longDescription.title}
+                </h2>
+                <p class="text-pretty text-neutral-300 text-lg" style="font-family: var(--font-roobert);">
+                  {product.data.longDescription.subTitle}
+                </p>
+                <div class="mt-8">
+                  <a
+                    href="https://wa.me/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group inline-flex items-center gap-3 border border-white/30 bg-white/10 backdrop-blur-sm hover:bg-white/15 hover:border-white/50 text-white font-[600] px-10 py-5 transition-all duration-300 hover:scale-105"
+                    style="font-family: var(--font-roobert); border-radius: 75.024px;"
+                  >
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    <span class="text-lg">Contactar por WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="space-y-6 lg:space-y-10">
+                {
+                  product.data.descriptionList.map(list => (
+                    <div class="flex">
+                      <div>
+                        <h3 class="text-base font-[600] text-white sm:text-lg" style="font-family: var(--font-roobert);">
+                          {list.title}
+                        </h3>
+                        <p class="mt-1 text-neutral-300" style="font-family: var(--font-roobert);">
+                          {list.subTitle}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))
-              }
+                  ))
+                }
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div id="tabs-with-card-2" class="hidden" role="tabpanel">
-        <div class="mx-auto max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
-          <div class="grid w-full grid-cols-1 gap-x-16 md:grid-cols-2">
-            <div class="max-w-md space-y-6">
-              {
-                product.data.specificationsLeft.map(spec => (
-                  <div>
-                    <h3 class="block font-bold text-neutral-800 dark:text-neutral-200">
-                      {spec.title}
-                    </h3>
-                    <p class="text-neutral-600 dark:text-neutral-400">
-                      {spec.subTitle}
-                    </p>
-                  </div>
-                ))
-              }
-            </div>
-            {
-              product.data.specificationsRight ? (
-                <div class="mt-6 max-w-md space-y-6 md:mt-0 md:ml-auto">
-                  {product.data.specificationsRight?.map(spec => (
+        <div id="tabs-with-card-2" class="hidden" role="tabpanel">
+          <div class="mx-auto max-w-[1078px] px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
+            <div class="grid w-full grid-cols-1 gap-x-16 md:grid-cols-2">
+              <div class="max-w-md space-y-6">
+                {
+                  product.data.specificationsLeft.map(spec => (
                     <div>
-                      <h3 class="block font-bold text-neutral-800 dark:text-neutral-200">
+                      <h3 class="block font-[600] text-white text-lg" style="font-family: var(--font-roobert);">
                         {spec.title}
                       </h3>
-                      <p class="text-neutral-600 dark:text-neutral-400">
+                      <p class="text-neutral-300" style="font-family: var(--font-roobert);">
                         {spec.subTitle}
                       </p>
                     </div>
-                  ))}
-                </div>
-              ) : product.data.tableData ? (
-                <div class="mt-6 space-y-6 md:mt-0 md:ml-auto">
-                  <div class="flex flex-col">
-                    <div class="-m-1.5 overflow-x-auto">
-                      <div class="inline-block min-w-full p-1.5 align-middle">
-                        <div class="overflow-hidden">
-                          <table class="min-w-full divide-y divide-neutral-300 dark:divide-neutral-700">
-                            <thead>
-                              <tr>
-                                {product.data.tableData?.[0].feature?.map(
-                                  header => (
-                                    <th
-                                      scope="col"
-                                      class="px-6 py-3 text-start text-xs font-medium text-neutral-500 uppercase dark:text-neutral-500"
-                                    >
-                                      {header}
-                                    </th>
-                                  )
+                  ))
+                }
+              </div>
+              {
+                product.data.specificationsRight ? (
+                  <div class="mt-6 max-w-md space-y-6 md:mt-0 md:ml-auto">
+                    {product.data.specificationsRight?.map(spec => (
+                      <div>
+                        <h3 class="block font-[600] text-white text-lg" style="font-family: var(--font-roobert);">
+                          {spec.title}
+                        </h3>
+                        <p class="text-neutral-300" style="font-family: var(--font-roobert);">
+                          {spec.subTitle}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : product.data.tableData ? (
+                  <div class="mt-6 space-y-6 md:mt-0 md:ml-auto">
+                    <div class="flex flex-col">
+                      <div class="-m-1.5 overflow-x-auto">
+                        <div class="inline-block min-w-full p-1.5 align-middle">
+                          <div class="overflow-hidden rounded-xl">
+                            <table class="min-w-full divide-y divide-white/10">
+                              <thead>
+                                <tr>
+                                  {product.data.tableData?.[0].feature?.map(
+                                    header => (
+                                      <th
+                                        scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-neutral-400 uppercase"
+                                      >
+                                        {header}
+                                      </th>
+                                    )
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody class="divide-y divide-white/10">
+                                {product.data.tableData?.map(row =>
+                                  row.description.map(rowData => (
+                                    <tr>
+                                      {rowData.map(cellValue => (
+                                        <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-neutral-300">
+                                          {cellValue}
+                                        </td>
+                                      ))}
+                                    </tr>
+                                  ))
                                 )}
-                              </tr>
-                            </thead>
-                            <tbody class="divide-y divide-neutral-300 dark:divide-neutral-700">
-                              {product.data.tableData?.map(row =>
-                                // Wrap each row's content in a separate <tr> element
-                                row.description.map(rowData => (
-                                  <tr>
-                                    {/* Iterate through each cell value in the row's description array */}
-                                    {rowData.map(cellValue => (
-                                      // Render each cell value in its own <td> element
-                                      <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-neutral-600 dark:text-neutral-400">
-                                        {cellValue}
-                                      </td>
-                                    ))}
-                                  </tr>
-                                ))
-                              )}
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                ) : null
+              }
+            </div>
+          </div>
+        </div>
+
+        <div id="tabs-with-card-3" class="hidden" role="tabpanel">
+          <div class="mx-auto mb-20 flex w-full flex-col gap-6 md:mb-28 md:flex-row 2xl:w-4/5">
+            <div class="flex-1 overflow-hidden rounded-2xl shadow-lg">
+              {
+                product.data.blueprints.first && (
+                  <Image
+                    src={product.data.blueprints.first.src}
+                    class="h-full w-full object-cover object-center"
+                    alt="Blueprint Illustration"
+                    format={'avif'}
+                  />
+                )
+              }
+            </div>
+            {
+              product.data.blueprints.second && (
+                <div class="flex-1 overflow-hidden rounded-2xl shadow-xl">
+                  <Image
+                    src={product.data.blueprints.second.src}
+                    class="h-full w-full object-cover object-center"
+                    alt="Blueprint Illustration"
+                    format={'avif'}
+                  />
                 </div>
-              ) : null
+              )
             }
           </div>
         </div>
+
       </div>
     </div>
   </div>
 
-  <div id="tabs-with-card-3" class="hidden" role="tabpanel">
-    <div class="mx-auto mb-20 flex w-full md:mb-28 2xl:w-4/5">
-      <div
-        class="relative top-12 left-12 z-10 overflow-hidden rounded-xl shadow-lg md:top-16 md:left-12 md:-ml-12 lg:ml-0"
-      >
-        {
-          product.data.blueprints.first && (
-            <Image
-              src={product.data.blueprints.first}
-              class="h-full w-full object-cover object-center"
-              alt="Blueprint Illustration"
-              format={'avif'}
-            />
-          )
-        }
-      </div>
-
-      <div class="relative right-12 overflow-hidden rounded-xl shadow-xl">
-        {
-          product.data.blueprints.second && (
-            <Image
-              src={product.data.blueprints.second}
-              class="h-full w-full object-cover object-center"
-              alt="Blueprint Illustration"
-              format={'avif'}
-            />
-          )
-        }
-      </div>
-    </div>
-  </div>
 </MainLayout>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    function setButtonInactive(btn: any, activeButton: any) {
-      if (btn !== activeButton) {
-        btn.classList.remove(
-          'active',
-          'bg-neutral-100',
-          'hover:border-transparent',
-          'dark:bg-white/[.05]'
-        );
-
-        const tabId = btn.getAttribute('data-target');
-        if (tabId) {
-          const contentElement = document.querySelector(tabId);
-          if (contentElement) {
-            contentElement.classList.add('hidden');
-          }
-        }
-
-        changeHeadingStyle(
-          btn,
-          ['text-neutral-800', 'dark:text-neutral-200'],
-          ['text-orange-400', 'dark:text-orange-300']
-        );
-      }
-    }
-
-    function activateButton(button: any) {
-      button.classList.add(
-        'active',
-        'bg-neutral-100',
-        ',hover:border-transparent',
-        'dark:bg-white/[.05]'
-      );
-
-      const tabId = button.getAttribute('data-target');
-      if (tabId) {
-        const contentElementToShow = document.querySelector(tabId);
-        if (contentElementToShow) {
-          contentElementToShow.classList.remove('hidden');
-        }
-      }
-
-      changeHeadingStyle(
-        button,
-        ['text-orange-400', 'dark:text-orange-300'],
-        ['text-neutral-800', 'dark:text-neutral-200']
-      );
-    }
-
-    function changeHeadingStyle(
-      button: any,
-      addClasses: any,
-      removeClasses: any
-    ) {
-      let heading = button.querySelector('span');
-      if (heading) {
-        heading.classList.remove(...removeClasses);
-        heading.classList.add(...addClasses);
-      }
-    }
-
-    const tabButtons = document.querySelectorAll('[data-target]');
-
-    if (tabButtons.length > 0) {
-      changeHeadingStyle(
-        tabButtons[0],
-        ['text-orange-400', 'dark:text-orange-300'],
-        []
-      );
-    }
-
-    tabButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        tabButtons.forEach(btn => setButtonInactive(btn, button));
-        activateButton(button);
-      });
-    });
-  });
-</script>
+<style>
+  .tab-btn {
+    border-radius: 75.024px;
+  }
+</style>
