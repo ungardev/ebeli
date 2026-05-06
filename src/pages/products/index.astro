@@ -56,10 +56,10 @@ const metaDescription = 'Soluciones de iluminación LED premium para hogares y n
             class="product-card group relative overflow-hidden rounded-2xl bg-neutral-100 border border-neutral-200 p-6 lg:p-7 transition-all duration-300 hover:scale-[1.02] hover:border-neutral-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.15)]"
           >
             <div class="aspect-square bg-neutral-200 rounded-xl mb-6 overflow-hidden relative">
-              {product.data.main.image ? (
+              {product.data.main.imgMain?.src ? (
                 <img 
-                  src={product.data.main.image} 
-                  alt={product.data.main.title} 
+                  src={product.data.main.imgMain.src} 
+                  alt={product.data.title} 
                   class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
                   loading="lazy"
                 />
@@ -76,10 +76,10 @@ const metaDescription = 'Soluciones de iluminación LED premium para hogares y n
               </div>
             </div>
             <h3 class="text-black font-[300] text-xl md:text-2xl group-hover:text-neutral-700 transition-colors duration-200" style="font-family: var(--font-roobert);">
-              {product.data.main.title}
+              {product.data.title}
             </h3>
             <p class="text-neutral-500 text-base md:text-lg mt-1">
-              {product.data.main.description}
+              {product.data.description}
             </p>
           </a>
         ))}
