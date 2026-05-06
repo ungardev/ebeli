@@ -3,16 +3,12 @@ const {
   subTitle,
   primaryBtn,
   primaryBtnURL,
-  secondaryBtn,
-  secondaryBtnURL,
 } = Astro.props;
 
 interface Props {
   subTitle?: string;
   primaryBtn?: string;
   primaryBtnURL?: string;
-  secondaryBtn?: string;
-  secondaryBtnURL?: string;
 }
 ---
 
@@ -254,6 +250,7 @@ interface Props {
     });
 
     function animateFollower() {
+      if (!lightFollower) return;
       currentX += (targetX - currentX) * smoothing;
       currentY += (targetY - currentY) * smoothing;
       
