@@ -13,17 +13,14 @@ const homeUrl = '/';
       class="flex items-center justify-between px-0 py-0 md:px-4 md:py-3"
       aria-label="Global"
     >
-      <div class="flex items-center justify-between w-full">
-        <!-- Mobile: Logo centered via absolute positioning -->
-        <div class="flex-1 md:flex-none flex justify-center">
-          <a
-            class="flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
-            href={homeUrl}
-            aria-label="Brand"
-          >
-            <img src="/ebeli-fuente.png" alt="Ébeli" class="h-auto w-56 md:w-64" />
-          </a>
-        </div>
+      <div class="flex items-center w-full">
+        <a
+          class="mx-auto md:mx-0 md:flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
+          href={homeUrl}
+          aria-label="Brand"
+        >
+          <img src="/ebeli-fuente.png" alt="Ébeli" class="h-auto w-45 md:w-72" />
+        </a>
         
         <!-- Desktop Navigation Links - Premium spacing + animated underline -->
         <div class="hidden md:flex items-center gap-12 lg:gap-16">
@@ -35,15 +32,14 @@ const homeUrl = '/';
         </div>
         
         <!-- Mobile menu button - right aligned -->
-        <div class="md:hidden w-full">
-          <button
-            type="button"
-            class="flex h-13 w-13 ml-auto items-center justify-center rounded-full text-white transition-all duration-200 hover:bg-white/10 focus:outline-hidden"
-            data-mobile-menu-toggle
-            aria-controls="navbar-collapse-with-animation"
-            aria-label="Toggle navigation"
-            aria-expanded="false"
-          >
+        <button
+          type="button"
+          class="md:hidden flex h-13 w-13 ml-auto items-center justify-center rounded-full text-white transition-all duration-200 hover:bg-white/10 focus:outline-hidden"
+          data-mobile-menu-toggle
+          aria-controls="navbar-collapse-with-animation"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+        >
             <svg
               class="menu-open h-6 w-6 shrink-0"
               width="24"
@@ -73,8 +69,7 @@ const homeUrl = '/';
               <path d="M18 6 6 18"></path>
               <path d="m6 6 12 12"></path>
             </svg>
-          </button>
-        </div>
+        </button>
       </div>
     </nav>
 
