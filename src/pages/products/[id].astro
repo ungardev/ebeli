@@ -59,7 +59,7 @@ const ogTitle = `${product.data.title} | Iluminación LED | Ébeli`;
         <div class="relative w-full max-w-md sm:max-w-lg">
           {product.data.main.imgMain?.src && (
             <Image
-              src={product.data.main.imgMain.src}
+              src={product.data.main.imgMain}
               class="w-full rounded-2xl"
               alt={product.data.main.imgAlt}
               format={'avif'}
@@ -221,7 +221,7 @@ const ogTitle = `${product.data.title} | Iluminación LED | Ébeli`;
               {
                 product.data.blueprints.first && (
                   <Image
-                    src={product.data.blueprints.first.src}
+                    src={product.data.blueprints.first}
                     class="h-full w-full object-cover object-center"
                     alt="Blueprint Illustration"
                     format={'avif'}
@@ -233,7 +233,7 @@ const ogTitle = `${product.data.title} | Iluminación LED | Ébeli`;
               product.data.blueprints.second && (
                 <div class="flex-1 overflow-hidden rounded-2xl shadow-xl">
                   <Image
-                    src={product.data.blueprints.second.src}
+                    src={product.data.blueprints.second}
                     class="h-full w-full object-cover object-center"
                     alt="Blueprint Illustration"
                     format={'avif'}
