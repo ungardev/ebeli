@@ -148,24 +148,31 @@
       transparent 60%
     );
   background-color: #000000;
-  animation: gradientShift 20s ease-in-out infinite;
   position: relative;
   overflow: hidden;
 }
 
-@keyframes gradientShift {
+/* Subtle opacity pulse instead of position animation - composited */
+.animated-warm-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(255, 250, 240, 0.03) 0%,
+    transparent 50%
+  );
+  animation: gradientOpacity 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes gradientOpacity {
   0%,
   100% {
-    background-position: 0% 50%;
-  }
-  25% {
-    background-position: 100% 25%;
+    opacity: 0.3;
   }
   50% {
-    background-position: 50% 100%;
-  }
-  75% {
-    background-position: 25% 0%;
+    opacity: 1;
   }
 }
 
