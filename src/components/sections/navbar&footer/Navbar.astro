@@ -10,7 +10,7 @@ const homeUrl = '/';
 <div class="sticky top-4 z-50 px-4">
   <header class="relative rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
     <nav
-      class="flex items-center px-2 py-2 md:px-6 md:pr-12 md:py-1.5"
+      class="flex items-center px-2 py-2 md:px-6 md:pr-16 md:py-1.5"
       aria-label="Global"
     >
       <div class="flex items-center justify-between w-full">
@@ -26,7 +26,7 @@ const homeUrl = '/';
         </a>
         
         <!-- Desktop Navigation Links - Premium spacing + animated underline -->
-        <div class="hidden md:flex items-center gap-10 lg:gap-12">
+        <div class="hidden md:flex items-center gap-12 lg:gap-16">
           {
             strings.navBarLinks.map(link => (
               <NavLink url={link.url} name={link.name} customClass="nav-link-premium" />
