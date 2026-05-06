@@ -10,7 +10,7 @@ const homeUrl = '/';
 <div class="sticky top-4 z-50 px-4">
   <header class="relative rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
     <nav
-      class="flex items-center px-0 py-2 md:px-2 md:pr-8 md:py-1.5"
+      class="flex items-center px-2 py-2 md:px-6 md:pr-12 md:py-1.5"
       aria-label="Global"
     >
       <div class="flex items-center justify-between w-full">
@@ -19,14 +19,14 @@ const homeUrl = '/';
           href={homeUrl}
           aria-label="Brand"
         >
-          <div class="flex items-center -mx-3 md:-mx-3">
+          <div class="flex items-center -mx-2 md:-mx-2">
             <img src="/apple-touch-icon.png" alt="Ébeli" class="hidden md:block h-14 w-auto object-contain" />
             <img src="/ebeli-fuente.png" alt="Ébeli" class="h-20 w-auto md:h-14 md:w-auto md:-ml-6" />
           </div>
         </a>
         
         <!-- Desktop Navigation Links - Premium spacing + animated underline -->
-        <div class="hidden md:flex items-center gap-8 lg:gap-10">
+        <div class="hidden md:flex items-center gap-10 lg:gap-12">
           {
             strings.navBarLinks.map(link => (
               <NavLink url={link.url} name={link.name} customClass="nav-link-premium" />
