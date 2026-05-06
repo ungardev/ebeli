@@ -10,18 +10,20 @@ const homeUrl = '/';
 <div class="sticky top-4 z-50 px-4">
   <header class="relative rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
     <nav
-      class="flex items-center justify-between px-3 py-2 md:px-4 md:py-3"
+      class="flex items-center justify-between px-0 py-0 md:px-4 md:py-3"
       aria-label="Global"
     >
-      <div class="flex items-center justify-center md:justify-between w-full">
-        <!-- Brand logo - PNG for consistency -->
-        <a
-          class="flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden md:flex-1"
-          href={homeUrl}
-          aria-label="Brand"
-        >
-          <img src="/ebeli-fuente.png" alt="Ébeli" class="h-auto w-36 md:w-48" />
-        </a>
+      <div class="flex items-center justify-between w-full">
+        <!-- Mobile: Logo centered via absolute positioning -->
+        <div class="flex-1 md:flex-none flex justify-center">
+          <a
+            class="flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
+            href={homeUrl}
+            aria-label="Brand"
+          >
+            <img src="/ebeli-fuente.png" alt="Ébeli" class="h-auto w-40 md:w-64" />
+          </a>
+        </div>
         
         <!-- Desktop Navigation Links - Premium spacing + animated underline -->
         <div class="hidden md:flex items-center gap-12 lg:gap-16">
@@ -32,8 +34,8 @@ const homeUrl = '/';
           }
         </div>
         
-        <!-- Mobile menu button -->
-        <div class="flex items-center md:hidden">
+        <!-- Mobile menu button - right aligned -->
+        <div class="hidden md:hidden w-full justify-end">
           <button
             type="button"
             class="flex h-13 w-13 items-center justify-center rounded-full text-white transition-all duration-200 hover:bg-white/10 focus:outline-hidden"
@@ -81,7 +83,7 @@ const homeUrl = '/';
       id="navbar-collapse-with-animation"
       class="hidden absolute top-full left-0 right-0 z-40 md:hidden navbar-mobile-menu"
     >
-      <div class="bg-[#0a0a0a]/98 backdrop-blur-xl border-t border-white/5 px-3 py-5">
+      <div class="bg-[#0a0a0a]/98 backdrop-blur-xl border-t border-white/5 px-3 py-4">
         <div class="flex flex-col gap-5">
           {
             strings.navBarLinks.map(link => (
