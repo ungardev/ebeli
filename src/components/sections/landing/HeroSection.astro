@@ -45,18 +45,18 @@ interface Props {
     <img 
       src="/ebeli-logo-full.svg" 
       alt="Ébeli - Iluminación LED Premium"
-      class="w-[95vw] md:w-[50vw] lg:w-[650px] mb-2 md:mb-4 mt-[-16vh] opacity-0 logo-reveal hero-logo"
+      class="w-[95vw] md:w-[50vw] lg:w-[650px] mb-0 md:mb-0 mt-[-16vh] opacity-0 logo-reveal hero-logo"
       id="hero-logo"
       fetchpriority="high"
     />
     
     {subTitle && (
-      <p class="hero-subtitle mt-1 sm:mt-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase tracking-[0.15em] max-w-4xl mx-auto text-center px-6 opacity-0" style="font-family: var(--font-roobert); background: linear-gradient(180deg, #ffffff 0%, #d4d4d4 50%, #e8e8e8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+      <p class="hero-subtitle mt-1 sm:mt-1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase tracking-[0.15em] max-w-4xl mx-auto text-center px-6 opacity-0" style="font-family: var(--font-roobert); background: linear-gradient(180deg, #ffffff 0%, #d4d4d4 50%, #e8e8e8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
         {subTitle}
       </p>
     )}
     
-    <div class="hero-buttons mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 opacity-0">
+    <div class="hero-buttons mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 opacity-0">
       {primaryBtn && (
         <a
           href={primaryBtnURL}
