@@ -2,15 +2,9 @@
 import MainLayout from '@/layouts/MainLayout.astro';
 import '@styles/reveal.css';
 import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
 
-const products: CollectionEntry<'products'>[] = (
-  await getCollection('products', ({ id }) => {
-    return id.startsWith('en/');
-  })
-).sort(
-  (a: CollectionEntry<'products'>, b: CollectionEntry<'products'>) =>
-    a.data.main.id - b.data.main.id
+const products = await getCollection('products', ({ id }) =>
+  id.startsWith('en/')
 );
 
 const title: string = 'PRODUCTOS';
@@ -56,20 +50,12 @@ const metaDescription = 'Soluciones de iluminación LED premium para hogares y n
             class="product-card group relative overflow-hidden rounded-2xl bg-neutral-100 border border-neutral-200 p-6 lg:p-7 transition-all duration-300 hover:scale-[1.02] hover:border-neutral-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.15)]"
           >
             <div class="aspect-square bg-neutral-200 rounded-xl mb-6 overflow-hidden relative">
-              {product.data.main.imgMain?.src ? (
-                <img 
-                  src={product.data.main.imgMain.src} 
-                  alt={product.data.title} 
-                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
-                  loading="lazy"
-                />
-              ) : (
-                <div class="w-full h-full bg-gradient-to-br from-neutral-300 to-neutral-400 flex items-center justify-center">
-                  <svg class="w-12 h-12 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                  </svg>
-                </div>
-              )}
+              <img 
+                src={product.data.mainImage} 
+                alt={product.data.title} 
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                loading="lazy"
+              />
               <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                 <span class="text-xs text-white font-[400] tracking-wider uppercase">Ver producto</span>
@@ -79,13 +65,11 @@ const metaDescription = 'Soluciones de iluminación LED premium para hogares y n
               {product.data.title}
             </h3>
             <p class="text-neutral-500 text-base md:text-lg mt-1">
-              {product.data.description}
+              {product.data.category}
             </p>
           </a>
         ))}
       </div>
-
-
     </div>
   </section>
 

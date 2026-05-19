@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  product: CollectionEntry<'products'>;
+}
+
+const { product } = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  paneles: 'Paneles',
+  reflectores: 'Reflectores',
+  bombillos: 'Bombillos',
+  'ojos-aguila': 'Ojos de Águila',
+  lamparas: 'Lámparas',
+};
+---
+
+<a
+  href={`/products/${product.id}`}
+  class="group relative flex flex-col overflow-hidden rounded-2xl bg-[#0a0a0a] border border-white/5 transition-all duration-300 hover:border-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.12)]"
+  data-astro-prefetch
+>
+  <!-- Image Container -->
+  <div class="relative aspect-square overflow-hidden bg-[#0a0a0a]">
+    <Image
+      src={product.data.mainImage}
+      alt={product.data.title}
+      format="webp"
+      quality="max"
+      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_10px_20px_rgba(255,255,255,0.06)]"
+      draggable="false"
+    />
+    <!-- Subtle overlay on hover -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <!-- Category Badge -->
+    <div class="absolute left-4 top-4">
+      <span class="inline-block rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-[400] uppercase tracking-wider text-white/80 border border-white/10">
+        {categoryLabels[product.data.category] || product.data.category}
+      </span>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="flex flex-col gap-3 p-5">
+    <!-- Title -->
+    <h3 class="font-[300] text-lg text-white group-hover:text-white/90 transition-colors duration-200 line-clamp-1" style="font-family: var(--font-roobert);">
+      {product.data.title}
+    </h3>
+
+    <!-- Watts Badges -->
+    <div class="flex flex-wrap gap-2">
+      {product.data.watts.map((w) => (
+        <span class="inline-flex items-center justify-center rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs font-[400] text-white/70">
+          {w}W
+        </span>
+      ))}
+    </div>
+
+    <!-- Lumens (if available) -->
+    {product.data.lumens && (
+      <p class="text-sm text-white/50">
+        {product.data.lumens}
+      </p>
+    )}
+
+    <!-- View Product indicator -->
+    <div class="mt-2 flex items-center gap-2 text-sm text-white/40 group-hover:text-white/70 transition-colors duration-200">
+      <span>Ver producto</span>
+      <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg>
+    </div>
+  </div>
+</a>
+
+<style>
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
