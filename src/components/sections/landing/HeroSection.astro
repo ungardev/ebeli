@@ -18,9 +18,6 @@ interface Props {
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden animated-warm-gradient hero-section" id="hero">
 
-  <!-- Light Follower - Mouse Tracking Radial Gradient -->
-  <div id="light-follower" class="fixed w-[500px] h-[500px] rounded-full pointer-events-none opacity-0 transition-opacity duration-500 -translate-x-1/2 -translate-y-1/2" aria-hidden="true"></div>
-
   <!-- Light Particles -->
   <div class="light-particles" aria-hidden="true">
     <div class="light-particle"></div>
@@ -211,10 +208,8 @@ interface Props {
 </style>
 
 <script>
-  // Hero fade out on scroll
   const heroSection = document.querySelector('.hero-section');
   const heroLogo = document.getElementById('hero-logo');
-  const lightFollower = document.getElementById('light-follower');
   
   if (heroSection && heroLogo) {
     let lastScroll = 0;
@@ -242,41 +237,4 @@ interface Props {
     }, { passive: true });
   }
 
-  // Light Follower - Mouse Tracking Radial Gradient
-  if (lightFollower && heroSection) {
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-    const smoothing = 0.08;
-
-    document.addEventListener('mousemove', (e) => {
-      const rect = heroSection.getBoundingClientRect();
-      const isInHero = (
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom
-      );
-      
-      if (isInHero) {
-        targetX = e.clientX - 250;
-        targetY = e.clientY - 250;
-        lightFollower.style.opacity = '1';
-      } else {
-        lightFollower.style.opacity = '0';
-      }
-    });
-
-    function animateFollower() {
-      if (!lightFollower) return;
-      currentX += (targetX - currentX) * smoothing;
-      currentY += (targetY - currentY) * smoothing;
-      
-      lightFollower.style.transform = `translate(${currentX}px, ${currentY}px)`;
-      requestAnimationFrame(animateFollower);
-    }
-    
-    animateFollower();
-  }
 </script>
