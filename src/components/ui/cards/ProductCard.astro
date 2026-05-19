@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -15,6 +14,8 @@ const categoryLabels: Record<string, string> = {
   'ojos-aguila': 'Ojos de Águila',
   lamparas: 'Lámparas',
 };
+
+const watts = product.data.watts as number[];
 ---
 
 <a
@@ -24,17 +25,13 @@ const categoryLabels: Record<string, string> = {
 >
   <!-- Image Container -->
   <div class="relative aspect-square overflow-hidden bg-[#0a0a0a]">
-    <Image
+    <img
       src={product.data.mainImage}
       alt={product.data.title}
-      format="webp"
-      quality="max"
       class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_10px_20px_rgba(255,255,255,0.06)]"
-      draggable="false"
+      loading="lazy"
     />
-    <!-- Subtle overlay on hover -->
     <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-    <!-- Category Badge -->
     <div class="absolute left-4 top-4">
       <span class="inline-block rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-[400] uppercase tracking-wider text-white/80 border border-white/10">
         {categoryLabels[product.data.category] || product.data.category}
@@ -44,28 +41,24 @@ const categoryLabels: Record<string, string> = {
 
   <!-- Content -->
   <div class="flex flex-col gap-3 p-5">
-    <!-- Title -->
     <h3 class="font-[300] text-lg text-white group-hover:text-white/90 transition-colors duration-200 line-clamp-1" style="font-family: var(--font-roobert);">
       {product.data.title}
     </h3>
 
-    <!-- Watts Badges -->
     <div class="flex flex-wrap gap-2">
-      {product.data.watts.map((w) => (
+      {watts.map((w) => (
         <span class="inline-flex items-center justify-center rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs font-[400] text-white/70">
           {w}W
         </span>
       ))}
     </div>
 
-    <!-- Lumens (if available) -->
     {product.data.lumens && (
       <p class="text-sm text-white/50">
         {product.data.lumens}
       </p>
     )}
 
-    <!-- View Product indicator -->
     <div class="mt-2 flex items-center gap-2 text-sm text-white/40 group-hover:text-white/70 transition-colors duration-200">
       <span>Ver producto</span>
       <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
