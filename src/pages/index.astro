@@ -1,6 +1,7 @@
 ---
 import MainLayout from '@/layouts/MainLayout.astro';
 import HeroSection from '@components/sections/landing/HeroSection.astro';
+import ProductsPreview from '@components/sections/landing/ProductsPreview.astro';
 import '@styles/reveal.css';
 ---
 
@@ -13,108 +14,7 @@ import '@styles/reveal.css';
     secondaryBtnURL="/distribuidor"
   />
 
-  <!-- Products Section - WHITE -->
-  <section class="relative py-16 md:py-20 lg:py-24 bg-white">
-    
-    <div class="mx-auto max-w-[1078px] px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16 reveal">
-        <h2 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-black mb-6 tracking-[0.02em] reveal-blur" style="font-family: var(--font-roobert);">Productos Destacados</h2>
-        <p class="text-xl md:text-2xl text-neutral-500 reveal-delay-1">Soluciones de iluminación para cada espacio</p>
-      </div>
-      
-      <!-- Product Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 stagger-children">
-        <!-- Product 1 -->
-        <a href="/products/item-a765" class="product-card group relative overflow-hidden rounded-2xl bg-neutral-100 border border-neutral-200 p-6 lg:p-7 transition-all duration-300 hover:scale-[1.02] hover:border-neutral-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.15)]">
-          <div class="aspect-square bg-neutral-200 rounded-xl mb-6 overflow-hidden relative">
-            <img 
-              src="/_astro/product-image-main-1.DocbQbk7_Zg1lkn.avif" 
-              alt="LED Product 1" 
-              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
-              loading="lazy"
-              width="400"
-              height="400"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-xs text-white font-[400] tracking-wider uppercase">Ver producto</span>
-            </div>
-          </div>
-          <h3 class="text-black font-[300] text-xl md:text-2xl group-hover:text-neutral-700 transition-colors duration-200">Línea A</h3>
-          <p class="text-neutral-500 text-base md:text-lg mt-1">Iluminación Interior</p>
-        </a>
-        
-        <!-- Product 2 -->
-        <a href="/products/item-b203" class="product-card group relative overflow-hidden rounded-2xl bg-neutral-100 border border-neutral-200 p-6 lg:p-7 transition-all duration-300 hover:scale-[1.02] hover:border-neutral-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.15)]">
-          <div class="aspect-square bg-neutral-200 rounded-xl mb-6 overflow-hidden relative">
-            <img 
-              src="/_astro/product-image-main-2.CcfjfBQ9_ZCouPA.avif" 
-              alt="LED Product 2" 
-              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
-              loading="lazy"
-              width="400"
-              height="400"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-xs text-white font-[400] tracking-wider uppercase">Ver producto</span>
-            </div>
-          </div>
-          <h3 class="text-black font-[300] text-xl md:text-2xl group-hover:text-neutral-700 transition-colors duration-200">Línea B</h3>
-          <p class="text-neutral-500 text-base md:text-lg mt-1">Iluminación Exterior</p>
-        </a>
-        
-        <!-- Product 3 -->
-        <a href="/products/item-f303" class="product-card group relative overflow-hidden rounded-2xl bg-neutral-100 border border-neutral-200 p-6 lg:p-7 transition-all duration-300 hover:scale-[1.02] hover:border-neutral-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.15)]">
-          <div class="aspect-square bg-neutral-200 rounded-xl mb-6 overflow-hidden relative">
-            <img 
-              src="/_astro/product-image-main-3.CZjWzLDc_1vPkhV.avif" 
-              alt="LED Product 3" 
-              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
-              loading="lazy"
-              width="400"
-              height="400"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-xs text-white font-[400] tracking-wider uppercase">Ver producto</span>
-            </div>
-          </div>
-          <h3 class="text-black font-[300] text-xl md:text-2xl group-hover:text-neutral-700 transition-colors duration-200">Línea F</h3>
-          <p class="text-neutral-500 text-base md:text-lg mt-1">Paneles LED</p>
-        </a>
-        
-        <!-- Product 4 -->
-        <a href="/products/item-t845" class="product-card group relative overflow-hidden rounded-2xl bg-neutral-100 border border-neutral-200 p-6 lg:p-7 transition-all duration-300 hover:scale-[1.02] hover:border-neutral-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.15)]">
-          <div class="aspect-square bg-neutral-200 rounded-xl mb-6 overflow-hidden relative">
-            <img 
-              src="/_astro/product-image-main-4.Bkgr1GB5_JJQIe.avif" 
-              alt="LED Product 4" 
-              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
-              loading="lazy"
-              width="400"
-              height="400"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-xs text-white font-[400] tracking-wider uppercase">Ver producto</span>
-            </div>
-          </div>
-          <h3 class="text-black font-[300] text-xl md:text-2xl group-hover:text-neutral-700 transition-colors duration-200">Línea T</h3>
-          <p class="text-neutral-500 text-base md:text-lg mt-1">Tiras LED</p>
-        </a>
-      </div>
-      
-      <div class="text-center mt-16 reveal">
-        <a href="/products" class="group inline-flex items-center gap-3 text-black font-[400] text-lg transition-all duration-200 hover:text-neutral-600 hover:gap-4" style="font-family: var(--font-roobert);">
-          <span>Ver Todos los Productos</span>
-          <svg class="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
-      </div>
-    </div>
-  </section>
+  <ProductsPreview />
 
 <!-- Nosotros Section - WARM BEIGE -->
   <section id="nosotros" class="relative py-24 md:py-28 lg:py-36 bg-[#F8F6F1]">

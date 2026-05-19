@@ -1,37 +1,46 @@
 ---
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   product: CollectionEntry<'products'>;
+  class?: string;
 }
 
-const { product } = Astro.props;
+const { product, class: className = '' } = Astro.props;
 
 const categoryLabels: Record<string, string> = {
-  paneles: 'Paneles',
-  reflectores: 'Reflectores',
   bombillos: 'Bombillos',
-  'ojos-aguila': 'Ojos de Águila',
   lamparas: 'Lámparas',
+  tubos: 'Tubos',
+  reflectores: 'Reflectores',
+  cintas: 'Cintas LED',
+  paneles: 'Paneles',
 };
 
 const watts = product.data.watts as number[];
 ---
 
 <a
-  href={`/products/${product.id}`}
-  class="group relative flex flex-col overflow-hidden rounded-2xl bg-[#0a0a0a] border border-white/5 transition-all duration-300 hover:border-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.12)]"
+  href={`/products/${product.data.id || product.id}`}
+  class:list={[
+    'group relative flex flex-col overflow-hidden rounded-2xl bg-[#0a0a0a] border border-white/5 transition-all duration-300 hover:border-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.12)]',
+    className,
+  ]}
+  data-category={product.data.category}
   data-astro-prefetch
 >
   <!-- Image Container -->
   <div class="relative aspect-square overflow-hidden bg-[#0a0a0a]">
-    <img
+    <Image
       src={product.data.mainImage}
       alt={product.data.title}
+      format="webp"
+      quality="max"
       class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_10px_20px_rgba(255,255,255,0.06)]"
       loading="lazy"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <!-- Category Badge -->
     <div class="absolute left-4 top-4">
       <span class="inline-block rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-[400] uppercase tracking-wider text-white/80 border border-white/10">
         {categoryLabels[product.data.category] || product.data.category}
@@ -41,10 +50,12 @@ const watts = product.data.watts as number[];
 
   <!-- Content -->
   <div class="flex flex-col gap-3 p-5">
-    <h3 class="font-[300] text-lg text-white group-hover:text-white/90 transition-colors duration-200 line-clamp-1" style="font-family: var(--font-roobert);">
+    <!-- Title -->
+    <h3 class="font-[300] text-lg text-white group-hover:text-white/90 transition-colors duration-200 line-clamp-2" style="font-family: var(--font-roobert);">
       {product.data.title}
     </h3>
 
+    <!-- Watts Badges -->
     <div class="flex flex-wrap gap-2">
       {watts.map((w) => (
         <span class="inline-flex items-center justify-center rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs font-[400] text-white/70">
@@ -53,12 +64,14 @@ const watts = product.data.watts as number[];
       ))}
     </div>
 
-    {product.data.lumens && (
+    <!-- Specs preview if available -->
+    {product.data.specs?.flux && (
       <p class="text-sm text-white/50">
-        {product.data.lumens}
+        {product.data.specs.flux}
       </p>
     )}
 
+    <!-- View Product indicator -->
     <div class="mt-2 flex items-center gap-2 text-sm text-white/40 group-hover:text-white/70 transition-colors duration-200">
       <span>Ver producto</span>
       <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,9 +82,9 @@ const watts = product.data.watts as number[];
 </a>
 
 <style>
-  .line-clamp-1 {
+  .line-clamp-2 {
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }

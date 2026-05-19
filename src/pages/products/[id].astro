@@ -3,81 +3,91 @@ import MainLayout from '@/layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { SITE } from '@data/constants';
+import type { CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
-  const productEntries = await getCollection('products', ({ id }) =>
-    id.startsWith('en/')
-  );
-  return productEntries.map(product => ({
-    params: { id: product.id.replace(/^en\//, '') },
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { id: product.data.id || product.id },
     props: { product },
   }));
+}
+
+interface Props {
+  product: CollectionEntry<'products'>;
 }
 
 const { product } = Astro.props;
 
 const pageTitle = `${product.data.title} | ${SITE.title}`;
 const metaDescription = `Especificaciones técnicas del producto ${product.data.title}. Iluminación LED premium.`;
-const ogTitle = `${product.data.title} | Iluminación LED | Ébeli`;
 
 const categoryLabels: Record<string, string> = {
-  paneles: 'Paneles',
-  reflectores: 'Reflectores',
   bombillos: 'Bombillos',
-  'ojos-aguila': 'Ojos de Águila',
   lamparas: 'Lámparas',
+  tubos: 'Tubos',
+  reflectores: 'Reflectores',
+  cintas: 'Cintas LED',
+  paneles: 'Paneles',
 };
 
-const specs = product.data.specs as Record<string, string> | undefined;
 const watts = product.data.watts as number[];
 ---
 
-<MainLayout
-  title={pageTitle}
-  customDescription={metaDescription}
-  customOgTitle={ogTitle}
-  structuredData={{
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: product.data.title,
-    description: metaDescription,
-    brand: { '@type': 'Brand', name: 'Ébeli' },
-  }}
->
+<MainLayout title={pageTitle} customDescription={metaDescription}>
 
+  <!-- Hero Section - Dark Luxury Visualizer -->
   <section class="relative bg-black overflow-hidden">
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(40,40,40,0.3)_0%,transparent_60%)]"></div>
+    <!-- Subtle radial gradient simulating LED light -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,250,240,0.06)_0%,transparent_50%)]"></div>
     
     <div class="relative mx-auto max-w-[1078px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <!-- Breadcrumb -->
       <nav class="mb-8 text-sm text-neutral-500">
         <a href="/products" class="hover:text-white transition-colors">Productos</a>
+        <span class="mx-2">/</span>
+        <a href={`/products?category=${product.data.category}`} class="hover:text-white transition-colors">
+          {categoryLabels[product.data.category] || product.data.category}
+        </a>
         <span class="mx-2">/</span>
         <span class="text-white">{product.data.title}</span>
       </nav>
 
       <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-start">
+        
+        <!-- LEFT: Product Image - OLED Mate Container -->
         <div class="relative">
           <div class="sticky top-24 overflow-hidden rounded-2xl bg-[#0a0a0a] border border-white/5 p-8">
-            <img
-              src={product.data.mainImage}
-              alt={product.data.title}
-              class="w-full h-auto object-contain drop-shadow-[0_20px_40px_rgba(255,255,255,0.08)]"
-              loading="eager"
-            />
+            <div class="relative aspect-square">
+              <Image
+                src={product.data.mainImage}
+                alt={product.data.title}
+                format="webp"
+                quality="max"
+                class="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(255,255,255,0.08)]"
+                loading="eager"
+              />
+              <!-- Subtle glow effect on image -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+            </div>
           </div>
         </div>
 
+        <!-- RIGHT: Product Info -->
         <div class="flex flex-col gap-8">
+          <!-- Category Badge -->
           <div>
             <span class="inline-block rounded-full bg-white/5 border border-white/10 px-4 py-1.5 text-xs font-[400] uppercase tracking-wider text-white/70">
               {categoryLabels[product.data.category] || product.data.category}
             </span>
           </div>
 
+          <!-- Title -->
           <h1 class="text-4xl font-[300] tracking-tight text-white md:text-5xl lg:text-6xl" style="font-family: var(--font-roobert);">
             {product.data.title}
           </h1>
 
+          <!-- Watts Badges -->
           <div class="flex flex-wrap gap-3">
             {watts.map((w) => (
               <span class="inline-flex items-center justify-center rounded-full bg-white/10 border border-white/20 px-6 py-2 text-lg font-[400] text-white">
@@ -86,20 +96,24 @@ const watts = product.data.watts as number[];
             ))}
           </div>
 
-          <div class="flex flex-wrap gap-4 text-neutral-400">
-            <span class="text-sm">Voltaje: {product.data.voltage}</span>
-            {product.data.shape !== 'N/A' && (
-              <span class="text-sm">Forma: {product.data.shape}</span>
-            )}
-            {product.data.lumens && (
-              <span class="text-sm">{product.data.lumens}</span>
-            )}
+          <!-- Key Specs -->
+          <div class="flex flex-wrap gap-6 text-neutral-400 text-sm">
+            <span>Voltaje: {product.data.voltage}</span>
+            <span>Temperatura: {product.data.colorTemperature}</span>
+            {product.data.specs?.base && <span>Base: {product.data.specs.base}</span>}
+            {product.data.specs?.shape && <span>Forma: {product.data.specs.shape}</span>}
+            {product.data.specs?.flux && <span>{product.data.specs.flux}</span>}
           </div>
 
-          <div class="text-neutral-300 border-t border-white/5 pt-8 prose prose-invert" style="font-family: var(--font-roobert);">
-            <p>{product.body}</p>
+          <!-- Warranty Badge -->
+          <div class="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2 text-sm text-white/70 w-fit">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            <span>{product.data.warranty}</span>
           </div>
 
+          <!-- CTA WhatsApp -->
           <div class="mt-8 pt-8 border-t border-white/5">
             <a
               href="https://wa.me/"
@@ -119,34 +133,63 @@ const watts = product.data.watts as number[];
     </div>
   </section>
 
-  {specs && Object.keys(specs).length > 0 && (
-    <section class="bg-black border-t border-white/5">
-      <div class="mx-auto max-w-[1078px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        <h2 class="text-3xl font-[300] text-white mb-12 text-center" style="font-family: var(--font-roobert);">
-          Especificaciones Técnicas
-        </h2>
-        <div class="overflow-hidden rounded-2xl border border-white/5">
-          <table class="w-full">
-            <thead>
-              <tr class="border-b border-white/5 bg-neutral-900/40">
-                <th class="px-8 py-5 text-left text-sm font-[600] text-white uppercase tracking-wider" style="font-family: var(--font-roobert);">Característica</th>
-                <th class="px-8 py-5 text-left text-sm font-[600] text-white uppercase tracking-wider" style="font-family: var(--font-roobert);">Valor</th>
+  <!-- Technical Specifications Table -->
+  <section class="bg-black border-t border-white/5">
+    <div class="mx-auto max-w-[1078px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <h2 class="text-3xl font-[300] text-white mb-12 text-center" style="font-family: var(--font-roobert);">
+        Especificaciones Técnicas
+      </h2>
+      
+      <div class="overflow-hidden rounded-2xl border border-white/5">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-white/5 bg-neutral-900/40">
+              <th class="px-8 py-5 text-left text-sm font-[600] text-white uppercase tracking-wider" style="font-family: var(--font-roobert);">Característica</th>
+              <th class="px-8 py-5 text-left text-sm font-[600] text-white uppercase tracking-wider" style="font-family: var(--font-roobert);">Valor</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5">
+            <tr class="bg-neutral-900/20">
+              <td class="px-8 py-5 text-sm font-[400] text-neutral-300" style="font-family: var(--font-roobert);">Voltaje</td>
+              <td class="px-8 py-5 text-sm font-[400] text-white" style="font-family: var(--font-roobert);">{product.data.voltage}</td>
+            </tr>
+            <tr class="bg-transparent">
+              <td class="px-8 py-5 text-sm font-[400] text-neutral-300" style="font-family: var(--font-roobert);">Temperatura de Color</td>
+              <td class="px-8 py-5 text-sm font-[400] text-white" style="font-family: var(--font-roobert);">{product.data.colorTemperature}</td>
+            </tr>
+            <tr class="bg-neutral-900/20">
+              <td class="px-8 py-5 text-sm font-[400] text-neutral-300" style="font-family: var(--font-roobert);">Potencias Disponibles</td>
+              <td class="px-8 py-5 text-sm font-[400] text-white" style="font-family: var(--font-roobert);">{product.data.watts.join('W, ')}W</td>
+            </tr>
+            <tr class="bg-transparent">
+              <td class="px-8 py-5 text-sm font-[400] text-neutral-300" style="font-family: var(--font-roobert);">Garantía</td>
+              <td class="px-8 py-5 text-sm font-[400] text-white" style="font-family: var(--font-roobert);">{product.data.warranty}</td>
+            </tr>
+            {product.data.specs?.base && (
+              <tr class="bg-neutral-900/20">
+                <td class="px-8 py-5 text-sm font-[400] text-neutral-300" style="font-family: var(--font-roobert);">Base</td>
+                <td class="px-8 py-5 text-sm font-[400] text-white" style="font-family: var(--font-roobert);">{product.data.specs.base}</td>
               </tr>
-            </thead>
-            <tbody class="divide-y divide-white/5">
-              {Object.entries(specs).map(([key, value], index) => (
-                <tr class={index % 2 === 0 ? 'bg-neutral-900/20' : 'bg-transparent'}>
-                  <td class="px-8 py-5 text-sm font-[400] text-neutral-300" style="font-family: var(--font-roobert);">{key}</td>
-                  <td class="px-8 py-5 text-sm font-[400] text-white" style="font-family: var(--font-roobert);">{value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            )}
+            {product.data.specs?.shape && (
+              <tr class="bg-transparent">
+                <td class="px-8 py-5 text-sm font-[400] text-neutral-300" style="font-family: var(--font-roobert);">Forma</td>
+                <td class="px-8 py-5 text-sm font-[400] text-white" style="font-family: var(--font-roobert);">{product.data.specs.shape}</td>
+              </tr>
+            )}
+            {product.data.specs?.flux && (
+              <tr class="bg-neutral-900/20">
+                <td class="px-8 py-5 text-sm font-[400] text-neutral-300" style="font-family: var(--font-roobert);">Flujo Luminoso</td>
+                <td class="px-8 py-5 text-sm font-[400] text-white" style="font-family: var(--font-roobert);">{product.data.specs.flux}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
-    </section>
-  )}
+    </div>
+  </section>
 
+  <!-- Back to Catalog -->
   <section class="bg-[#0a0a0a] border-t border-white/5 py-16">
     <div class="mx-auto max-w-[1078px] px-4 text-center">
       <a

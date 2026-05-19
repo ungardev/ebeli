@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import ProductCard from '@components/ui/cards/ProductCard.astro';
+
+const allProducts = await getCollection('products');
+const featuredProducts = allProducts.filter((p) => p.data.isFeatured);
+
+const categories = [
+  { id: 'all', label: 'Todos' },
+  { id: 'bombillos', label: 'Bombillos' },
+  { id: 'lamparas', label: 'Lámparas' },
+  { id: 'tubos', label: 'Tubos' },
+  { id: 'reflectores', label: 'Reflectores' },
+  { id: 'cintas', label: 'Cintas' },
+  { id: 'paneles', label: 'Paneles' },
+];
+---
+
+<section class="py-20 md:py-24 lg:py-28 bg-black">
+  <div class="mx-auto max-w-[1078px] px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white mb-4 tracking-[0.02em] reveal" style="font-family: var(--font-roobert);">
+        Productos Destacados
+      </h2>
+      <p class="text-xl md:text-2xl text-neutral-400 reveal reveal-delay-1">
+        Iluminación LED premium para cada espacio
+      </p>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="flex flex-wrap justify-center gap-3 mb-12 reveal reveal-delay-2" id="category-tabs">
+      {categories.map((cat) => (
+        <button
+          type="button"
+          class:list={[
+            'category-tab px-6 py-2.5 rounded-full text-sm font-[400] transition-all duration-200',
+            cat.id === 'all'
+              ? 'bg-white text-black'
+              : 'bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white',
+          ]}
+          data-category={cat.id}
+        >
+          {cat.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
+      {featuredProducts.map((product) => (
+        <div class="product-item" data-category={product.data.category}>
+          <ProductCard product={product} />
+        </div>
+      ))}
+    </div>
+
+    <!-- View All Link -->
+    <div class="text-center mt-12">
+      <a
+        href="/products"
+        class="inline-flex items-center gap-3 text-white font-[400] text-lg transition-all duration-200 hover:text-neutral-300 hover:gap-4 group"
+        style="font-family: var(--font-roobert);"
+      >
+        <span>Ver todos los productos</span>
+        <svg class="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script is:inline>
+  (function() {
+    const tabs = document.querySelectorAll('.category-tab');
+    const items = document.querySelectorAll('.product-item');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const category = tab.dataset.category;
+        
+        // Update active tab styling
+        tabs.forEach(t => {
+          if (t.dataset.category === category) {
+            t.classList.remove('bg-white/5', 'text-white/70', 'border-white/10', 'hover:bg-white/10', 'hover:text-white');
+            t.classList.add('bg-white', 'text-black');
+          } else {
+            t.classList.remove('bg-white', 'text-black');
+            t.classList.add('bg-white/5', 'text-white/70', 'border-white/10', 'hover:bg-white/10', 'hover:text-white');
+          }
+        });
+        
+        // Filter items
+        items.forEach(item => {
+          const itemCategory = item.dataset.category;
+          if (category === 'all' || itemCategory === category) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  })();
+</script>

@@ -2,92 +2,129 @@
 import MainLayout from '@/layouts/MainLayout.astro';
 import '@styles/reveal.css';
 import { getCollection } from 'astro:content';
+import ProductCard from '@components/ui/cards/ProductCard.astro';
 
-const products = await getCollection('products', ({ id }) =>
-  id.startsWith('en/')
-);
+const products = await getCollection('products');
 
-const title: string = 'PRODUCTOS';
-const subTitle: string = 'ILUMINACIÓN LED PREMIUM';
+const categories = [
+  { id: 'bombillos', label: 'Bombillos' },
+  { id: 'lamparas', label: 'Lámparas' },
+  { id: 'tubos', label: 'Tubos' },
+  { id: 'reflectores', label: 'Reflectores' },
+  { id: 'cintas', label: 'Cintas LED' },
+  { id: 'paneles', label: 'Paneles' },
+];
 
-const pageTitle: string = `PRODUCTOS | Ébeli`;
-const metaDescription = 'Soluciones de iluminación LED premium para hogares y negocios. Eficiencia, diseño y tecnología de vanguardia.';
+const pageTitle = 'CATÁLOGO | Ébeli';
+const metaDescription = 'Explora el catálogo completo de iluminación LED Ébeli. Bombillos, lámparas, tubos, reflectores, cintas y paneles de alta eficiencia.';
 ---
 
-<MainLayout
-  title={pageTitle}
-  customDescription={metaDescription}
->
-  <!-- Hero Section - BLACK -->
+<MainLayout title={pageTitle} customDescription={metaDescription}>
+  
+  <!-- Hero Section -->
   <section class="relative bg-black py-20 md:py-24 lg:py-28">
     <div class="mx-auto max-w-[1078px] px-4 text-center">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white uppercase tracking-[0.15em] mb-4 reveal" style="font-family: var(--font-roobert);">
-        {title}
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white uppercase tracking-[0.15em] mb-4" style="font-family: var(--font-roobert);">
+        CATÁLOGO
       </h1>
-      <p class="text-xl md:text-2xl text-neutral-400 uppercase tracking-[0.1em] reveal reveal-delay-1" style="font-family: var(--font-roobert);">
-        {subTitle}
+      <p class="text-xl md:text-2xl text-neutral-400 uppercase tracking-[0.1em]" style="font-family: var(--font-roobert);">
+        ILUMINACIÓN LED PREMIUM
       </p>
     </div>
   </section>
 
-  <!-- Products Section - WHITE -->
-  <section class="relative py-16 md:py-20 lg:py-24 bg-white">
+  <!-- Main Catalog Section -->
+  <section class="bg-[#0a0a0a] py-16 md:py-20 lg:py-24">
     <div class="mx-auto max-w-[1078px] px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12 reveal">
-        <h2 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-black mb-4 tracking-[0.02em] reveal-blur" style="font-family: var(--font-roobert);">
-          Nuestra Colección
-        </h2>
-        <p class="text-xl md:text-2xl text-neutral-500 reveal-delay-1">
-          Soluciones de iluminación para cada espacio
-        </p>
-      </div>
-
-      <!-- Product Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 stagger-children">
-        {products.map((product) => (
-          <a 
-            href={`/products/${product.id.replace(/^en\//, '')}`} 
-            class="product-card group relative overflow-hidden rounded-2xl bg-neutral-100 border border-neutral-200 p-6 lg:p-7 transition-all duration-300 hover:scale-[1.02] hover:border-neutral-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.15)]"
-          >
-            <div class="aspect-square bg-neutral-200 rounded-xl mb-6 overflow-hidden relative">
-              <img 
-                src={product.data.mainImage} 
-                alt={product.data.title} 
-                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
-                loading="lazy"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                <span class="text-xs text-white font-[400] tracking-wider uppercase">Ver producto</span>
-              </div>
-            </div>
-            <h3 class="text-black font-[300] text-xl md:text-2xl group-hover:text-neutral-700 transition-colors duration-200" style="font-family: var(--font-roobert);">
-              {product.data.title}
+      <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-10 lg:gap-16">
+        
+        <!-- LEFT COLUMN: Filters Sidebar (Sticky) -->
+        <aside class="lg:sticky lg:top-24 lg:self-start space-y-8">
+          
+          <!-- Category Filters -->
+          <div class="bg-[#0a0a0a] border border-white/5 rounded-2xl p-6">
+            <h3 class="text-sm font-[600] text-white uppercase tracking-wider mb-4" style="font-family: var(--font-roobert);">
+              Categorías
             </h3>
-            <p class="text-neutral-500 text-base md:text-lg mt-1">
-              {product.data.category}
-            </p>
+            <div class="space-y-3" id="category-filters">
+              {categories.map((cat) => (
+                <label class="flex items-center gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    class="category-checkbox w-5 h-5 rounded border-white/20 bg-white/5 checked:bg-white checked:border-white transition-colors duration-200"
+                    data-category={cat.id}
+                  />
+                  <span class="text-sm text-white/70 group-hover:text-white transition-colors duration-200" style="font-family: var(--font-roobert);">
+                    {cat.label}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <!-- Download Catalog Button -->
+          <a
+            href="/CATÁLOGO OCTUBRE.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-3 bg-white text-black font-[600] px-8 py-5 rounded-full transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] w-full"
+            style="font-family: var(--font-roobert);"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span>Descargar Catálogo PDF</span>
           </a>
-        ))}
+
+        </aside>
+
+        <!-- RIGHT COLUMN: Products Grid -->
+        <div class="space-y-6">
+          <!-- Results Count -->
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-neutral-500" id="results-count" style="font-family: var(--font-roobert);">
+              Mostrando <span id="count">{products.length}</span> productos
+            </p>
+          </div>
+
+          <!-- Products Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
+            {products.map((product) => (
+              <div class="product-item" data-category={product.data.category}>
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+
+          <!-- Empty State -->
+          <div id="empty-state" class="hidden text-center py-16">
+            <svg class="w-16 h-16 mx-auto text-neutral-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p class="text-neutral-400 text-lg" style="font-family: var(--font-roobert);">
+              No se encontraron productos en esta categoría
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- CTA Section - BLACK -->
-  <section class="relative py-24 md:py-28 lg:py-32 bg-black">
+  <!-- CTA Section -->
+  <section class="py-24 md:py-28 lg:py-32 bg-black">
     <div class="mx-auto max-w-[1078px] px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white mb-6 tracking-[0.02em] reveal" style="font-family: var(--font-roobert);">
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white mb-6 tracking-[0.02em]" style="font-family: var(--font-roobert);">
         ¿Listo para <span class="text-shadow-glow">iluminar</span>?
       </h2>
-      <p class="text-lg md:text-xl text-neutral-400 mb-12 max-w-xl mx-auto reveal reveal-delay-1">
+      <p class="text-lg md:text-xl text-neutral-400 mb-12 max-w-xl mx-auto" style="font-family: var(--font-roobert);">
         Contáctanos por WhatsApp y te ayudamos a encontrar la solución perfecta para tu proyecto.
       </p>
-
       <a
         href="https://wa.me/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group inline-flex items-center gap-3 border border-white/30 bg-transparent hover:bg-white/5 text-white font-[600] px-14 py-6 transition-all duration-300 hover:scale-105 hover:border-white/50 scale-in reveal reveal-delay-2"
+        class="inline-flex items-center gap-3 bg-[#059669] hover:bg-[#047857] text-white font-[600] px-14 py-6 transition-all duration-300 hover:scale-105 border border-neutral-900"
         style="font-family: var(--font-roobert); border-radius: 75.024px;"
       >
         <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
@@ -97,41 +134,41 @@ const metaDescription = 'Soluciones de iluminación LED premium para hogares y n
       </a>
     </div>
   </section>
+
 </MainLayout>
 
-<style>
-  .product-card {
-    cursor: pointer;
-  }
+<script is:inline>
+  (function() {
+    const checkboxes = document.querySelectorAll('.category-checkbox');
+    const items = document.querySelectorAll('.product-item');
+    const countEl = document.getElementById('count');
+    const emptyState = document.getElementById('empty-state');
 
-  .product-card:hover h3 {
-    color: #1a1a1a;
-  }
+    function filterProducts() {
+      const activeCategories = Array.from(checkboxes)
+        .filter(cb => cb.checked)
+        .map(cb => cb.dataset.category);
 
-  img {
-    opacity: 1;
-    transition: opacity 0.3s ease;
-  }
+      let visibleCount = 0;
 
-  img[loading="lazy"] {
-    opacity: 0;
-  }
+      items.forEach(item => {
+        const category = item.dataset.category;
+        if (activeCategories.length === 0 || activeCategories.includes(category)) {
+          item.style.display = '';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
 
-  img[loading="lazy"].loaded,
-  img:not([loading="lazy"]) {
-    opacity: 1;
-  }
-</style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-    lazyImages.forEach(img => {
-      if ((img as HTMLImageElement).complete) {
-        img.classList.add('loaded');
-      } else {
-        img.addEventListener('load', () => img.classList.add('loaded'));
+      if (countEl) countEl.textContent = visibleCount.toString();
+      if (emptyState) {
+        emptyState.classList.toggle('hidden', visibleCount > 0);
       }
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', filterProducts);
     });
-  });
+  })();
 </script>

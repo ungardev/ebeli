@@ -8,55 +8,60 @@ const productsCollection = defineCollection({
     pattern: '**/[^_]*.{md,mdx}',
     base: './src/content/products',
   }),
-  schema: z.object({
-    title: z.string(),
-    category: z.enum([
-      'paneles',
-      'reflectores',
-      'bombillos',
-      'ojos-aguila',
-      'lamparas',
-    ]),
-    watts: z.array(z.number()),
-    lumens: z.string().optional(),
-    voltage: z.string().default('85-265V'),
-    shape: z.enum(['Redondo', 'Cuadrado', 'N/A']).default('N/A'),
-    mainImage: z.string(),
-    isFeatured: z.boolean().default(false),
-    specs: z.record(z.string(), z.string()).optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      category: z.enum([
+        'bombillos',
+        'lamparas',
+        'tubos',
+        'reflectores',
+        'cintas',
+        'paneles',
+      ]),
+      subCategory: z.string().optional(),
+      watts: z.array(z.number()),
+      colorTemperature: z.string().default('3000K / 6500K'),
+      voltage: z.string().default('AC85-285V'),
+      warranty: z.string().default('2 Años de Garantía'),
+      mainImage: image(),
+      isFeatured: z.boolean().default(false),
+      specs: z
+        .object({
+          flux: z.string().optional(),
+          base: z.string().optional(),
+          shape: z.string().optional(),
+        })
+        .optional(),
+    }),
 });
 
 const blogCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
+  loader: glob({ pattern: '**/*', base: './src/content/blog' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      description: z.string(),
-      contents: z.array(z.string()),
-      author: z.string(),
-      role: z.string().optional(),
-      authorImage: image(),
-      authorImageAlt: z.string(),
-      pubDate: z.date(),
+      pubDate: z.coerce.date(),
       cardImage: image(),
       cardImageAlt: z.string(),
-      readTime: z.number(),
-      tags: z.array(z.string()).optional(),
+      author: z.string().optional(),
+      authorImage: image().optional(),
+      authorImageAlt: z.string().optional(),
+      description: z.string().optional(),
+      role: z.string().optional(),
     }),
 });
 
 const insightsCollection = defineCollection({
-  loader: glob({
-    pattern: '**/[^_]*.{md,mdx}',
-    base: './src/content/insights',
-  }),
+  loader: glob({ pattern: '**/*', base: './src/content/insights' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      description: z.string(),
+      pubDate: z.coerce.date(),
       cardImage: image(),
       cardImageAlt: z.string(),
+      description: z.string().optional(),
     }),
 });
 
