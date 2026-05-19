@@ -8,7 +8,7 @@ const homeUrl = '/';
 
 <!-- Navbar wrapper - Premium floating container -->
 <div class="navbar-wrapper fixed md:sticky top-4 z-50 px-4 w-full" data-lenis-prevent>
-  <header class="relative rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)] w-full">
+  <header class="header-navbar relative rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)] w-full">
     <nav
       class="flex items-center justify-between px-2 py-2 md:px-6 md:pr-16 md:py-1.5"
       aria-label="Global"
@@ -81,7 +81,7 @@ const homeUrl = '/';
       id="navbar-collapse-with-animation"
       class="hidden absolute top-full left-0 right-0 z-40 md:hidden navbar-mobile-menu"
     >
-      <div class="bg-[#0a0a0a]/98 backdrop-blur-xl rounded-t-2xl px-3 py-4">
+      <div class="bg-[#0a0a0a]/98 backdrop-blur-xl rounded-t-none rounded-b-2xl border-t border-white/5 px-3 py-4">
         <div class="flex flex-col gap-5">
           {
             strings.navBarLinks.map(link => (
@@ -151,6 +151,11 @@ const homeUrl = '/';
     .navbar-wrapper.navbar-hidden {
       transform: translateY(-120%);
       opacity: 0;
+    }
+    
+    /* Header rounded corners when menu is open */
+    .header-navbar.menu-open {
+      border-radius: 0.625rem 0.625rem 0 0;
     }
   }
 </style>

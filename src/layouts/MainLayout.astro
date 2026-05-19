@@ -137,6 +137,10 @@ interface Props {
             btn.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
             menuOpen?.classList.toggle('hidden', !isHidden);
             menuClose?.classList.toggle('hidden', isHidden);
+            
+            // Toggle header rounding when menu opens/closes
+            const headerNavbar = document.querySelector('.header-navbar');
+            headerNavbar?.classList.toggle('menu-open', !isHidden);
           });
         }
       });
