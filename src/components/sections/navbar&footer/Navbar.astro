@@ -7,21 +7,21 @@ const homeUrl = '/';
 ---
 
 <!-- Navbar wrapper - Premium floating container -->
-<div class="fixed md:sticky top-4 z-50 px-4 w-full" data-lenis-prevent>
+<div class="navbar-wrapper fixed md:sticky top-4 z-50 px-4 w-full" data-lenis-prevent>
   <header class="relative rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)] w-full">
     <nav
-      class="flex items-center justify-between px-2 py-2 md:px-6 md:pr-16 md:py-1.5"
+      class="flex items-center justify-between px-1 py-1 md:px-6 md:pr-16 md:py-1.5"
       aria-label="Global"
     >
-      <div class="flex items-center w-full">
+      <div class="flex items-center justify-center w-full md:justify-between">
         <a
-          class="flex-1 md:absolute md:left-1/2 md:-translate-x-1/2 md:flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
+          class="flex-1 text-center md:absolute md:left-1/2 md:-translate-x-1/2 md:flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
           href={homeUrl}
           aria-label="Brand"
         >
-          <div class="flex items-center -mx-2 md:-mx-2">
+          <div class="flex items-center justify-center -mx-2 md:-mx-2">
             <img src="/apple-touch-icon.png" alt="Ébeli" class="hidden md:block h-14 w-auto object-contain" />
-            <img src="/ebeli-fuente.png" alt="Ébeli" class="h-[34px] md:h-7 w-auto object-contain" />
+            <img src="/ebeli-fuente.png" alt="Ébeli" class="h-[30px] md:h-7 w-auto object-contain" />
           </div>
         </a>
         
@@ -37,7 +37,7 @@ const homeUrl = '/';
         <!-- Mobile menu button - right aligned -->
         <button
           type="button"
-          class="md:hidden flex h-13 w-13 ml-auto items-center justify-center rounded-full text-white transition-all duration-200 hover:bg-white/10 focus:outline-hidden"
+          class="md:hidden absolute right-0 flex h-13 w-13 items-center justify-center rounded-full text-white transition-all duration-200 hover:bg-white/10 focus:outline-hidden"
           data-mobile-menu-toggle
           aria-controls="navbar-collapse-with-animation"
           aria-label="Toggle navigation"
@@ -141,4 +141,62 @@ const homeUrl = '/';
       transform: translateY(0);
     }
   }
+
+  /* Navbar hide on scroll down / show on scroll up - mobile only */
+  @media (max-width: 767px) {
+    .navbar-wrapper {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    .navbar-wrapper.navbar-hidden {
+      transform: translateY(-120%);
+      opacity: 0;
+    }
+  }
 </style>
+
+<script>
+  (function() {
+    const navbar = document.querySelector('.navbar-wrapper') as HTMLElement | null;
+    if (!navbar) return;
+    
+    let lastScrollY = 0;
+    let ticking = false;
+    
+    const isMobile = () => window.innerWidth < 768;
+    
+    function updateNavbar() {
+      const mobile = isMobile();
+      if (!mobile) {
+        navbar!.classList.remove('navbar-hidden');
+        ticking = false;
+        return;
+      }
+      
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling DOWN - hide navbar
+        navbar!.classList.add('navbar-hidden');
+      } else {
+        // Scrolling UP or at top - show navbar
+        navbar!.classList.remove('navbar-hidden');
+      }
+      
+      lastScrollY = currentScrollY;
+      ticking = false;
+    }
+    
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateNavbar);
+        ticking = true;
+      }
+    }, { passive: true });
+    
+    // Show navbar initially on mobile
+    if (isMobile()) {
+      navbar.classList.remove('navbar-hidden');
+    }
+  })();
+</script>
