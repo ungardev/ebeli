@@ -31,16 +31,13 @@ const watts = product.data.watts as number[];
   data-astro-prefetch
 >
   <!-- Image Container -->
-  <div class="relative aspect-[4/5] overflow-hidden bg-[#0a0a0a]">
+  <div class="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-[#0a0a0a] p-4 flex items-center justify-center">
     <Image
       src={product.data.mainImage}
       alt={product.data.title}
       format="webp"
       quality="max"
-      class:list={[
-        'w-full h-full transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_10px_20px_rgba(255,255,255,0.06)]',
-        product.data.category === 'bombillos' ? 'object-cover scale-[1.35]' : 'object-cover'
-      ]}
+      class="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
       loading="lazy"
     />
     <!-- Category Badge -->
