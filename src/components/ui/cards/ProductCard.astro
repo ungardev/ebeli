@@ -40,14 +40,14 @@ const watts = product.data.watts as number[];
         format="webp"
         quality="max"
         class:list={[
-          'h-full w-full object-contain object-center transition-transform duration-500',
+          'h-full w-full object-contain transition-transform duration-500',
           product.data.category === 'bombillos'
-            ? 'scale-[2.10] group-hover:scale-[2.20]'
+            ? 'object-center scale-[2.10] group-hover:scale-[2.20]'
             : product.data.category === 'reflectores'
-            ? 'scale-[1.80] group-hover:scale-[1.90]'
+            ? 'object-center scale-[1.80] group-hover:scale-[1.90]'
             : product.data.category === 'cintas'
-            ? 'scale-[2.20] group-hover:scale-[2.30]'
-            : 'scale-95 group-hover:scale-100'
+            ? 'object-[center_38%] scale-[1.95] group-hover:scale-[2.05]'
+            : 'object-center scale-95 group-hover:scale-100'
         ]}
         loading="lazy"
       />
