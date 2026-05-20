@@ -25,7 +25,7 @@ const categories = [
       <h2 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white mb-4 tracking-[0.02em] reveal" style="font-family: var(--font-roobert);">
         Productos Destacados
       </h2>
-      <p class="text-xl md:text-2xl text-neutral-400 reveal reveal-delay-1">
+      <p class="text-xl md:text-2xl text-white/80 reveal reveal-delay-1">
         Iluminación LED premium para cada espacio
       </p>
     </div>
@@ -36,10 +36,10 @@ const categories = [
         <button
           type="button"
           class:list={[
-            'category-tab px-6 py-2.5 rounded-full text-sm font-[400] transition-all duration-200',
+            'category-tab px-6 py-2.5 rounded-full text-base md:text-lg font-[400] transition-all duration-200',
             cat.id === 'all'
               ? 'bg-white text-black'
-              : 'bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white',
+              : 'bg-white/5 text-white/80 border border-white/10 hover:bg-white/15 hover:text-white',
           ]}
           data-category={cat.id}
         >

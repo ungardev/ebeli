@@ -51,14 +51,14 @@ const watts = product.data.watts as number[];
   <!-- Content -->
   <div class="flex flex-col gap-3 p-5">
     <!-- Title -->
-    <h3 class="font-[300] text-lg text-white group-hover:text-white/90 transition-colors duration-200 line-clamp-2" style="font-family: var(--font-roobert);">
+    <h3 class="font-[300] text-xl md:text-2xl text-white group-hover:text-white/90 transition-colors duration-200 line-clamp-2" style="font-family: var(--font-roobert);">
       {product.data.title}
     </h3>
 
     <!-- Watts Badges -->
     <div class="flex flex-wrap gap-2">
       {watts.map((w) => (
-        <span class="inline-flex items-center justify-center rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs font-[400] text-white/70">
+        <span class="inline-flex items-center justify-center rounded-full bg-white/5 border border-white/10 px-3 py-1 text-sm font-[400] text-white/90">
           {w}W
         </span>
       ))}
@@ -66,13 +66,13 @@ const watts = product.data.watts as number[];
 
     <!-- Specs preview if available -->
     {product.data.specs?.flux && (
-      <p class="text-sm text-white/50">
+      <p class="text-base text-white/70">
         {product.data.specs.flux}
       </p>
     )}
 
     <!-- View Product indicator -->
-    <div class="mt-2 flex items-center gap-2 text-sm text-white/40 group-hover:text-white/70 transition-colors duration-200">
+    <div class="mt-2 flex items-center gap-2 text-base text-white/60 group-hover:text-white/80 transition-colors duration-200">
       <span>Ver producto</span>
       <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
