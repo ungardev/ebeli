@@ -31,6 +31,9 @@ interface Props {
   <head>
     <!-- Preload critical font -->
     <link rel="preload" href="https://fonts.gstatic.com/s/roobert/v21/qFys32W8fCzyQ8kPCDJSYWwYJQx6qH8.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- CSP for fonts and external scripts -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    
     <!-- Google Fonts - Roobert & Raleway -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

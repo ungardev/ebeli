@@ -21,69 +21,74 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
 
 <MainLayout title={pageTitle} customDescription={metaDescription}>
   
-  <!-- Hero Section -->
-  <section class="relative bg-black py-20 md:py-24 lg:py-28">
-    <div class="mx-auto max-w-[1078px] px-4 text-center">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-[300] text-white uppercase tracking-[0.15em] mb-4" style="font-family: var(--font-roobert);">
-        CATÁLOGO
+  <!-- Hero Section - Premium Dark Gradient -->
+  <section class="relative py-12 md:py-20 border-b border-white/5 bg-gradient-to-b from-[#0a0a0a] to-[#050505]">
+    <div class="max-w-7xl mx-auto px-4 text-center md:text-left">
+      <span class="text-xs font-bold tracking-[0.3em] text-white/50 uppercase block mb-3" style="font-family: var(--font-roobert);">Ébeli Premium Lighting</span>
+      <h1 class="text-4xl md:text-6xl font-[300] tracking-tight text-white mb-4" style="font-family: var(--font-roobert);">
+        CATÁLOGO DE PRODUCTOS
       </h1>
-      <p class="text-xl md:text-2xl text-neutral-400 uppercase tracking-[0.1em]" style="font-family: var(--font-roobert);">
-        ILUMINACIÓN LED PREMIUM
+      <p class="text-sm md:text-base text-white/60 max-w-xl font-light leading-relaxed" style="font-family: var(--font-roobert);">
+        Soluciones de iluminación LED de alta ingeniería, diseñadas para proyectos residenciales, comerciales e industriales.
       </p>
     </div>
   </section>
 
   <!-- Main Catalog Section -->
-  <section class="bg-[#0a0a0a] py-16 md:py-20 lg:py-24">
-    <div class="mx-auto max-w-[1078px] px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-10 lg:gap-16">
+  <section class="bg-[#050505] py-8 md:py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
         
         <!-- LEFT COLUMN: Filters Sidebar (Sticky) -->
-        <aside class="lg:sticky lg:top-24 lg:self-start space-y-8">
+        <aside class="space-y-6 bg-[#0a0a0a] p-6 rounded-2xl border border-white/5 shadow-2xl md:sticky md:top-24">
           
           <!-- Category Filters -->
-          <div class="bg-[#0a0a0a] border border-white/5 rounded-2xl p-6">
-            <h3 class="text-sm font-[600] text-white uppercase tracking-wider mb-4" style="font-family: var(--font-roobert);">
-              Categorías
-            </h3>
-            <div class="space-y-3" id="category-filters">
+          <div>
+            <h2 class="text-lg font-[600] tracking-wide text-white mb-4 flex items-center gap-2" style="font-family: var(--font-roobert);">
+              <span class="w-1.5 h-4 bg-white rounded-full"></span>
+              Filtrar Categorías
+            </h2>
+            
+            <div class="space-y-2" id="category-filters">
               {categories.map((cat) => (
-                <label class="flex items-center gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    class="category-checkbox w-5 h-5 rounded border-white/20 bg-white/5 checked:bg-white checked:border-white transition-colors duration-200"
-                    data-category={cat.id}
-                  />
-                  <span class="text-sm text-white/70 group-hover:text-white transition-colors duration-200" style="font-family: var(--font-roobert);">
+                <label class="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300 cursor-pointer group">
+                  <span class="group-hover:translate-x-1 transition-transform duration-300 text-base font-[600] text-white" style="font-family: var(--font-roobert);">
                     {cat.label}
                   </span>
+                  <input
+                    type="checkbox"
+                    class="category-checkbox w-5 h-5 rounded-md border-2 border-white/20 bg-transparent text-white checked:bg-white checked:border-white focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer accent-white"
+                    data-category={cat.id}
+                  />
                 </label>
               ))}
             </div>
           </div>
 
           <!-- Download Catalog Button -->
-          <a
-            href="/CATÁLOGO OCTUBRE.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center justify-center gap-3 bg-white text-black font-[600] px-8 py-5 rounded-full transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] w-full"
-            style="font-family: var(--font-roobert);"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <span>Descargar Catálogo PDF</span>
-          </a>
+          <div class="pt-4 border-t border-white/5">
+            <a
+              href="/CATÁLOGO OCTUBRE.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-center gap-3 w-full py-4 px-4 bg-white text-black hover:bg-neutral-200 font-[600] rounded-xl transition-all duration-300 text-sm tracking-wider uppercase shadow-lg shadow-white/5 group"
+              style="font-family: var(--font-roobert);"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Descargar Catálogo PDF
+            </a>
+          </div>
 
         </aside>
 
         <!-- RIGHT COLUMN: Products Grid -->
-        <div class="space-y-6">
+        <main class="md:col-span-3 space-y-6">
           <!-- Results Count -->
-          <div class="flex items-center justify-between">
-            <p class="text-sm text-neutral-500" id="results-count" style="font-family: var(--font-roobert);">
-              Mostrando <span id="count">{products.length}</span> productos
+          <div class="flex items-center justify-between border-b border-white/5 pb-4">
+            <p class="text-sm font-medium tracking-wider text-white/70" style="font-family: var(--font-roobert);">
+              Mostrando <span id="count" class="text-white font-bold text-base">{products.length}</span> soluciones de iluminación
             </p>
           </div>
 
@@ -105,7 +110,7 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
               No se encontraron productos en esta categoría
             </p>
           </div>
-        </div>
+        </main>
 
       </div>
     </div>
