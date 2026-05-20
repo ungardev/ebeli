@@ -58,18 +58,21 @@ const watts = product.data.watts as number[];
         <!-- LEFT: Product Image - OLED Mate Container -->
         <div class="relative">
           <div class="sticky top-24 overflow-hidden rounded-2xl bg-[#0a0a0a] border border-white/5 p-8">
-            <div class="relative aspect-[4/5] md:aspect-square w-full rounded-2xl bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
-              <Image
-                src={product.data.mainImage}
-                alt={product.data.title}
-                format="webp"
-                quality="max"
-                class:list={[
-                  'h-full w-full object-cover object-center',
-                  ['bombillos', 'reflectores', 'cintas'].includes(product.data.category) ? 'scale-125' : ''
-                ]}
-                loading="eager"
-              />
+            <div class="relative aspect-[4/5] md:aspect-square w-full rounded-2xl bg-[#0a0a0a] border border-white/5 overflow-hidden flex items-center justify-center">
+              <!-- Wrapper Anidado - guillotina interna para el zoom -->
+              <div class="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center p-6">
+                <Image
+                  src={product.data.mainImage}
+                  alt={product.data.title}
+                  format="webp"
+                  quality="max"
+                  class:list={[
+                    'max-h-full max-w-full object-contain object-center',
+                    ['bombillos', 'reflectores', 'cintas'].includes(product.data.category) ? 'scale-120' : ''
+                  ]}
+                  loading="eager"
+                />
+              </div>
               <!-- Subtle glow effect on image -->
               <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
             </div>

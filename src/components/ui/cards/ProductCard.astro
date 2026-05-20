@@ -31,20 +31,23 @@ const watts = product.data.watts as number[];
   data-astro-prefetch
 >
   <!-- Image Container -->
-  <div class="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-[#0a0a0a] flex items-center justify-center">
-    <Image
-      src={product.data.mainImage}
-      alt={product.data.title}
-      format="webp"
-      quality="max"
-      class:list={[
-        'h-full w-full object-cover object-center transition-transform duration-500',
-        ['bombillos', 'reflectores', 'cintas'].includes(product.data.category)
-          ? 'scale-125 group-hover:scale-130'
-          : 'group-hover:scale-105'
-      ]}
-      loading="lazy"
-    />
+  <div class="relative aspect-[4/5] w-full bg-[#0a0a0a] rounded-xl flex items-center justify-center p-0 overflow-hidden">
+    <!-- Wrapper Anidado - guillotina interna para el zoom -->
+    <div class="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center">
+      <Image
+        src={product.data.mainImage}
+        alt={product.data.title}
+        format="webp"
+        quality="max"
+        class:list={[
+          'h-full w-full object-contain object-center transition-transform duration-500',
+          ['bombillos', 'reflectores', 'cintas'].includes(product.data.category)
+            ? 'scale-120 group-hover:scale-125'
+            : 'scale-95 group-hover:scale-100'
+        ]}
+        loading="lazy"
+      />
+    </div>
     <!-- Category Badge -->
     <div class="absolute left-4 top-4">
       <span class="inline-block rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-[400] uppercase tracking-wider text-white/80 border border-white/10">
