@@ -41,8 +41,10 @@ const watts = product.data.watts as number[];
         quality="max"
         class:list={[
           'h-full w-full object-contain object-center transition-transform duration-500',
-          ['bombillos', 'reflectores', 'cintas'].includes(product.data.category)
-            ? 'scale-120 group-hover:scale-125'
+          ['bombillos', 'reflectores'].includes(product.data.category)
+            ? 'scale-135 group-hover:scale-140'
+            : ['cintas'].includes(product.data.category)
+            ? 'scale-145 group-hover:scale-150'
             : 'scale-95 group-hover:scale-100'
         ]}
         loading="lazy"
