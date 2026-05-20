@@ -1,13 +1,20 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import ProductCard from '@components/ui/cards/ProductCard.astro';
 
 const allProducts = await getCollection('products');
-const featuredProducts = allProducts.filter((p) => p.data.isFeatured);
+
+const getTopProductByCategory = (products: typeof allProducts, category: string) => {
+  const filtered = products.filter((p) => p.data.category === category);
+  if (filtered.length === 0) return null;
+  return filtered.reduce((top, p) => {
+    const topWatts = top.data.watts as number[];
+    const pWatts = p.data.watts as number[];
+    return Math.max(...pWatts) > Math.max(...topWatts) ? p : top;
+  });
+};
 
 const categories = [
-  { id: 'all', label: 'Todos' },
   { id: 'bombillos', label: 'Bombillos' },
   { id: 'lamparas', label: 'Lámparas' },
   { id: 'tubos', label: 'Tubos' },
@@ -15,6 +22,10 @@ const categories = [
   { id: 'cintas', label: 'Cintas' },
   { id: 'paneles', label: 'Paneles' },
 ];
+
+const featuredProducts = categories
+  .map((cat) => getTopProductByCategory(allProducts, cat.id))
+  .filter(Boolean) as typeof allProducts;
 ---
 
 <section class="py-20 md:py-24 lg:py-28 bg-black">
