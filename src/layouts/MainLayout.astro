@@ -109,6 +109,7 @@ interface Props {
   <body class="flex min-h-screen flex-col bg-black selection:bg-yellow-400 selection:text-neutral-700 overflow-x-hidden">
     <Navbar />
     <main class="grow">
+      <div class="h-[88px] md:hidden block w-full pointer-events-none select-none"></div>
       <slot />
     </main>
     <FooterSection />
