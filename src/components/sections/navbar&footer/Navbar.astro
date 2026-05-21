@@ -148,15 +148,7 @@ const homeUrl = '/';
       transition: all 0.3s ease-in-out;
     }
     
-    /* Transparent state - blends into Hero gradient, used when menu just closed */
-    .navbar-wrapper.navbar-transparent .header-navbar {
-      background: transparent !important;
-      backdrop-filter: none !important;
-      border-color: transparent !important;
-      box-shadow: none !important;
-    }
-    
-    /* At top (initial load) - transparent blends into page */
+    /* At top - transparent blends into Hero gradient */
     .navbar-wrapper.at-top .header-navbar {
       background: transparent !important;
       backdrop-filter: none !important;
@@ -187,83 +179,57 @@ const homeUrl = '/';
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const navbar = document.getElementById('navbar-main') as HTMLElement | null;
+    const navbar = document.getElementById('navbar-main');
     const mobileMenuBtn = document.querySelector('[data-mobile-menu-toggle]');
     const mobileMenuDropdown = document.getElementById('navbar-collapse-with-animation');
+    const headerNavbar = document.querySelector('.header-navbar');
     
-    if (!navbar) return;
+    if (!navbar || !mobileMenuBtn || !mobileMenuDropdown || !headerNavbar) return;
     
-    const navbarEl = navbar;
+    const nav = navbar as HTMLElement;
+    const menuDropdown = mobileMenuDropdown as HTMLElement;
+    const menuBtn = mobileMenuBtn as HTMLButtonElement;
+    const header = headerNavbar as HTMLElement;
     let lastScrollY = window.scrollY;
 
     function updateNavbarState() {
       const currentScrollY = window.scrollY;
-      const isMenuOpen = mobileMenuDropdown?.classList.contains('menu-open') || false;
+      const isMenuOpen = menuDropdown.classList.contains('menu-open');
       const isHomepage = window.location.pathname === '/';
 
-      // REGLA DE ORO: Si menú móvil está abierto, JAMÁS transparente
       if (isMenuOpen) {
-        navbarEl.classList.remove('at-top', 'navbar-hidden', 'navbar-transparent');
-        navbarEl.classList.add('navbar-solid');
-        return;
-      }
-
-      // Menú acaba de cerrarse en homepage: restaurar transparente inmediatamente
-      // sin depender de scroll position (así vuelve al estado previo a abrir el menú)
-      if (isHomepage) {
-        navbarEl.classList.remove('at-top', 'navbar-solid', 'navbar-hidden');
-        navbarEl.classList.add('navbar-transparent');
-        
-        // Scroll listener se encarga de pasar a solid cuando corresponda
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          navbarEl.classList.remove('navbar-transparent');
-          navbarEl.classList.add('navbar-hidden');
-        } else if (currentScrollY <= 10) {
-          navbarEl.classList.remove('navbar-transparent');
-          navbarEl.classList.add('at-top');
-        }
-        
+        nav.classList.remove('at-top', 'navbar-hidden');
+        nav.classList.add('navbar-solid');
         lastScrollY = currentScrollY;
         return;
       }
 
-      // No homepage: mantener solid siempre
-      navbarEl.classList.remove('at-top', 'navbar-transparent', 'navbar-hidden');
-      navbarEl.classList.add('navbar-solid');
+      if (isHomepage && currentScrollY <= 10) {
+        nav.classList.remove('navbar-solid', 'navbar-hidden');
+        nav.classList.add('at-top');
+      } else if (isHomepage && currentScrollY > lastScrollY && currentScrollY > 100) {
+        nav.classList.remove('at-top', 'navbar-solid');
+        nav.classList.add('navbar-hidden');
+      } else if (isHomepage) {
+        nav.classList.remove('at-top', 'navbar-hidden');
+        nav.classList.add('navbar-solid');
+      } else {
+        nav.classList.remove('at-top', 'navbar-hidden');
+        nav.classList.add('navbar-solid');
+      }
+
       lastScrollY = currentScrollY;
     }
 
-    // Toggle del menú móvil sincronizado con estado del navbar
-    let menuJustClosed = false;
-    if (mobileMenuBtn && mobileMenuDropdown) {
-      mobileMenuBtn.addEventListener('click', () => {
-        const isOpen = mobileMenuDropdown.classList.contains('menu-open');
-        mobileMenuDropdown.classList.toggle('menu-open');
-        
-        if (!isOpen) {
-          // Se acaba de abrir el menú
-          menuJustClosed = false;
-        } else {
-          // Se acaba de cerrar el menú - marcar para ignorar el siguiente scroll
-          menuJustClosed = true;
-        }
-        
-        updateNavbarState();
-        
-        // Limpiar el flag en el siguiente frame
-        requestAnimationFrame(() => {
-          menuJustClosed = false;
-        });
-      });
-    }
-
-    // Scroll listener
-    window.addEventListener('scroll', () => {
-      if (menuJustClosed) return;
+    menuBtn.addEventListener('click', () => {
+      const isOpen = menuDropdown.classList.contains('menu-open');
+      menuDropdown.classList.toggle('menu-open');
+      header.classList.toggle('menu-open');
+      menuBtn.setAttribute('aria-expanded', String(!isOpen));
       updateNavbarState();
-    }, { passive: true });
+    });
 
-    // Estado inicial en carga de página
+    window.addEventListener('scroll', updateNavbarState, { passive: true });
     updateNavbarState();
   });
 </script>
