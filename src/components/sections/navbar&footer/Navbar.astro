@@ -197,6 +197,7 @@ const homeUrl = '/';
     function updateNavbarState() {
       const currentScrollY = window.scrollY;
       const isMenuOpen = mobileMenuDropdown?.classList.contains('menu-open') || false;
+      const isHomepage = window.location.pathname === '/';
 
       // REGLA DE ORO: Si menú móvil está abierto, JAMÁS transparente
       if (isMenuOpen) {
@@ -205,19 +206,21 @@ const homeUrl = '/';
         return;
       }
 
-      // ESTADO EN EL TOP - transparente y blending
-      if (currentScrollY <= 10) {
+      // ESTADO EN EL TOP - transparente y blending SOLO en homepage
+      if (isHomepage && currentScrollY <= 10) {
         navbarEl.classList.add('at-top');
         navbarEl.classList.remove('navbar-hidden', 'navbar-solid');
       } 
       // COMPORTAMIENTO EN SCROLL
       else {
         navbarEl.classList.remove('at-top');
-        navbarEl.classList.add('navbar-solid');
+        if (isHomepage) {
+          navbarEl.classList.add('navbar-solid');
+        }
         
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        if (isHomepage && currentScrollY > lastScrollY && currentScrollY > 100) {
           navbarEl.classList.add('navbar-hidden');
-        } else {
+        } else if (isHomepage) {
           navbarEl.classList.remove('navbar-hidden');
         }
       }
