@@ -184,7 +184,7 @@ const homeUrl = '/';
 </style>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar-main') as HTMLElement | null;
     const mobileMenuBtn = document.querySelector('[data-mobile-menu-toggle]');
     const mobileMenuDropdown = document.getElementById('navbar-collapse-with-animation');
@@ -239,7 +239,7 @@ const homeUrl = '/';
     // Scroll listener
     window.addEventListener('scroll', updateNavbarState, { passive: true });
 
-    // FIX BUG 1: Estado inicial en carga de página
+    // Estado inicial en carga de página
     updateNavbarState();
   });
 </script>
