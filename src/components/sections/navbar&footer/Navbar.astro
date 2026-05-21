@@ -142,10 +142,23 @@ const homeUrl = '/';
     }
   }
 
-  /* Navbar hide on scroll down / show on scroll up - mobile only */
+  /* When at top of page, navbar becomes transparent (blends into page) */
   @media (max-width: 767px) {
     .navbar-wrapper {
       transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    .navbar-wrapper.at-top {
+      background: transparent !important;
+      box-shadow: none !important;
+      border-color: transparent !important;
+    }
+    
+    .navbar-wrapper.at-top .header-navbar {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      border-color: transparent !important;
+      box-shadow: none !important;
     }
     
     .navbar-wrapper.navbar-hidden {
@@ -174,11 +187,20 @@ const homeUrl = '/';
       const mobile = isMobile();
       if (!mobile) {
         navbar!.classList.remove('navbar-hidden');
+        navbar!.classList.remove('at-top');
         ticking = false;
         return;
       }
       
       const currentScrollY = window.scrollY;
+      
+      // AT TOP = transparent navbar (blends into page)
+      if (currentScrollY === 0) {
+        navbar!.classList.add('at-top');
+        navbar!.classList.remove('navbar-hidden');
+      } else {
+        navbar!.classList.remove('at-top');
+      }
       
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         // Scrolling DOWN - hide navbar
