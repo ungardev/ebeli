@@ -148,13 +148,15 @@ const homeUrl = '/';
       transition: all 0.3s ease-in-out;
     }
     
-    /* At top of page - transparent, blends into page */
-    .navbar-wrapper.at-top {
+    /* Transparent state - blends into Hero gradient, used when menu just closed */
+    .navbar-wrapper.navbar-transparent .header-navbar {
       background: transparent !important;
-      box-shadow: none !important;
+      backdrop-filter: none !important;
       border-color: transparent !important;
+      box-shadow: none !important;
     }
     
+    /* At top (initial load) - transparent blends into page */
     .navbar-wrapper.at-top .header-navbar {
       background: transparent !important;
       backdrop-filter: none !important;
@@ -201,43 +203,65 @@ const homeUrl = '/';
 
       // REGLA DE ORO: Si menú móvil está abierto, JAMÁS transparente
       if (isMenuOpen) {
-        navbarEl.classList.remove('at-top', 'navbar-hidden');
+        navbarEl.classList.remove('at-top', 'navbar-hidden', 'navbar-transparent');
         navbarEl.classList.add('navbar-solid');
         return;
       }
 
-      // ESTADO EN EL TOP - transparente y blending SOLO en homepage
-      if (isHomepage && currentScrollY <= 10) {
-        navbarEl.classList.add('at-top');
-        navbarEl.classList.remove('navbar-hidden', 'navbar-solid');
-      } 
-      // COMPORTAMIENTO EN SCROLL
-      else {
-        navbarEl.classList.remove('at-top');
-        if (isHomepage) {
-          navbarEl.classList.add('navbar-solid');
+      // Menú acaba de cerrarse en homepage: restaurar transparente inmediatamente
+      // sin depender de scroll position (así vuelve al estado previo a abrir el menú)
+      if (isHomepage) {
+        navbarEl.classList.remove('at-top', 'navbar-solid', 'navbar-hidden');
+        navbarEl.classList.add('navbar-transparent');
+        
+        // Scroll listener se encarga de pasar a solid cuando corresponda
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          navbarEl.classList.remove('navbar-transparent');
+          navbarEl.classList.add('navbar-hidden');
+        } else if (currentScrollY <= 10) {
+          navbarEl.classList.remove('navbar-transparent');
+          navbarEl.classList.add('at-top');
         }
         
-        if (isHomepage && currentScrollY > lastScrollY && currentScrollY > 100) {
-          navbarEl.classList.add('navbar-hidden');
-        } else if (isHomepage) {
-          navbarEl.classList.remove('navbar-hidden');
-        }
+        lastScrollY = currentScrollY;
+        return;
       }
 
+      // No homepage: mantener solid siempre
+      navbarEl.classList.remove('at-top', 'navbar-transparent', 'navbar-hidden');
+      navbarEl.classList.add('navbar-solid');
       lastScrollY = currentScrollY;
     }
 
     // Toggle del menú móvil sincronizado con estado del navbar
+    let menuJustClosed = false;
     if (mobileMenuBtn && mobileMenuDropdown) {
       mobileMenuBtn.addEventListener('click', () => {
+        const isOpen = mobileMenuDropdown.classList.contains('menu-open');
         mobileMenuDropdown.classList.toggle('menu-open');
+        
+        if (!isOpen) {
+          // Se acaba de abrir el menú
+          menuJustClosed = false;
+        } else {
+          // Se acaba de cerrar el menú - marcar para ignorar el siguiente scroll
+          menuJustClosed = true;
+        }
+        
         updateNavbarState();
+        
+        // Limpiar el flag en el siguiente frame
+        requestAnimationFrame(() => {
+          menuJustClosed = false;
+        });
       });
     }
 
     // Scroll listener
-    window.addEventListener('scroll', updateNavbarState, { passive: true });
+    window.addEventListener('scroll', () => {
+      if (menuJustClosed) return;
+      updateNavbarState();
+    }, { passive: true });
 
     // Estado inicial en carga de página
     updateNavbarState();
