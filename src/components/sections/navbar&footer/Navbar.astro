@@ -7,7 +7,7 @@ const homeUrl = '/';
 ---
 
 <!-- Navbar wrapper - Premium floating container -->
-<div class="navbar-wrapper fixed md:sticky top-4 z-50 px-4 w-full" data-lenis-prevent>
+<div id="navbar-main" class="navbar-wrapper fixed md:sticky top-4 z-50 px-4 w-full transition-all duration-300 ease-in-out" data-lenis-prevent>
   <header class="header-navbar relative rounded-2xl bg-[#0a0a0a] md:bg-[#0a0a0a]/95 md:backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)] w-full">
     <nav
       class="flex items-center justify-between px-2 py-4 md:px-6 md:pr-16 md:py-1.5"
@@ -142,12 +142,13 @@ const homeUrl = '/';
     }
   }
 
-  /* When at top of page, navbar becomes transparent (blends into page) */
+  /* Navbar states for mobile */
   @media (max-width: 767px) {
     .navbar-wrapper {
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      transition: all 0.3s ease-in-out;
     }
     
+    /* At top of page - transparent, blends into page */
     .navbar-wrapper.at-top {
       background: transparent !important;
       box-shadow: none !important;
@@ -161,6 +162,15 @@ const homeUrl = '/';
       box-shadow: none !important;
     }
     
+    /* Solid state - dark premium background when scrolled or menu open */
+    .navbar-wrapper.navbar-solid .header-navbar {
+      background: rgba(10, 10, 10, 0.95) !important;
+      backdrop-filter: blur(12px) !important;
+      border-color: rgba(255, 255, 255, 0.05) !important;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5) !important;
+    }
+    
+    /* Hidden state - scroll down hides navbar */
     .navbar-wrapper.navbar-hidden {
       transform: translateY(-120%);
       opacity: 0;
@@ -174,56 +184,58 @@ const homeUrl = '/';
 </style>
 
 <script>
-  (function() {
-    const navbar = document.querySelector('.navbar-wrapper') as HTMLElement | null;
+  document.addEventListener('astro:page-load', () => {
+    const navbar = document.getElementById('navbar-main');
+    const mobileMenuBtn = document.querySelector('[data-mobile-menu-toggle]');
+    const mobileMenuDropdown = document.getElementById('navbar-collapse-with-animation');
+    
     if (!navbar) return;
-    
-    let lastScrollY = 0;
-    let ticking = false;
-    
-    const isMobile = () => window.innerWidth < 768;
-    
-    function updateNavbar() {
-      const mobile = isMobile();
-      if (!mobile) {
-        navbar!.classList.remove('navbar-hidden');
-        navbar!.classList.remove('at-top');
-        ticking = false;
+
+    let lastScrollY = window.scrollY;
+
+    function updateNavbarState() {
+      const currentScrollY = window.scrollY;
+      const isMenuOpen = mobileMenuDropdown?.classList.contains('menu-open') || false;
+
+      // REGLA DE ORO: Si menú móvil está abierto, JAMÁS transparente
+      if (isMenuOpen) {
+        navbar.classList.remove('at-top', 'navbar-hidden');
+        navbar.classList.add('navbar-solid');
         return;
       }
-      
-      const currentScrollY = window.scrollY;
-      
-      // AT TOP = transparent navbar (blends into page)
-      if (currentScrollY === 0) {
-        navbar!.classList.add('at-top');
-        navbar!.classList.remove('navbar-hidden');
-      } else {
-        navbar!.classList.remove('at-top');
+
+      // ESTADO EN EL TOP - transparente y blending
+      if (currentScrollY <= 10) {
+        navbar.classList.add('at-top');
+        navbar.classList.remove('navbar-hidden', 'navbar-solid');
+      } 
+      // COMPORTAMIENTO EN SCROLL
+      else {
+        navbar.classList.remove('at-top');
+        navbar.classList.add('navbar-solid');
+        
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          navbar.classList.add('navbar-hidden');
+        } else {
+          navbar.classList.remove('navbar-hidden');
+        }
       }
-      
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling DOWN - hide navbar
-        navbar!.classList.add('navbar-hidden');
-      } else {
-        // Scrolling UP or at top - show navbar
-        navbar!.classList.remove('navbar-hidden');
-      }
-      
+
       lastScrollY = currentScrollY;
-      ticking = false;
     }
-    
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(updateNavbar);
-        ticking = true;
-      }
-    }, { passive: true });
-    
-    // Show navbar initially on mobile
-    if (isMobile()) {
-      navbar.classList.remove('navbar-hidden');
+
+    // Toggle del menú móvil sincronizado con estado del navbar
+    if (mobileMenuBtn && mobileMenuDropdown) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuDropdown.classList.toggle('menu-open');
+        updateNavbarState();
+      });
     }
-  })();
+
+    // Scroll listener
+    window.addEventListener('scroll', updateNavbarState, { passive: true });
+
+    // FIX BUG 1: Estado inicial en carga de página
+    updateNavbarState();
+  });
 </script>

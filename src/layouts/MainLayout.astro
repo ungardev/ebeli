@@ -128,7 +128,7 @@ interface Props {
     </a>
 
     <script>
-      // Mobile menu toggle - replaces heavy HSCollapse
+      // Mobile menu toggle - synchronized with Navbar state
       document.addEventListener('DOMContentLoaded', () => {
         const btn = document.querySelector('[data-mobile-menu-toggle]');
         const menu = document.getElementById('navbar-collapse-with-animation');
@@ -137,6 +137,7 @@ interface Props {
         if (btn && menu) {
           btn.addEventListener('click', () => {
             const isHidden = menu.classList.toggle('hidden');
+            menu.classList.toggle('menu-open'); // Sync with Navbar script
             btn.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
             menuOpen?.classList.toggle('hidden', !isHidden);
             menuClose?.classList.toggle('hidden', isHidden);
