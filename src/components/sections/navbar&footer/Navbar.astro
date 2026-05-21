@@ -185,12 +185,13 @@ const homeUrl = '/';
 
 <script>
   document.addEventListener('astro:page-load', () => {
-    const navbar = document.getElementById('navbar-main');
+    const navbar = document.getElementById('navbar-main') as HTMLElement | null;
     const mobileMenuBtn = document.querySelector('[data-mobile-menu-toggle]');
     const mobileMenuDropdown = document.getElementById('navbar-collapse-with-animation');
     
     if (!navbar) return;
-
+    
+    const navbarEl = navbar;
     let lastScrollY = window.scrollY;
 
     function updateNavbarState() {
@@ -199,25 +200,25 @@ const homeUrl = '/';
 
       // REGLA DE ORO: Si menú móvil está abierto, JAMÁS transparente
       if (isMenuOpen) {
-        navbar.classList.remove('at-top', 'navbar-hidden');
-        navbar.classList.add('navbar-solid');
+        navbarEl.classList.remove('at-top', 'navbar-hidden');
+        navbarEl.classList.add('navbar-solid');
         return;
       }
 
       // ESTADO EN EL TOP - transparente y blending
       if (currentScrollY <= 10) {
-        navbar.classList.add('at-top');
-        navbar.classList.remove('navbar-hidden', 'navbar-solid');
+        navbarEl.classList.add('at-top');
+        navbarEl.classList.remove('navbar-hidden', 'navbar-solid');
       } 
       // COMPORTAMIENTO EN SCROLL
       else {
-        navbar.classList.remove('at-top');
-        navbar.classList.add('navbar-solid');
+        navbarEl.classList.remove('at-top');
+        navbarEl.classList.add('navbar-solid');
         
         if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          navbar.classList.add('navbar-hidden');
+          navbarEl.classList.add('navbar-hidden');
         } else {
-          navbar.classList.remove('navbar-hidden');
+          navbarEl.classList.remove('navbar-hidden');
         }
       }
 
