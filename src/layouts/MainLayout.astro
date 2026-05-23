@@ -55,51 +55,6 @@ interface Props {
       document.documentElement.classList.add('dark');
     </script>
     
-    <!-- Lenis Smooth Scroll - Elite Top Tier -->
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" is:inline></script>
-    <script is:inline>
-      (function() {
-        const lenis = new Lenis({
-          duration: 0.3,
-          easing: (t) => 1 - Math.pow(1 - t, 3),
-          orientation: 'vertical',
-          gestureOrientation: 'vertical',
-          smoothWheel: true,
-          wheelMultiplier: 0.7,
-          touchMultiplier: 1.0,
-          infinite: false,
-        });
-
-        lenis.on('scroll', (e) => {
-          // Optional: Add scroll-based effects here
-          // document.documentElement.setAttribute('data-scrolling', 'true');
-        });
-
-        function raf(time) {
-          lenis.raf(time);
-          requestAnimationFrame(raf);
-        }
-        
-        // Start with a slight delay for smoother initial load
-        let initialized = false;
-        function initLenis() {
-          if (!initialized) {
-            initialized = true;
-            requestAnimationFrame(raf);
-          }
-        }
-        
-        // Wait for DOM ready
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initLenis);
-        } else {
-          initLenis();
-        }
-
-        // Expose lenis globally for potential use
-        window.lenis = lenis;
-      })();
-    </script>
   </head>
   <body class="flex min-h-screen flex-col bg-black selection:bg-yellow-400 selection:text-neutral-700 overflow-x-hidden">
     <Navbar />

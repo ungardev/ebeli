@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* Native smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Plugins */
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
