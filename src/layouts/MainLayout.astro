@@ -29,11 +29,6 @@ interface Props {
 
 <html lang={lang} class="scrollbar-hide scroll-pt-16 dark bg-black overflow-x-hidden" style="font-family: var(--font-roobert);">
   <head>
-    <!-- Preload critical font -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/roobert/v21/qFys32W8fCzyQ8kPCDJSYWwYJQx6qH8.woff2" as="font" type="font/woff2" crossorigin>
-    <!-- CSP for fonts and external scripts -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;">
-    
     <!-- Google Fonts - Roobert & Raleway -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,13 +60,13 @@ interface Props {
     <script is:inline>
       (function() {
         const lenis = new Lenis({
-          duration: 1.4,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          duration: 0.8,
+          easing: (t) => t,
           orientation: 'vertical',
           gestureOrientation: 'vertical',
           smoothWheel: true,
-          wheelMultiplier: 0.8,
-          touchMultiplier: 1.5,
+          wheelMultiplier: 1.5,
+          touchMultiplier: 2.5,
           infinite: false,
         });
 
