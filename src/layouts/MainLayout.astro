@@ -60,13 +60,13 @@ interface Props {
     <script is:inline>
       (function() {
         const lenis = new Lenis({
-          duration: 0.8,
-          easing: (t) => t,
+          duration: 0.3,
+          easing: (t) => 1 - Math.pow(1 - t, 3),
           orientation: 'vertical',
           gestureOrientation: 'vertical',
           smoothWheel: true,
-          wheelMultiplier: 1.5,
-          touchMultiplier: 2.5,
+          wheelMultiplier: 0.5,
+          touchMultiplier: 1.0,
           infinite: false,
         });
 
