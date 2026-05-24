@@ -24,9 +24,9 @@ html {
   --color-deep-ocean-mid: #ffac2e;
   --color-deep-ocean-end: #a52d25;
 
-  /* Fonts - Roobert & Raleway */
+  /* Fonts - Manrope (self-hosted) */
   --font-roobert:
-    'Roobert', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Manrope', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, sans-serif;
   --font-raleway:
     'Raleway', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
