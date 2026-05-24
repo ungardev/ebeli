@@ -201,6 +201,15 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
       paneles: 'panel',
     };
 
+    // Check for ?category= URL parameter on page load
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    if (categoryParam) {
+      const checkbox = document.querySelector(`.category-checkbox[data-category="${categoryParam}"]`);
+      if (checkbox) checkbox.checked = true;
+      filterProducts();
+    }
+
     function filterProducts() {
       const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
       const activeCategories = Array.from(checkboxes)
