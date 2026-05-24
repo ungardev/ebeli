@@ -76,25 +76,30 @@ const productSchema = {
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,250,240,0.06)_0%,transparent_50%)]"></div>
     
     <div class="relative mx-auto max-w-[1078px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-      <!-- Breadcrumb -->
-      <nav class="mb-8 text-sm text-neutral-500">
-        <a href="/products" class="hover:text-white transition-colors">Productos</a>
-        <span class="mx-2">/</span>
-        <a href={`/products?category=${product.data.category}`} class="hover:text-white transition-colors">
+      
+      <!-- Breadcrumb - Ultra Minimalist -->
+      <nav class="mb-6 flex items-center gap-1.5 text-xs tracking-wide text-white/30" aria-label="Breadcrumb">
+        <a href="/products" class="hover:text-white/70 transition-colors duration-200 ease-out">Productos</a>
+        <svg class="w-3 h-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"/>
+        </svg>
+        <a href={`/products?category=${product.data.category}`} class="hover:text-white/70 transition-colors duration-200 ease-out">
           {categoryLabels[product.data.category] || product.data.category}
         </a>
-        <span class="mx-2">/</span>
-        <span class="text-white">{product.data.title}</span>
+        <svg class="w-3 h-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"/>
+        </svg>
+        <span class="text-white/60">{product.data.title}</span>
       </nav>
 
-      <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-start">
+      <div class="grid gap-8 lg:grid-cols-2 lg:gap-12 items-start">
         
         <!-- LEFT: Product Image - OLED Mate Container -->
         <div class="relative">
-          <div class="sticky top-24 overflow-hidden rounded-2xl bg-[#0a0a0a] border border-white/5 p-8">
+          <div class="sticky top-24 overflow-hidden rounded-2xl bg-[#0a0a0a] border border-white/5 p-6 lg:p-8">
             <div class="relative aspect-[4/5] md:aspect-square w-full rounded-2xl bg-[#0a0a0a] border border-white/5 overflow-hidden flex items-center justify-center">
               <!-- Wrapper Anidado - guillotina interna para el zoom -->
-              <div class="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center p-6">
+              <div class="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center p-4 lg:p-6">
                 <Image
                   src={product.data.mainImage}
                   alt={product.data.title}
@@ -120,10 +125,10 @@ const productSchema = {
         </div>
 
         <!-- RIGHT: Product Info -->
-        <div class="flex flex-col gap-8">
+        <div class="flex flex-col gap-7">
           <!-- Category Badge -->
           <div>
-            <span class="inline-block rounded-full bg-white/5 border border-white/10 px-4 py-1.5 text-xs font-[400] uppercase tracking-wider text-white/70">
+            <span class="inline-block rounded-full bg-white/5 border border-white/10 px-4 py-1.5 text-xs font-[400] uppercase tracking-wider text-white/60">
               {categoryLabels[product.data.category] || product.data.category}
             </span>
           </div>
@@ -136,19 +141,40 @@ const productSchema = {
           <!-- Watts Badges -->
           <div class="flex flex-wrap gap-3">
             {watts.map((w) => (
-              <span class="inline-flex items-center justify-center rounded-full bg-white/10 border border-white/20 px-6 py-2 text-lg font-[400] text-white">
+              <span class="inline-flex items-center justify-center rounded-full bg-white/10 border border-white/20 px-6 py-2 text-lg font-[600] text-white">
                 {w}W
               </span>
             ))}
           </div>
 
-          <!-- Key Specs -->
-          <div class="flex flex-wrap gap-6 text-neutral-400 text-sm">
-            <span>Voltaje: {product.data.voltage}</span>
-            <span>Temperatura: {product.data.colorTemperature}</span>
-            {product.data.specs?.base && <span>Base: {product.data.specs.base}</span>}
-            {product.data.specs?.shape && <span>Forma: {product.data.specs.shape}</span>}
-            {product.data.specs?.flux && <span>{product.data.specs.flux}</span>}
+          <!-- Key Specs - Premium readability -->
+          <div class="flex flex-col gap-4 text-base text-neutral-300">
+            {product.data.specs?.flux && (
+              <div class="flex items-center gap-2">
+                <span class="w-1 h-1 bg-white/30 rounded-full"></span>
+                <span class="text-sm">{product.data.specs.flux}</span>
+              </div>
+            )}
+            <div class="flex items-center gap-2">
+              <span class="w-1 h-1 bg-white/30 rounded-full"></span>
+              <span>Voltaje: <strong class="font-[600] text-white">{product.data.voltage}</strong></span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-1 h-1 bg-white/30 rounded-full"></span>
+              <span>Temperatura: <strong class="font-[600] text-white">{product.data.colorTemperature}</strong></span>
+            </div>
+            {product.data.specs?.base && (
+              <div class="flex items-center gap-2">
+                <span class="w-1 h-1 bg-white/30 rounded-full"></span>
+                <span>Base: <strong class="font-[600] text-white">{product.data.specs.base}</strong></span>
+              </div>
+            )}
+            {product.data.specs?.shape && (
+              <div class="flex items-center gap-2">
+                <span class="w-1 h-1 bg-white/30 rounded-full"></span>
+                <span>Forma: <strong class="font-[600] text-white">{product.data.specs.shape}</strong></span>
+              </div>
+            )}
           </div>
 
           <!-- Warranty Badge -->
@@ -160,7 +186,7 @@ const productSchema = {
           </div>
 
           <!-- CTA WhatsApp -->
-          <div class="mt-8 pt-8 border-t border-white/5">
+          <div class="mt-6 pt-8 border-t border-white/5">
             <a
               href="https://wa.me/"
               target="_blank"
@@ -180,68 +206,73 @@ const productSchema = {
   </section>
 
   <div class="mx-auto max-w-[1078px] px-4">
-    <div class="mt-12 md:mt-20 border-t border-white/5 pt-12">
+    <div class="mt-8 lg:mt-10 border-t border-white/5 pt-10">
       
-      <div class="flex items-center gap-3 mb-8">
-        <span class="w-1.5 h-6 bg-white rounded-full block"></span>
-        <h3 class="text-lg md:text-xl font-[300] tracking-wide text-white uppercase" style="font-family: var(--font-roobert);">
-          Especificaciones de Ingeniería
-        </h3>
+      <!-- Section Title - Imposing with gradient indicator -->
+      <div class="mb-10 flex items-center gap-4">
+        <div class="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+        <div class="flex items-center gap-3">
+          <span class="w-1.5 h-8 bg-gradient-to-b from-white/80 to-white/20 rounded-full block"></span>
+          <h3 class="text-xl md:text-2xl lg:text-3xl font-[400] tracking-wide text-white uppercase" style="font-family: var(--font-roobert);">
+            Especificaciones de Ingeniería
+          </h3>
+        </div>
+        <div class="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-5">
         
-        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-4 rounded-xl border border-white/5 transition-all duration-300 hover:border-white/10">
-          <p class="text-[10px] font-[400] uppercase tracking-widest text-white/40 mb-1">Flujo Luminoso</p>
-          <p class="text-base font-[400] text-white">{product.data.specs?.flux || "—"}</p>
+        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-5 lg:p-6 rounded-xl border border-white/10 transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+          <p class="text-xs lg:text-sm font-[400] uppercase tracking-widest text-white/70 mb-2">Flujo Luminoso</p>
+          <p class="text-lg lg:text-xl font-[600] text-white">{product.data.specs?.flux || "—"}</p>
         </div>
 
-        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-4 rounded-xl border border-white/5 transition-all duration-300 hover:border-white/10">
-          <p class="text-[10px] font-[400] uppercase tracking-widest text-white/40 mb-1">Potencia</p>
-          <p class="text-base font-[400] text-white">
+        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-5 lg:p-6 rounded-xl border border-white/10 transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+          <p class="text-xs lg:text-sm font-[400] uppercase tracking-widest text-white/70 mb-2">Potencia</p>
+          <p class="text-lg lg:text-xl font-[600] text-white">
             {product.data.watts ? product.data.watts.join('W / ') + 'W' : '—'}
           </p>
         </div>
 
-        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-4 rounded-xl border border-white/5 transition-all duration-300 hover:border-white/10">
-          <p class="text-[10px] font-[400] uppercase tracking-widest text-white/40 mb-1">Voltaje</p>
-          <p class="text-base font-[400] text-white">{product.data.voltage || '—'}</p>
+        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-5 lg:p-6 rounded-xl border border-white/10 transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+          <p class="text-xs lg:text-sm font-[400] uppercase tracking-widest text-white/70 mb-2">Voltaje</p>
+          <p class="text-lg lg:text-xl font-[600] text-white">{product.data.voltage || '—'}</p>
         </div>
 
-        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-4 rounded-xl border border-white/5 transition-all duration-300 hover:border-white/10">
-          <p class="text-[10px] font-[400] uppercase tracking-widest text-white/40 mb-1">Temperatura</p>
-          <p class="text-base font-[400] text-white">{product.data.colorTemperature || '—'}</p>
+        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-5 lg:p-6 rounded-xl border border-white/10 transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+          <p class="text-xs lg:text-sm font-[400] uppercase tracking-widest text-white/70 mb-2">Temperatura</p>
+          <p class="text-lg lg:text-xl font-[600] text-white">{product.data.colorTemperature || '—'}</p>
         </div>
 
-        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-4 rounded-xl border border-white/5 transition-all duration-300 hover:border-white/10">
-          <p class="text-[10px] font-[400] uppercase tracking-widest text-white/40 mb-1">Ángulo</p>
-          <p class="text-base font-[400] text-white">{product.data.category === 'bombillos' ? '230°' : '120°'}</p>
+        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-5 lg:p-6 rounded-xl border border-white/10 transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+          <p class="text-xs lg:text-sm font-[400] uppercase tracking-widest text-white/70 mb-2">Ángulo</p>
+          <p class="text-lg lg:text-xl font-[600] text-white">{product.data.category === 'bombillos' ? '230°' : '120°'}</p>
         </div>
 
-        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-4 rounded-xl border border-white/5 transition-all duration-300 hover:border-white/10">
-          <p class="text-[10px] font-[400] uppercase tracking-widest text-white/40 mb-1">Material</p>
-          <p class="text-base font-[400] text-white uppercase">{product.data.category === 'reflectores' ? 'Al + Vidrio' : 'Plástico'}</p>
+        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-5 lg:p-6 rounded-xl border border-white/10 transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+          <p class="text-xs lg:text-sm font-[400] uppercase tracking-widest text-white/70 mb-2">Material</p>
+          <p class="text-lg lg:text-xl font-[600] text-white uppercase">{product.data.category === 'reflectores' ? 'Al + Vidrio' : 'Plástico'}</p>
         </div>
 
-        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-4 rounded-xl border border-white/5 transition-all duration-300 hover:border-white/10">
-          <p class="text-[10px] font-[400] uppercase tracking-widest text-white/40 mb-1">Protección</p>
-          <p class="text-base font-[400] text-white">{product.data.category === 'reflectores' ? 'IP66' : 'IP20'}</p>
+        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-5 lg:p-6 rounded-xl border border-white/10 transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+          <p class="text-xs lg:text-sm font-[400] uppercase tracking-widest text-white/70 mb-2">Protección</p>
+          <p class="text-lg lg:text-xl font-[600] text-white">{product.data.category === 'reflectores' ? 'IP66' : 'IP20'}</p>
         </div>
 
-        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-4 rounded-xl border border-white/5 transition-all duration-300 hover:border-white/10">
-          <p class="text-[10px] font-[400] uppercase tracking-widest text-white/40 mb-1">Garantía</p>
-          <p class="text-base font-[400] text-white">{product.data.warranty || '2 Años'}</p>
+        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm p-5 lg:p-6 rounded-xl border border-white/10 transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+          <p class="text-xs lg:text-sm font-[400] uppercase tracking-widest text-white/70 mb-2">Garantía</p>
+          <p class="text-lg lg:text-xl font-[600] text-white">{product.data.warranty || '2 Años'}</p>
         </div>
 
       </div>
 
-      <div class="mt-4 flex items-center gap-3">
-        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/5 flex items-center gap-2">
-          <svg class="w-3.5 h-3.5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+      <div class="mt-5 flex items-center gap-3">
+        <div class="bg-[#0a0a0a]/60 backdrop-blur-sm px-5 py-3 rounded-xl border border-white/10 flex items-center gap-3">
+          <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
-          <span class="text-[10px] font-[400] uppercase tracking-widest text-white/40">Vida Útil:</span>
-          <span class="text-xs font-[400] text-white/70">25,000 hrs bajo Calidad Tipo A</span>
+          <span class="text-xs font-[400] uppercase tracking-widest text-white/50">Vida Útil:</span>
+          <span class="text-sm font-[600] text-white/80">25,000 hrs bajo Calidad Tipo A</span>
         </div>
       </div>
 
@@ -253,7 +284,7 @@ const productSchema = {
     <div class="mx-auto max-w-[1078px] px-4 text-center">
       <a
         href="/products"
-        class="group inline-flex items-center gap-3 text-white font-[400] text-lg transition-all duration-200 hover:text-neutral-300 hover:gap-4"
+        class="group inline-flex items-center gap-3 text-white/50 font-[400] text-base transition-all duration-200 hover:text-white hover:gap-4"
         style="font-family: var(--font-roobert);"
       >
         <svg class="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
