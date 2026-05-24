@@ -92,8 +92,8 @@ interface Props {
       });
     </script>
 
-    <!-- Scroll Reveal -->
-    <script src="/js/scroll-reveal.js" is:inline></script>
+    <!-- Scroll Reveal - defer to avoid render blocking -->
+    <script is:inline src="/js/scroll-reveal.js" defer></script>
     <style>
       /* CSS rules for the page scrollbar */
       .scrollbar-hide::-webkit-scrollbar {

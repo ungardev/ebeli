@@ -38,7 +38,7 @@ const watts = product.data.watts as number[];
         src={product.data.mainImage}
         alt={product.data.title}
         format="webp"
-        quality="max"
+        quality={85}
         class:list={[
           'h-full w-full object-contain transition-transform duration-500',
           product.data.category === 'bombillos'
