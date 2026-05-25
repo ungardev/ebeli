@@ -251,14 +251,11 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
       cb.addEventListener('change', filterProducts);
     });
 
-    const searchInput = document.getElementById('product-search');
-    
-    // Set mobile-specific placeholder
-    if (searchInput && window.innerWidth < 768) {
-      searchInput.placeholder = '¿Qué buscas hoy? (Reflector, Bombillo, etc)';
-    }
-
+    // Set mobile-specific placeholder and attach event listener
     if (searchInput) {
+      if (window.innerWidth < 768) {
+        searchInput.placeholder = '¿Qué buscas hoy? (Reflector, Bombillo, etc)';
+      }
       searchInput.addEventListener('input', filterProducts);
     }
 
