@@ -217,12 +217,12 @@ const productSchema = {
 
   <!-- Certificates / Quality Badges - Full Width Above Specs -->
   <div class="mx-auto max-w-[1078px] px-4">
-    <div class="flex flex-row items-center justify-center gap-6 py-3 md:gap-10 md:py-2">
+    <div class="flex flex-row items-center justify-center gap-3 py-2 md:gap-8 md:py-1">
       {certificates.map((cert) => (
         <Image
           src={cert.image}
           alt={cert.label}
-          class="h-64 w-auto object-contain md:h-108"
+          class="h-56 w-auto object-contain md:h-108"
           loading="lazy"
         />
       ))}
