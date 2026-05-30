@@ -6,6 +6,16 @@ import { SITE } from '@data/constants';
 import type { CollectionEntry } from 'astro:content';
 import { getImage } from 'astro:assets';
 
+import tecnologiaJaponesa from '@/images/certificados/tecnologia-japonesa.png';
+import dosAnosGarantia from '@/images/certificados/2-anos-garantia.png';
+import iso9001 from '@/images/certificados/iso-9001.png';
+
+const certificates = [
+  { image: tecnologiaJaponesa, label: 'Tecnología Japonesa' },
+  { image: dosAnosGarantia, label: '2 Años de Garantía' },
+  { image: iso9001, label: 'ISO 9001' },
+];
+
 export async function getStaticPaths() {
   const products = await getCollection('products');
   return products.map((product) => ({
@@ -199,6 +209,23 @@ const productSchema = {
               </svg>
               <span class="text-lg">Solicitar Información</span>
             </a>
+          </div>
+
+          <!-- Certificates / Quality Badges -->
+          <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+            {certificates.map((cert) => (
+              <div class="group relative flex flex-col items-center gap-2 p-3 rounded-xl border border-white/5 bg-white/[0.02] transition-all duration-300 hover:border-white/15 hover:bg-white/[0.04] hover:shadow-[0_0_20px_rgba(255,255,255,0.04)]">
+                <Image
+                  src={cert.image}
+                  alt={cert.label}
+                  class="h-12 w-auto object-contain opacity-70 transition-opacity duration-300 group-hover:opacity-100"
+                  loading="lazy"
+                />
+                <span class="text-[10px] font-[400] uppercase tracking-wider text-white/50 transition-colors duration-300 group-hover:text-white/70">
+                  {cert.label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
