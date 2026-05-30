@@ -210,27 +210,29 @@ const productSchema = {
               <span class="text-lg">Solicitar Información</span>
             </a>
           </div>
-
-          <!-- Certificates / Quality Badges -->
-          <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
-            {certificates.map((cert) => (
-              <div class="group relative flex flex-col items-center gap-2 p-3 rounded-xl border border-white/5 bg-white/[0.02] transition-all duration-300 hover:border-white/15 hover:bg-white/[0.04] hover:shadow-[0_0_20px_rgba(255,255,255,0.04)]">
-                <Image
-                  src={cert.image}
-                  alt={cert.label}
-                  class="h-12 w-auto object-contain opacity-70 transition-opacity duration-300 group-hover:opacity-100"
-                  loading="lazy"
-                />
-                <span class="text-[10px] font-[400] uppercase tracking-wider text-white/50 transition-colors duration-300 group-hover:text-white/70">
-                  {cert.label}
-                </span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Certificates / Quality Badges - Full Width Above Specs -->
+  <div class="mx-auto max-w-[1078px] px-4">
+    <div class="flex flex-row items-center justify-center gap-8 py-8">
+      {certificates.map((cert) => (
+        <div class="group flex flex-col items-center gap-2">
+          <Image
+            src={cert.image}
+            alt={cert.label}
+            class="h-20 w-auto object-contain transition-opacity duration-300 group-hover:opacity-90"
+            loading="lazy"
+          />
+          <span class="text-xs font-[400] uppercase tracking-wider text-white/50">
+            {cert.label}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
 
   <div class="mx-auto max-w-[1078px] px-4">
     <div class="mt-8 lg:mt-10 border-t border-white/5 pt-10">
