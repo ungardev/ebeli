@@ -22,7 +22,7 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
 <MainLayout title={pageTitle} customDescription={metaDescription}>
   
   <!-- Hero Section - Premium Dark Gradient -->
-  <section class="relative pt-[88px] pb-12 md:pt-24 md:pb-20 border-b border-white/5 bg-gradient-to-b from-[#0a0a0a] to-[#050505]">
+  <section class="relative pt-[88px] pb-12 md:pt-24 md:pb-16 border-b border-white/5 bg-gradient-to-b from-[#0a0a0a] to-[#050505]">
     <div class="max-w-7xl mx-auto px-4 text-center md:text-left">
       <h1 class="text-5xl md:text-5xl font-[300] tracking-tight text-white mb-5" style="font-family: var(--font-roobert);">
         CATÁLOGO DE PRODUCTOS
@@ -59,16 +59,55 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
           </button>
         </div>
       </div>
+
+      <!-- Mobile/Tablet Horizontal Filter Bar -->
+      <div class="mt-6 md:mt-8 lg:hidden">
+        <div id="horizontal-filter-toggle" class="flex items-center justify-between cursor-pointer select-none group px-4 py-3 rounded-xl bg-[#0d0d0d] border border-white/10 hover:border-white/20 transition-all duration-300">
+          <div class="flex items-center gap-3">
+            <span class="w-1.5 h-4 bg-white rounded-full block"></span>
+            <span class="text-sm font-[600] text-white/80 group-hover:text-white transition-colors" style="font-family: var(--font-roobert);">
+              Filtrar Categorías
+            </span>
+          </div>
+          <svg
+            id="horizontal-filter-chevron"
+            class="w-5 h-5 text-white/60 transition-transform duration-300 group-hover:text-white/80"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <div id="horizontal-filter-content" class="hidden mt-3 px-2">
+          <div class="flex flex-wrap gap-2 justify-start">
+            {categories.map((cat) => (
+              <label class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#0a0a0a] border border-white/10 hover:border-white/30 hover:bg-white/5 transition-all duration-300 cursor-pointer group">
+                <span class="text-sm font-[500] text-white/70 group-hover:text-white transition-colors" style="font-family: var(--font-roobert);">
+                  {cat.label}
+                </span>
+                <input
+                  type="checkbox"
+                  class="category-checkbox-mobile w-4 h-4 rounded-md border border-white/20 bg-transparent text-white checked:bg-white checked:border-white focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer accent-white"
+                  data-category={cat.id}
+                />
+              </label>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Main Catalog Section -->
   <section class="bg-[#050505] py-8 md:py-12">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
         
-        <!-- LEFT COLUMN: Filters Sidebar -->
-        <aside class="w-full lg:w-72">
+        <!-- LEFT COLUMN: Filters Sidebar (only visible on desktop) -->
+        <aside class="hidden lg:block w-full">
           <div id="filters-panel" class="bg-[#0a0a0a] p-6 rounded-2xl border border-white/5 shadow-2xl lg:sticky lg:top-24 space-y-6">
 
             <div
@@ -134,7 +173,7 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
           </div>
 
           <!-- Products Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6" id="products-grid">
             {products.map((product) => (
               <div class="product-item" data-category={product.data.category} data-title={product.data.title}>
                 <ProductCard product={product} />
@@ -186,6 +225,7 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
 <script is:inline>
   (function() {
     const checkboxes = document.querySelectorAll('.category-checkbox');
+    const checkboxesMobile = document.querySelectorAll('.category-checkbox-mobile');
     const searchInput = document.getElementById('product-search');
     const clearSearchBtn = document.getElementById('clear-search-btn');
     const productItems = document.querySelectorAll('.product-item');
@@ -201,20 +241,16 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
       paneles: 'panel',
     };
 
-    // Check for ?category= URL parameter on page load
-    const urlParams = new URLSearchParams(window.location.search);
-    const categoryParam = urlParams.get('category');
-    if (categoryParam) {
-      const checkbox = document.querySelector(`.category-checkbox[data-category="${categoryParam}"]`);
-      if (checkbox) checkbox.checked = true;
-      filterProducts();
+    function getActiveCategories() {
+      const active = [];
+      checkboxes.forEach(cb => { if (cb.checked) active.push(cb.dataset.category); });
+      checkboxesMobile.forEach(cb => { if (cb.checked) active.push(cb.dataset.category); });
+      return [...new Set(active)];
     }
 
     function filterProducts() {
       const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-      const activeCategories = Array.from(checkboxes)
-        .filter(cb => cb.checked)
-        .map(cb => cb.dataset.category);
+      const activeCategories = getActiveCategories();
 
       if (clearSearchBtn) {
         clearSearchBtn.classList.toggle('hidden', query.length === 0);
@@ -247,9 +283,45 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
       }
     }
 
+    // Check for ?category= URL parameter on page load
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    if (categoryParam) {
+      const checkbox = document.querySelector(`.category-checkbox[data-category="${categoryParam}"]`);
+      const checkboxMobile = document.querySelector(`.category-checkbox-mobile[data-category="${categoryParam}"]`);
+      if (checkbox) checkbox.checked = true;
+      if (checkboxMobile) checkboxMobile.checked = true;
+      filterProducts();
+    }
+
+    // Desktop checkboxes
     checkboxes.forEach(cb => {
       cb.addEventListener('change', filterProducts);
     });
+
+    // Mobile/Tablet checkboxes
+    checkboxesMobile.forEach(cb => {
+      cb.addEventListener('change', filterProducts);
+    });
+
+    // Horizontal filter toggle (mobile/tablet)
+    const horizontalFilterToggle = document.getElementById('horizontal-filter-toggle');
+    const horizontalFilterContent = document.getElementById('horizontal-filter-content');
+    const horizontalFilterChevron = document.getElementById('horizontal-filter-chevron');
+
+    if (horizontalFilterToggle && horizontalFilterContent) {
+      horizontalFilterToggle.addEventListener('click', () => {
+        const isCollapsed = horizontalFilterContent.classList.contains('hidden');
+
+        if (isCollapsed) {
+          horizontalFilterContent.classList.remove('hidden');
+          if (horizontalFilterChevron) horizontalFilterChevron.style.transform = 'rotate(180deg)';
+        } else {
+          horizontalFilterContent.classList.add('hidden');
+          if (horizontalFilterChevron) horizontalFilterChevron.style.transform = 'rotate(0deg)';
+        }
+      });
+    }
 
     // Set mobile-specific placeholder and attach event listener
     if (searchInput) {
@@ -265,26 +337,6 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
           searchInput.value = '';
           filterProducts();
           searchInput.focus();
-        }
-      });
-    }
-
-    const filtersToggle = document.getElementById('filters-toggle');
-    const filtersContent = document.getElementById('filters-content');
-    const filtersChevron = document.getElementById('filters-chevron');
-
-    if (filtersToggle && filtersContent) {
-      filtersToggle.addEventListener('click', () => {
-        if (window.innerWidth < 1024) {
-          const isCollapsed = filtersContent.classList.contains('hidden');
-
-          if (isCollapsed) {
-            filtersContent.classList.remove('hidden');
-            if (filtersChevron) filtersChevron.style.transform = 'rotate(180deg)';
-          } else {
-            filtersContent.classList.add('hidden');
-            if (filtersChevron) filtersChevron.style.transform = 'rotate(0deg)';
-          }
         }
       });
     }
