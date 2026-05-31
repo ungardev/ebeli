@@ -7,26 +7,26 @@ const homeUrl = '/';
 ---
 
 <!-- Navbar wrapper - Premium floating container -->
-<div id="navbar-main" class="navbar-wrapper fixed md:sticky top-4 z-50 px-4 w-full transition-all duration-300 ease-in-out">
-  <header class="header-navbar relative rounded-2xl bg-[#0a0a0a] md:bg-[#0a0a0a]/95 md:backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)] w-full">
+<div id="navbar-main" class="navbar-wrapper fixed lg:sticky top-4 z-50 px-4 w-full transition-all duration-300 ease-in-out">
+  <header class="header-navbar relative rounded-2xl bg-[#0a0a0a] lg:bg-[#0a0a0a]/95 lg:backdrop-blur-xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.5)] w-full">
     <nav
-      class="flex items-center justify-between px-2 py-4 md:px-6 md:pr-16 md:py-1.5"
+      class="flex items-center justify-between px-2 py-4 lg:px-6 lg:pr-16 lg:py-1.5"
       aria-label="Global"
     >
-      <div class="flex items-center justify-center w-full md:justify-between">
+      <div class="flex items-center justify-center w-full lg:justify-between">
         <a
-          class="text-center md:relative md:left-auto md:translate-x-0 md:flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
+          class="text-center lg:relative lg:left-auto lg:translate-x-0 lg:flex-none rounded-lg text-xl font-bold ring-zinc-500 outline-hidden focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
           href={homeUrl}
           aria-label="Brand"
         >
-          <div class="flex items-center justify-center -mx-2 md:-mx-2">
-            <img src="/apple-touch-icon.png" alt="Ébeli" class="hidden md:block h-14 w-auto object-contain" />
-            <img src="/ebeli-fuente.png" alt="Ébeli" class="h-[28px] md:h-[34px] w-auto object-contain" />
+          <div class="flex items-center justify-center -mx-2 lg:-mx-2">
+            <img src="/apple-touch-icon.png" alt="Ébeli" class="hidden lg:block h-14 w-auto object-contain" />
+            <img src="/ebeli-fuente.png" alt="Ébeli" class="h-[28px] lg:h-[34px] w-auto object-contain" />
           </div>
         </a>
         
         <!-- Desktop Navigation Links - Premium spacing + animated underline -->
-        <div class="hidden md:flex items-center gap-12 lg:gap-16">
+        <div class="hidden lg:flex items-center gap-12 lg:gap-16">
           {
             strings.navBarLinks.map(link => (
               <NavLink url={link.url} name={link.name} customClass="nav-link-premium" />
@@ -37,7 +37,7 @@ const homeUrl = '/';
         <!-- Mobile menu button - right aligned -->
         <button
           type="button"
-          class="md:hidden absolute right-0 flex h-13 w-13 items-center justify-center rounded-full text-white transition-all duration-200 hover:bg-white/10 focus:outline-hidden"
+          class="lg:hidden absolute right-0 flex h-13 w-13 items-center justify-center rounded-full text-white transition-all duration-200 hover:bg-white/10 focus:outline-hidden"
           data-mobile-menu-toggle
           aria-controls="navbar-collapse-with-animation"
           aria-label="Toggle navigation"
@@ -79,7 +79,7 @@ const homeUrl = '/';
     <!-- Mobile Navigation - Overlay with slide animation -->
     <div
       id="navbar-collapse-with-animation"
-      class="hidden absolute top-full -left-[1px] -right-[1px] w-[calc(100%+2px)] z-40 md:hidden navbar-mobile-menu"
+      class="hidden absolute top-full -left-[1px] -right-[1px] w-[calc(100%+2px)] z-40 lg:hidden navbar-mobile-menu"
     >
       <div class="bg-[#0a0a0a] rounded-t-none rounded-b-2xl border-t border-white/5 px-3 py-4">
         <div class="flex flex-col gap-5">
@@ -142,8 +142,8 @@ const homeUrl = '/';
     }
   }
 
-  /* Navbar states for mobile */
-  @media (max-width: 767px) {
+  /* Navbar states for tablet/mobile */
+  @media (max-width: 1023px) {
     .navbar-wrapper {
       transition: all 0.3s ease-in-out;
     }
