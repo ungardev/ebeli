@@ -62,14 +62,58 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
     </div>
   </section>
 
+  <!-- Mobile Filter Toggle Button -->
+  <div class="md:hidden flex items-center justify-center py-4 border-b border-white/5">
+    <button
+      id="mobile-filters-toggle"
+      class="flex items-center gap-3 px-6 py-3 bg-[#0a0a0a] border border-white/10 rounded-xl text-white/80 hover:text-white hover:border-white/30 transition-all duration-300"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+      </svg>
+      <span class="font-[500] text-sm" style="font-family: var(--font-roobert);">Filtrar por Categoría</span>
+    </button>
+  </div>
+
+  <!-- Mobile Filters Panel (hidden by default) -->
+  <div id="mobile-filters-panel" class="hidden md:hidden py-6 px-4 border-b border-white/5">
+    <div class="flex flex-wrap gap-3 justify-center">
+      {categories.map((cat) => (
+        <button
+          class="category-chip px-5 py-2.5 rounded-full bg-[#0a0a0a] border border-white/10 text-white/70 text-sm font-[500] hover:bg-white/10 hover:border-white/30 hover:text-white transition-all duration-300"
+          data-category={cat.id}
+          style="font-family: var(--font-roobert);"
+        >
+          {cat.label}
+        </button>
+      ))}
+    </div>
+  </div>
+
   <!-- Main Catalog Section -->
   <section class="bg-[#050505] py-8 md:py-12">
     <div class="max-w-7xl mx-auto px-4">
+      
+      <!-- Tablet/Desktop Filter Bar (hidden on mobile, shown on md+) -->
+      <div class="hidden md:block mb-8">
+        <div class="flex flex-wrap gap-3 justify-start lg:justify-center">
+          {categories.map((cat) => (
+            <button
+              class="category-chip-tablet px-5 py-2.5 rounded-full bg-[#0a0a0a] border border-white/10 text-white/70 text-sm font-[500] hover:bg-white/10 hover:border-white/30 hover:text-white transition-all duration-300"
+              data-category={cat.id}
+              style="font-family: var(--font-roobert);"
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
         
-        <!-- LEFT COLUMN: Filters Sidebar -->
-        <aside class="w-full md:w-72">
-          <div id="filters-panel" class="bg-[#0a0a0a] p-6 rounded-2xl border border-white/5 shadow-2xl md:sticky md:top-24 space-y-6">
+        <!-- LEFT COLUMN: Filters Sidebar (only visible on desktop) -->
+        <aside class="hidden lg:block w-full">
+          <div id="filters-panel" class="bg-[#0a0a0a] p-6 rounded-2xl border border-white/5 shadow-2xl lg:sticky lg:top-24 space-y-6">
 
             <div
               id="filters-toggle"
@@ -125,7 +169,7 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
         </aside>
 
         <!-- RIGHT COLUMN: Products Grid -->
-        <main class="md:col-span-3 space-y-6">
+        <main class="col-span-1 lg:col-span-3 space-y-6">
           <!-- Results Count -->
           <div class="flex items-center justify-between border-b border-white/5 pb-4">
             <p class="text-sm font-medium tracking-wider text-white/70" style="font-family: var(--font-roobert);">
@@ -186,11 +230,15 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
 <script is:inline>
   (function() {
     const checkboxes = document.querySelectorAll('.category-checkbox');
+    const chipsTablet = document.querySelectorAll('.category-chip-tablet');
+    const chipsMobile = document.querySelectorAll('.category-chip');
     const searchInput = document.getElementById('product-search');
     const clearSearchBtn = document.getElementById('clear-search-btn');
     const productItems = document.querySelectorAll('.product-item');
     const countEl = document.getElementById('count');
     const emptyState = document.getElementById('catalog-empty-state');
+    const mobileFiltersToggle = document.getElementById('mobile-filters-toggle');
+    const mobileFiltersPanel = document.getElementById('mobile-filters-panel');
 
     const categoryLabels = {
       bombillos: 'bombillo',
@@ -210,11 +258,33 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
       filterProducts();
     }
 
+    function getActiveCategories() {
+      const active = [];
+      checkboxes.forEach(cb => { if (cb.checked) active.push(cb.dataset.category); });
+      chipsTablet.forEach(chip => { if (chip.classList.contains('active')) active.push(chip.dataset.category); });
+      chipsMobile.forEach(chip => { if (chip.classList.contains('active')) active.push(chip.dataset.category); });
+      return [...new Set(active)];
+    }
+
+    function updateChipStates(activeCategories) {
+      const allChips = [...chipsTablet, ...chipsMobile];
+      allChips.forEach(chip => {
+        const cat = chip.dataset.category;
+        if (activeCategories.includes(cat)) {
+          chip.classList.add('active');
+          chip.classList.remove('text-white/70', 'border-white/10');
+          chip.classList.add('text-white', 'border-white/40', 'bg-white/10');
+        } else {
+          chip.classList.remove('active');
+          chip.classList.add('text-white/70', 'border-white/10');
+          chip.classList.remove('text-white', 'border-white/40', 'bg-white/10');
+        }
+      });
+    }
+
     function filterProducts() {
       const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-      const activeCategories = Array.from(checkboxes)
-        .filter(cb => cb.checked)
-        .map(cb => cb.dataset.category);
+      const activeCategories = getActiveCategories();
 
       if (clearSearchBtn) {
         clearSearchBtn.classList.toggle('hidden', query.length === 0);
@@ -247,9 +317,42 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
       }
     }
 
+    // Checkbox filters (desktop sidebar)
     checkboxes.forEach(cb => {
-      cb.addEventListener('change', filterProducts);
+      cb.addEventListener('change', () => {
+        filterProducts();
+      });
     });
+
+    // Chip filters (tablet & mobile)
+    function handleChipClick(e) {
+      const chip = e.currentTarget;
+      chip.classList.toggle('active');
+      updateChipStates(getActiveCategories());
+      filterProducts();
+    }
+
+    chipsTablet.forEach(chip => {
+      chip.addEventListener('click', handleChipClick);
+    });
+
+    chipsMobile.forEach(chip => {
+      chip.addEventListener('click', handleChipClick);
+    });
+
+    // Mobile filter toggle
+    if (mobileFiltersToggle && mobileFiltersPanel) {
+      mobileFiltersToggle.addEventListener('click', () => {
+        const isHidden = mobileFiltersPanel.classList.contains('hidden');
+        if (isHidden) {
+          mobileFiltersPanel.classList.remove('hidden');
+          mobileFiltersToggle.querySelector('span').textContent = 'Ocultar Filtros';
+        } else {
+          mobileFiltersPanel.classList.add('hidden');
+          mobileFiltersToggle.querySelector('span').textContent = 'Filtrar por Categoría';
+        }
+      });
+    }
 
     // Set mobile-specific placeholder and attach event listener
     if (searchInput) {
@@ -269,6 +372,7 @@ const metaDescription = 'Explora el catálogo completo de iluminación LED Ébel
       });
     }
 
+    // Desktop sidebar toggle (only on mobile)
     const filtersToggle = document.getElementById('filters-toggle');
     const filtersContent = document.getElementById('filters-content');
     const filtersChevron = document.getElementById('filters-chevron');
