@@ -26,6 +26,28 @@ const categories = [
 const featuredProducts = categories
   .map((cat) => getTopProductByCategory(allProducts, cat.id))
   .filter(Boolean) as typeof allProducts;
+
+const getCategoryProducts = (products: typeof allProducts, category: string, limit = 6) => {
+  return products
+    .filter((p) => p.data.category === category)
+    .sort((a, b) => {
+      const aWatts = a.data.watts as number[];
+      const bWatts = b.data.watts as number[];
+      return Math.max(...bWatts) - Math.max(...aWatts);
+    })
+    .slice(0, limit);
+};
+
+const allCategoryProducts = categories.flatMap((cat) =>
+  getCategoryProducts(allProducts, cat.id, 6).map((p) => ({
+    product: p,
+    category: cat.id,
+    isFeatured: featuredProducts.some((fp) => fp.id === p.id),
+  }))
+);
+
+const initialProducts = allCategoryProducts.filter((p) => p.isFeatured);
+const categoryAllProducts = allCategoryProducts;
 ---
 
 <section class="py-20 md:py-24 lg:py-28 bg-black">
@@ -56,9 +78,14 @@ const featuredProducts = categories
 
     <!-- Products Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
-      {featuredProducts.map((product) => (
-        <div class="product-item" data-category={product.data.category}>
-          <ProductCard product={product} />
+      {initialProducts.map((item) => (
+        <div class="product-item" data-category={item.product.data.category} data-is-featured="true">
+          <ProductCard product={item.product} />
+        </div>
+      ))}
+      {categoryAllProducts.filter((p) => !p.isFeatured).map((item) => (
+        <div class="product-item hidden" data-category={item.product.data.category} data-is-featured="false">
+          <ProductCard product={item.product} />
         </div>
       ))}
     </div>
@@ -84,34 +111,51 @@ const featuredProducts = categories
   (function() {
     const tabs = document.querySelectorAll('.category-tab');
     const items = document.querySelectorAll('.product-item');
+    let activeCategory = 'bombillos';
+    
+    function updateTabs(category) {
+      tabs.forEach(t => {
+        if (t.dataset.category === category) {
+          t.style.backgroundColor = '#ffffff';
+          t.style.color = '#000000';
+          t.style.borderColor = 'transparent';
+        } else {
+          t.style.backgroundColor = 'rgba(255,255,255,0.05)';
+          t.style.color = 'rgba(255,255,255,0.8)';
+          t.style.borderColor = 'rgba(255,255,255,0.1)';
+        }
+      });
+    }
+    
+    function filterItems(category) {
+      let count = 0;
+      items.forEach(item => {
+        const itemCategory = item.dataset.category;
+        const isFeatured = item.dataset.isFeatured === 'true';
+        
+        if (category === 'all' || itemCategory === category) {
+          if (count < 6) {
+            item.classList.remove('hidden');
+            count++;
+          } else {
+            item.classList.add('hidden');
+          }
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    }
     
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const category = tab.dataset.category;
-        
-        // Update active tab styling
-        tabs.forEach(t => {
-          if (t.dataset.category === category) {
-            t.style.backgroundColor = '#ffffff';
-            t.style.color = '#000000';
-            t.style.borderColor = 'transparent';
-          } else {
-            t.style.backgroundColor = 'rgba(255,255,255,0.05)';
-            t.style.color = 'rgba(255,255,255,0.8)';
-            t.style.borderColor = 'rgba(255,255,255,0.1)';
-          }
-        });
-        
-        // Filter items
-        items.forEach(item => {
-          const itemCategory = item.dataset.category;
-          if (category === 'all' || itemCategory === category) {
-            item.style.display = '';
-          } else {
-            item.style.display = 'none';
-          }
-        });
+        activeCategory = category;
+        updateTabs(category);
+        filterItems(category);
       });
     });
+    
+    updateTabs(activeCategory);
+    filterItems(activeCategory);
   })();
 </script>
