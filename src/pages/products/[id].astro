@@ -52,6 +52,26 @@ const productImageRes = await getImage({
 });
 const productImageUrl = Astro.url.origin + productImageRes.src;
 
+const subCategory = product.data.subCategory as string | undefined;
+
+const getProductScale = (category: string, sub?: string) => {
+  if (sub === 'dicroicos' || sub === 'velas' || sub === 'lipstick') {
+    return 'object-center scale-[1.50]';
+  }
+  if (category === 'bombillos') {
+    return 'object-center scale-[2.10]';
+  }
+  if (category === 'cintas') {
+    return 'object-center scale-[1.40]';
+  }
+  if (category === 'reflectores') {
+    return 'object-center scale-[1.80]';
+  }
+  return 'object-center';
+};
+
+const productScale = getProductScale(product.data.category, subCategory);
+
 const productSchema = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -116,15 +136,9 @@ const productSchema = {
                   format="webp"
                   quality={85}
                   class:list={[
-                    'max-h-full max-w-full object-contain transition-transform duration-500',
-                    product.data.category === 'bombillos'
-                      ? 'object-center scale-[2.10]'
-                      : product.data.category === 'reflectores'
-                      ? 'object-center scale-[1.80]'
-                      : product.data.category === 'cintas'
-                      ? 'object-bottom scale-[1.55]'
-                      : 'object-center'
-                  ]}
+                  'max-h-full max-w-full object-contain transition-transform duration-500',
+                  productScale
+                ]}
                   loading="eager"
                 />
               </div>
