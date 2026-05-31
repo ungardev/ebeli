@@ -111,7 +111,6 @@ const categoryAllProducts = allCategoryProducts;
   (function() {
     const tabs = document.querySelectorAll('.category-tab');
     const items = document.querySelectorAll('.product-item');
-    let activeCategory = 'bombillos';
     
     function updateTabs(category) {
       tabs.forEach(t => {
@@ -149,13 +148,9 @@ const categoryAllProducts = allCategoryProducts;
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const category = tab.dataset.category;
-        activeCategory = category;
         updateTabs(category);
         filterItems(category);
       });
     });
-    
-    updateTabs(activeCategory);
-    filterItems(activeCategory);
   })();
 </script>
