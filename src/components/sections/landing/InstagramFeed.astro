@@ -43,32 +43,17 @@
 
   </div>
 
-  <!-- Behold Widget Script -->
-  <script>
-    (() => {
-      const d = document;
-      const s = d.createElement("script");
-      s.type = "module";
-      s.src = "https://w.behold.so/widget.js";
-      d.head.append(s);
-    })();
-  </script>
-
 </section>
 
 <style>
   .instagram-widget-container {
     display: flex;
     justify-content: center;
-  }
-
-  .instagram-widget-container behold-widget {
+    min-height: 400px;
     width: 100%;
-    max-width: 800px;
   }
 
-  /* Override Behold's default styles to match our dark theme */
-  .instagram-widget-container :global([data-behold]) {
-    background-color: transparent !important;
+  .instagram-widget-container :global(behold-widget) {
+    width: 100%;
   }
 </style>
