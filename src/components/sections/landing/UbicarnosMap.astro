@@ -9,122 +9,74 @@ const estadosConPresencia = [
   "Aragua",
   "Táchira",
 ];
-
-const mockDistribuidores = [
-  { id: "dist-001", nombre: "Iluminación Caracas C.A.", estado: "Distrito Capital", ciudad: "Caracas", telefono: "+58 212 555-0101", email: "ventas@iluminacioncaracas.com.ve", tipo: "cliente" },
-  { id: "dist-002", nombre: "Electro Servicios del Zulia", estado: "Zulia", ciudad: "Maracaibo", telefono: "+58 261 555-0202", email: "info@electrozulia.com.ve", tipo: "distribuidor" },
-  { id: "dist-003", nombre: "Luminarias Miranda C.A.", estado: "Miranda", ciudad: "Los Teques", telefono: "+58 212 555-0303", email: "contacto@luminariasmiranda.com.ve", tipo: "cliente" },
-  { id: "dist-004", nombre: "Ilumina Valencia", estado: "Carabobo", ciudad: "Valencia", telefono: "+58 241 555-0404", email: "ventas@iluminaValencia.com.ve", tipo: "distribuidor" },
-  { id: "dist-005", nombre: "Técnica Eléctrica Lara", estado: "Lara", ciudad: "Barquisimeto", telefono: "+58 251 555-0505", email: "info@tecnicaelectricalara.com.ve", tipo: "cliente" },
-  { id: "dist-006", nombre: "Iluminación Total Bolívar", estado: "Bolívar", ciudad: "Ciudad Bolívar", telefono: "+58 285 555-0606", email: "ventas@iluminaciontotalbolivar.com.ve", tipo: "distribuidor" },
-  { id: "dist-007", nombre: "Servicios Eléctricos Aragua", estado: "Aragua", ciudad: "Maracay", telefono: "+58 243 555-0707", email: "contacto@servicioselectricosaragua.com.ve", tipo: "cliente" },
-  { id: "dist-008", nombre: "Ilumina Táchira", estado: "Táchira", ciudad: "San Cristóbal", telefono: "+58 276 555-0808", email: "info@iluminatachira.com.ve", tipo: "distribuidor" },
-  { id: "dist-009", nombre: "Luces del Centro C.A.", estado: "Carabobo", ciudad: "Puerto Cabello", telefono: "+58 242 555-0909", email: "ventas@lucesdelcentro.com.ve", tipo: "cliente" },
-  { id: "dist-010", nombre: "Iluminación Maracaibo", estado: "Zulia", ciudad: "Maracaibo", telefono: "+58 261 555-1010", email: "contacto@iluminacionmaracaibo.com.ve", tipo: "cliente" },
-];
 ---
 
-<section class="w-full py-12 lg:py-20 bg-[#050505]">
+<section class="w-full py-12 lg:py-20 bg-white">
   <div class="container mx-auto px-4">
     <div class="mb-8">
-      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4 text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold text-black mb-4 text-center" style="font-family: var(--font-manrope);">
         Ubícanos en Venezuela
       </h2>
-      <p class="text-whisper-gray text-center max-w-2xl mx-auto">
-        Encuentra representantes y clientes Ébeli en todo el territorio nacional
+      <p class="text-gray-600 text-center max-w-2xl mx-auto text-lg" style="font-family: var(--font-manrope);">
+        Haz clic en un estado para ver los distribuidores y clientes en esa zona
       </p>
     </div>
 
-    <div class="relative bg-deep-shadow rounded-2xl p-4 lg:p-8 mb-8">
+    <div class="relative bg-gray-100 rounded-2xl p-4 lg:p-8 mb-8">
       <div id="map-container" class="w-full aspect-[16/10] relative">
         <svg id="venezuela-map" class="w-full h-full"></svg>
         <div
           id="map-tooltip"
-          class="absolute hidden bg-midnight-canvas border border-whisper-gray/30 rounded-lg px-3 py-2 text-sm text-white pointer-events-none z-10"
+          class="absolute hidden bg-black border border-gray-300 rounded-lg px-3 py-2 text-sm text-white pointer-events-none z-10 shadow-lg"
         >
           <span id="tooltip-text"></span>
         </div>
       </div>
     </div>
 
-    <div id="state-filters" class="flex flex-wrap gap-2 justify-center mb-8">
+    <div id="filter-indicator" class="hidden flex items-center justify-center gap-4 mb-6">
+      <span class="text-gray-600" style="font-family: var(--font-manrope);">
+        Mostrando resultados para: <span id="selected-state-name" class="font-semibold text-black"></span>
+      </span>
       <button
-        data-estado="todos"
-        class="filter-pill active px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-blue-500 text-white"
+        id="clear-filter-btn"
+        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full text-sm font-medium transition-all duration-200"
+        style="font-family: var(--font-manrope);"
       >
-        Todos
+        Limpiar filtro
       </button>
-      {
-        estadosConPresencia.map((estado) => (
-          <button
-            data-estado={estado}
-            class="filter-pill px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-deep-shadow text-whisper-gray hover:bg-whisper-gray/20"
-          >
-            {estado}
-          </button>
-        ))
-      }
     </div>
 
-    <div class="overflow-x-auto rounded-xl border border-whisper-gray/20">
+    <div class="overflow-x-auto rounded-xl border border-gray-200">
       <table class="w-full min-w-[640px]">
-        <thead class="bg-deep-shadow">
+        <thead class="bg-gray-100">
           <tr>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-whisper-gray uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Tipo
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-whisper-gray uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Nombre
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-whisper-gray uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Estado
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-whisper-gray uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Ciudad
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-whisper-gray uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Teléfono
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-whisper-gray uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Email
             </th>
           </tr>
         </thead>
-        <tbody id="distribuidor-table-body" class="divide-y divide-whisper-gray/10">
-          {
-            mockDistribuidores.map((dist: { id: string; nombre: string; estado: string; ciudad: string; telefono: string; email: string; tipo: string }) => (
-              <tr
-                data-estado={dist.estado}
-                class="table-row bg-midnight-canvas hover:bg-deep-shadow/50 transition-colors"
-              >
-                <td class="px-4 py-3">
-                  <span
-                    class={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                      dist.tipo === "distribuidor"
-                        ? "bg-blue-500/20 text-blue-400"
-                        : "bg-emerald-500/20 text-emerald-400"
-                    }`}
-                  >
-                    {dist.tipo === "distribuidor" ? "Distribuidor" : "Cliente"}
-                  </span>
-                </td>
-                <td class="px-4 py-3 text-white font-medium">{dist.nombre}</td>
-                <td class="px-4 py-3 text-whisper-gray">{dist.estado}</td>
-                <td class="px-4 py-3 text-whisper-gray">{dist.ciudad}</td>
-                <td class="px-4 py-3 text-whisper-gray">{dist.telefono}</td>
-                <td class="px-4 py-3">
-                  <a
-                    href={`mailto:${dist.email}`}
-                    class="text-blue-400 hover:text-blue-300 transition-colors"
-                  >
-                    {dist.email}
-                  </a>
-                </td>
-              </tr>
-            ))
-          }
+        <tbody id="distribuidor-table-body" class="divide-y divide-gray-100">
         </tbody>
       </table>
+      <div id="empty-table-message" class="py-12 text-center text-gray-500" style="font-family: var(--font-manrope);">
+        Haz clic en un estado del mapa para ver los distribuidores y clientes en esa zona
+      </div>
     </div>
   </div>
 </section>
@@ -155,6 +107,8 @@ const mockDistribuidores = [
     return estadosMapeados[nombre] || nombre;
   }
 
+  let selectedEstado: string | null = null;
+
   async function initMap() {
     const container = document.getElementById("map-container");
     const svg = d3.select("#venezuela-map");
@@ -172,8 +126,8 @@ const mockDistribuidores = [
       const response = await fetch(geoJsonUrl);
       const geoData = await response.json();
 
-      const path = d3.geoPath(
-        d3.geoIdentity().fitSize([width, height], d3.geoFeatureCollection(geoData.features))
+      const pathGenerator = (d3 as any).geoPath(
+        (d3 as any).geoIdentity().fitSize([width, height], { type: "FeatureCollection", features: geoData.features })
       );
 
       const estadosPresentesSet = new Set(estadosConPresencia);
@@ -184,19 +138,19 @@ const mockDistribuidores = [
         .data(geoData.features)
         .enter()
         .append("path")
-        .attr("d", path)
+        .attr("d", (d: any) => pathGenerator(d))
         .attr("data-estado", (d: any) => mapEstado(d.properties.NAME_1))
         .attr("fill", (d: any) => {
           const estado = mapEstado(d.properties.NAME_1);
-          return estadosPresentesSet.has(estado) ? "#0066CC" : "#222222";
+          return estadosPresentesSet.has(estado) ? "#0066CC" : "#D1D5DB";
         })
-        .attr("stroke", "#333333")
-        .attr("stroke-width", 0.5)
+        .attr("stroke", "#9CA3AF")
+        .attr("stroke-width", 1)
         .style("cursor", "pointer")
-        .style("transition", "fill 0.2s ease, filter 0.2s ease")
+        .style("transition", "fill 0.2s ease, stroke 0.2s ease")
         .on("mouseenter", function (this: SVGPathElement, event: MouseEvent, d: any) {
           const estado = mapEstado(d.properties.NAME_1);
-          d3.select(this).attr("filter", "brightness(1.3)");
+          d3.select(this).attr("stroke", "#ffffff").attr("stroke-width", 2);
 
           if (tooltipEl && tooltipTextEl) {
             tooltipTextEl.textContent = estado;
@@ -212,21 +166,25 @@ const mockDistribuidores = [
           }
         })
         .on("mouseleave", function (this: SVGPathElement, _event: MouseEvent) {
-          d3.select(this).attr("filter", null);
+          const estado = d3.select(this).attr("data-estado");
+          const isSelected = selectedEstado === estado;
+          d3.select(this)
+            .attr("stroke", isSelected ? "#0066CC" : "#9CA3AF")
+            .attr("stroke-width", isSelected ? 2 : 1);
           if (tooltipEl) {
             tooltipEl.classList.add("hidden");
           }
         })
         .on("click", function (_event: MouseEvent, d: any) {
           const estado = mapEstado(d.properties.NAME_1);
-          filterByState(estado);
+          handleStateClick(estado);
         });
 
       const resizeObserver = new ResizeObserver(() => {
         const newWidth = container.clientWidth;
         const newHeight = container.clientHeight;
         svg.attr("viewBox", `0 0 ${newWidth} ${newHeight}`);
-        svg.selectAll("path").attr("d", path);
+        svg.selectAll("path").attr("d", (dd: any) => pathGenerator(dd));
       });
 
       resizeObserver.observe(container);
@@ -235,41 +193,71 @@ const mockDistribuidores = [
     }
   }
 
-  function filterByState(estado: string) {
-    const pills = document.querySelectorAll(".filter-pill");
-    pills.forEach((pill) => {
-      const pillEstado = pill.getAttribute("data-estado");
-      if (pillEstado === estado) {
-        pill.classList.add("bg-blue-500", "text-white");
-        pill.classList.remove("bg-deep-shadow", "text-whisper-gray", "hover:bg-whisper-gray/20");
-      } else if (pillEstado === "todos") {
-        pill.classList.remove("bg-blue-500", "text-white");
-        pill.classList.add("bg-deep-shadow", "text-whisper-gray");
-      } else {
-        pill.classList.remove("bg-blue-500", "text-white");
-        pill.classList.add("bg-deep-shadow", "text-whisper-gray");
-      }
-    });
+  function handleStateClick(estado: string) {
+    if (selectedEstado === estado) {
+      selectedEstado = null;
+      clearFilter();
+    } else {
+      selectedEstado = estado;
+      applyFilter(estado);
+    }
+  }
+
+  function applyFilter(estado: string) {
+    const filterIndicator = document.getElementById("filter-indicator");
+    const selectedStateName = document.getElementById("selected-state-name");
+    const emptyMessage = document.getElementById("empty-table-message");
+
+    if (filterIndicator && selectedStateName) {
+      filterIndicator.classList.remove("hidden");
+      selectedStateName.textContent = estado;
+    }
 
     const rows = document.querySelectorAll(".table-row");
-    rows.forEach((row) => {
-      const rowEstado = row.getAttribute("data-estado");
-      if (estado === "todos" || rowEstado === estado) {
-        (row as HTMLElement).style.display = "";
-      } else {
-        (row as HTMLElement).style.display = "none";
-      }
-    });
+    if (rows.length === 0 && emptyMessage) {
+      emptyMessage.classList.remove("hidden");
+    }
 
     const mapPaths = document.querySelectorAll("#venezuela-map path");
     mapPaths.forEach((path) => {
       const pathEstado = path.getAttribute("data-estado");
       if (pathEstado === estado) {
-        path.setAttribute("stroke", "#ffffff");
+        path.setAttribute("stroke", "#0066CC");
         path.setAttribute("stroke-width", "2");
+        path.setAttribute("fill", "#0066CC");
       } else {
-        path.setAttribute("stroke", "#333333");
-        path.setAttribute("stroke-width", "0.5");
+        path.setAttribute("stroke", "#9CA3AF");
+        path.setAttribute("stroke-width", "1");
+        const pathEstadoMapped = path.getAttribute("data-estado");
+        const estadosPresentesSet = new Set(estadosConPresencia);
+        if (estadosPresentesSet.has(pathEstadoMapped || "")) {
+          path.setAttribute("fill", "#0066CC");
+        } else {
+          path.setAttribute("fill", "#D1D5DB");
+        }
+      }
+    });
+  }
+
+  function clearFilter() {
+    selectedEstado = null;
+
+    const filterIndicator = document.getElementById("filter-indicator");
+    if (filterIndicator) {
+      filterIndicator.classList.add("hidden");
+    }
+
+    const mapPaths = document.querySelectorAll("#venezuela-map path");
+    const estadosPresentesSet = new Set(estadosConPresencia);
+
+    mapPaths.forEach((path) => {
+      path.setAttribute("stroke", "#9CA3AF");
+      path.setAttribute("stroke-width", "1");
+      const pathEstado = path.getAttribute("data-estado");
+      if (estadosPresentesSet.has(pathEstado || "")) {
+        path.setAttribute("fill", "#0066CC");
+      } else {
+        path.setAttribute("fill", "#D1D5DB");
       }
     });
   }
@@ -277,11 +265,9 @@ const mockDistribuidores = [
   document.addEventListener("DOMContentLoaded", () => {
     initMap();
 
-    document.querySelectorAll(".filter-pill").forEach((pill) => {
-      pill.addEventListener("click", () => {
-        const estado = pill.getAttribute("data-estado") || "todos";
-        filterByState(estado);
-      });
-    });
+    const clearBtn = document.getElementById("clear-filter-btn");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", clearFilter);
+    }
   });
 </script>
