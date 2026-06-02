@@ -1,14 +1,4 @@
 ---
-const estadosConPresencia = [
-  "Distrito Capital",
-  "Zulia",
-  "Miranda",
-  "Carabobo",
-  "Lara",
-  "Bolívar",
-  "Aragua",
-  "Táchira",
-];
 ---
 
 <section class="w-full py-12 lg:py-20 bg-white">
@@ -18,7 +8,7 @@ const estadosConPresencia = [
         Ubícanos en Venezuela
       </h2>
       <p class="text-gray-600 text-center max-w-2xl mx-auto text-lg" style="font-family: var(--font-manrope);">
-        Haz clic en un estado para ver los distribuidores y clientes en esa zona
+        Selecciona un estado para ver los distribuidores y clientes en esa zona
       </p>
     </div>
 
@@ -75,7 +65,7 @@ const estadosConPresencia = [
         </tbody>
       </table>
       <div id="empty-table-message" class="py-12 text-center text-gray-500" style="font-family: var(--font-manrope);">
-        Haz clic en un estado del mapa para ver los distribuidores y clientes en esa zona
+        Selecciona un estado del mapa para ver los distribuidores y clientes en esa zona
       </div>
     </div>
   </div>
@@ -86,17 +76,6 @@ const estadosConPresencia = [
 
   const geoJsonUrl =
     "https://raw.githubusercontent.com/fckfck97/Mapa-de-Venezuela-GeoJson/main/venezuela.geojson";
-
-  const estadosConPresencia = [
-    "Distrito Capital",
-    "Zulia",
-    "Miranda",
-    "Carabobo",
-    "Lara",
-    "Bolívar",
-    "Aragua",
-    "Táchira",
-  ];
 
   const estadosMapeados: Record<string, string> = {
     Vargas: "La Guaira",
@@ -126,11 +105,10 @@ const estadosConPresencia = [
       const response = await fetch(geoJsonUrl);
       const geoData = await response.json();
 
-      const pathGenerator = (d3 as any).geoPath(
-        (d3 as any).geoIdentity().fitSize([width, height], { type: "FeatureCollection", features: geoData.features })
-      );
+      const projection = (d3 as any).geoNaturalEarth1()
+        .fitSize([width, height], { type: "FeatureCollection", features: geoData.features });
 
-      const estadosPresentesSet = new Set(estadosConPresencia);
+      const pathGenerator = (d3 as any).geoPath().projection(projection);
 
       svg
         .append("g")
@@ -140,17 +118,17 @@ const estadosConPresencia = [
         .append("path")
         .attr("d", (d: any) => pathGenerator(d))
         .attr("data-estado", (d: any) => mapEstado(d.properties.NAME_1))
-        .attr("fill", (d: any) => {
-          const estado = mapEstado(d.properties.NAME_1);
-          return estadosPresentesSet.has(estado) ? "#0066CC" : "#D1D5DB";
-        })
+        .attr("fill", "#D1D5DB")
         .attr("stroke", "#9CA3AF")
         .attr("stroke-width", 1)
         .style("cursor", "pointer")
         .style("transition", "fill 0.2s ease, stroke 0.2s ease")
         .on("mouseenter", function (this: SVGPathElement, event: MouseEvent, d: any) {
           const estado = mapEstado(d.properties.NAME_1);
-          d3.select(this).attr("stroke", "#ffffff").attr("stroke-width", 2);
+          const isSelected = selectedEstado === estado;
+          if (!isSelected) {
+            d3.select(this).attr("stroke", "#000000").attr("stroke-width", 2);
+          }
 
           if (tooltipEl && tooltipTextEl) {
             tooltipTextEl.textContent = estado;
@@ -169,7 +147,7 @@ const estadosConPresencia = [
           const estado = d3.select(this).attr("data-estado");
           const isSelected = selectedEstado === estado;
           d3.select(this)
-            .attr("stroke", isSelected ? "#0066CC" : "#9CA3AF")
+            .attr("stroke", isSelected ? "#000000" : "#9CA3AF")
             .attr("stroke-width", isSelected ? 2 : 1);
           if (tooltipEl) {
             tooltipEl.classList.add("hidden");
@@ -206,35 +184,23 @@ const estadosConPresencia = [
   function applyFilter(estado: string) {
     const filterIndicator = document.getElementById("filter-indicator");
     const selectedStateName = document.getElementById("selected-state-name");
-    const emptyMessage = document.getElementById("empty-table-message");
 
     if (filterIndicator && selectedStateName) {
       filterIndicator.classList.remove("hidden");
       selectedStateName.textContent = estado;
     }
 
-    const rows = document.querySelectorAll(".table-row");
-    if (rows.length === 0 && emptyMessage) {
-      emptyMessage.classList.remove("hidden");
-    }
-
     const mapPaths = document.querySelectorAll("#venezuela-map path");
     mapPaths.forEach((path) => {
       const pathEstado = path.getAttribute("data-estado");
       if (pathEstado === estado) {
-        path.setAttribute("stroke", "#0066CC");
+        path.setAttribute("stroke", "#000000");
         path.setAttribute("stroke-width", "2");
-        path.setAttribute("fill", "#0066CC");
+        path.setAttribute("fill", "#000000");
       } else {
         path.setAttribute("stroke", "#9CA3AF");
         path.setAttribute("stroke-width", "1");
-        const pathEstadoMapped = path.getAttribute("data-estado");
-        const estadosPresentesSet = new Set(estadosConPresencia);
-        if (estadosPresentesSet.has(pathEstadoMapped || "")) {
-          path.setAttribute("fill", "#0066CC");
-        } else {
-          path.setAttribute("fill", "#D1D5DB");
-        }
+        path.setAttribute("fill", "#D1D5DB");
       }
     });
   }
@@ -248,17 +214,10 @@ const estadosConPresencia = [
     }
 
     const mapPaths = document.querySelectorAll("#venezuela-map path");
-    const estadosPresentesSet = new Set(estadosConPresencia);
-
     mapPaths.forEach((path) => {
       path.setAttribute("stroke", "#9CA3AF");
       path.setAttribute("stroke-width", "1");
-      const pathEstado = path.getAttribute("data-estado");
-      if (estadosPresentesSet.has(pathEstado || "")) {
-        path.setAttribute("fill", "#0066CC");
-      } else {
-        path.setAttribute("fill", "#D1D5DB");
-      }
+      path.setAttribute("fill", "#D1D5DB");
     });
   }
 
