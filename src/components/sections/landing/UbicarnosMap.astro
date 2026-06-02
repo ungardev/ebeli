@@ -71,10 +71,16 @@
   </div>
 </section>
 
-<script>
-  let selectedEstado: string | null = null;
+<script is:inline>
+  var selectedEstado = null;
+  var svgDoc = null;
 
-  function handleStateClick(estado: string) {
+  function getMapPaths() {
+    if (!svgDoc) return [];
+    return svgDoc.querySelectorAll("path");
+  }
+
+  function handleStateClick(estado) {
     if (selectedEstado === estado) {
       selectedEstado = null;
       clearFilter();
@@ -84,18 +90,18 @@
     }
   }
 
-  function applyFilter(estado: string) {
-    const filterIndicator = document.getElementById("filter-indicator");
-    const selectedStateName = document.getElementById("selected-state-name");
+  function applyFilter(estado) {
+    var filterIndicator = document.getElementById("filter-indicator");
+    var selectedStateName = document.getElementById("selected-state-name");
 
     if (filterIndicator && selectedStateName) {
       filterIndicator.classList.remove("hidden");
       selectedStateName.textContent = estado;
     }
 
-    const mapPaths = document.querySelectorAll("#map-container path");
-    mapPaths.forEach((path) => {
-      const pathEstado = path.getAttribute("title");
+    var mapPaths = getMapPaths();
+    mapPaths.forEach(function(path) {
+      var pathEstado = path.getAttribute("title");
       if (pathEstado === estado) {
         path.setAttribute("stroke", "#000000");
         path.setAttribute("stroke-width", "2");
@@ -111,13 +117,13 @@
   function clearFilter() {
     selectedEstado = null;
 
-    const filterIndicator = document.getElementById("filter-indicator");
+    var filterIndicator = document.getElementById("filter-indicator");
     if (filterIndicator) {
       filterIndicator.classList.add("hidden");
     }
 
-    const mapPaths = document.querySelectorAll("#map-container path");
-    mapPaths.forEach((path) => {
+    var mapPaths = getMapPaths();
+    mapPaths.forEach(function(path) {
       path.setAttribute("stroke", "#9CA3AF");
       path.setAttribute("stroke-width", "1");
       path.setAttribute("fill", "#D1D5DB");
@@ -125,44 +131,52 @@
   }
 
   function initMap() {
-    const mapContainer = document.getElementById("map-container");
-    const tooltipEl = document.getElementById("map-tooltip");
-    const tooltipTextEl = document.getElementById("tooltip-text");
+    var mapObject = document.getElementById("venezuela-map");
+    var mapContainer = document.getElementById("map-container");
+    var tooltipEl = document.getElementById("map-tooltip");
+    var tooltipTextEl = document.getElementById("tooltip-text");
 
-    if (!mapContainer) return;
+    if (!mapObject || !mapContainer) return;
 
-    const paths = mapContainer.querySelectorAll("path");
-    
-    paths.forEach((path) => {
-      path.addEventListener("mouseenter", (e) => {
-        const estado = path.getAttribute("title");
+    svgDoc = mapObject.contentDocument;
+
+    if (!svgDoc) {
+      console.error("Could not access SVG document");
+      return;
+    }
+
+    var paths = svgDoc.querySelectorAll("path");
+    console.log("Found", paths.length, "paths in SVG");
+
+    paths.forEach(function(path) {
+      path.addEventListener("mouseenter", function(e) {
+        var estado = path.getAttribute("title");
         if (!estado || estado === "Distrito Capital" || estado === "Dependencias Federales") return;
 
         if (tooltipEl && tooltipTextEl) {
           tooltipTextEl.textContent = estado;
           tooltipEl.classList.remove("hidden");
 
-          const rect = mapContainer.getBoundingClientRect();
-          const event = e as MouseEvent;
-          const tooltipRect = tooltipEl.getBoundingClientRect();
-          const x = event.clientX - rect.left - tooltipRect.width / 2;
-          const y = event.clientY - rect.top - tooltipRect.height - 10;
+          var rect = mapContainer.getBoundingClientRect();
+          var tooltipRect = tooltipEl.getBoundingClientRect();
+          var x = e.clientX - rect.left - tooltipRect.width / 2;
+          var y = e.clientY - rect.top - tooltipRect.height - 10;
 
-          tooltipEl.style.left = `${Math.max(0, Math.min(x, rect.width - tooltipRect.width))}px`;
-          tooltipEl.style.top = `${Math.max(0, y)}px`;
+          tooltipEl.style.left = Math.max(0, Math.min(x, rect.width - tooltipRect.width)) + "px";
+          tooltipEl.style.top = Math.max(0, y) + "px";
         }
 
-        const isSelected = selectedEstado === estado;
+        var isSelected = selectedEstado === estado;
         if (!isSelected) {
           path.setAttribute("stroke", "#000000");
           path.setAttribute("stroke-width", "2");
         }
       });
 
-      path.addEventListener("mouseleave", () => {
-        const estado = path.getAttribute("title");
-        const isSelected = selectedEstado === estado;
-        
+      path.addEventListener("mouseleave", function() {
+        var estado = path.getAttribute("title");
+        var isSelected = selectedEstado === estado;
+
         if (tooltipEl) {
           tooltipEl.classList.add("hidden");
         }
@@ -176,35 +190,38 @@
         }
       });
 
-      path.addEventListener("click", () => {
-        const estado = path.getAttribute("title");
+      path.addEventListener("click", function() {
+        var estado = path.getAttribute("title");
         if (!estado || estado === "Distrito Capital" || estado === "Dependencias Federales") return;
         handleStateClick(estado);
       });
     });
 
-    const clearBtn = document.getElementById("clear-filter-btn");
+    var clearBtn = document.getElementById("clear-filter-btn");
     if (clearBtn) {
       clearBtn.addEventListener("click", clearFilter);
     }
   }
 
-  const mapObject = document.getElementById("venezuela-map") as HTMLObjectElement | null;
-  
-  if (mapObject) {
-    mapObject.addEventListener("load", () => {
-      initMap();
-    });
+  function setupMapListeners() {
+    var mapObject = document.getElementById("venezuela-map");
 
-    if (mapObject.data && mapObject.contentDocument && mapObject.contentDocument.readyState === "complete") {
-      initMap();
+    if (mapObject) {
+      mapObject.addEventListener("load", function() {
+        console.log("SVG loaded, initializing map...");
+        initMap();
+      });
+
+      if (mapObject.contentDocument && mapObject.contentDocument.readyState === "complete") {
+        console.log("SVG already loaded, initializing...");
+        initMap();
+      }
     }
   }
 
   if (document.readyState === "complete" || document.readyState === "interactive") {
-    setTimeout(() => {
-      const loaded = document.querySelectorAll("#map-container path").length > 0;
-      if (loaded) initMap();
-    }, 500);
+    setupMapListeners();
+  } else {
+    document.addEventListener("DOMContentLoaded", setupMapListeners);
   }
 </script>
