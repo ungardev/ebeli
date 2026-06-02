@@ -54,7 +54,10 @@ const productImageUrl = Astro.url.origin + productImageRes.src;
 
 const subCategory = product.data.subCategory as string | undefined;
 
-const getProductScale = (category: string, sub?: string) => {
+const getProductScale = (category: string, sub?: string, productId?: string) => {
+  if (productId === 'bombillo-led-domo') {
+    return 'object-center scale-[1.80]';
+  }
   if (sub === 'dicroicos' || sub === 'velas' || sub === 'lipstick') {
     return 'object-center scale-[1.50]';
   }
@@ -70,7 +73,7 @@ const getProductScale = (category: string, sub?: string) => {
   return 'object-center';
 };
 
-const productScale = getProductScale(product.data.category, subCategory);
+const productScale = getProductScale(product.data.category, subCategory, product.id);
 
 const productSchema = {
   "@context": "https://schema.org",

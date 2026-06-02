@@ -22,7 +22,10 @@ const watts = product.data.watts as number[];
 
 const subCategory = product.data.subCategory as string | undefined;
 
-const getProductScale = (category: string, sub?: string) => {
+const getProductScale = (category: string, sub?: string, productId?: string) => {
+  if (productId === 'bombillo-led-domo') {
+    return 'object-center scale-[1.80] group-hover:scale-[1.90]';
+  }
   if (sub === 'dicroicos' || sub === 'velas' || sub === 'lipstick') {
     return 'object-center scale-[1.50] group-hover:scale-[1.60]';
   }
@@ -38,7 +41,7 @@ const getProductScale = (category: string, sub?: string) => {
   return 'object-center scale-95 group-hover:scale-100';
 };
 
-const productScale = getProductScale(product.data.category, subCategory);
+const productScale = getProductScale(product.data.category, subCategory, product.id);
 ---
 
 <a
