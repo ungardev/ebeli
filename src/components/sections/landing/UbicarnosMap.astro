@@ -14,7 +14,7 @@
 
     <div class="relative bg-gray-100 rounded-2xl p-4 lg:p-8 mb-8">
       <div id="map-container" class="w-full aspect-[16/10] relative">
-        <svg id="venezuela-map" class="w-full h-full"></svg>
+        <object id="venezuela-map" data="/maps/venezuela-simple.svg" type="image/svg+xml" class="w-full h-full"></object>
         <div
           id="map-tooltip"
           class="absolute hidden bg-black border border-gray-300 rounded-lg px-3 py-2 text-sm text-white pointer-events-none z-10 shadow-lg"
@@ -72,123 +72,7 @@
 </section>
 
 <script>
-  import * as d3 from "d3";
-
-  const geoJsonUrl =
-    "https://raw.githubusercontent.com/fckfck97/Mapa-de-Venezuela-GeoJson/main/venezuela.geojson";
-
-  const estadosMapeados: Record<string, string> = {
-    Vargas: "La Guaira",
-    "Distrito Capital": "Distrito Capital",
-  };
-
-  function mapEstado(nombre: string): string {
-    return estadosMapeados[nombre] || nombre;
-  }
-
   let selectedEstado: string | null = null;
-  let geoDataGlobal: any = null;
-
-  async function initMap() {
-    const container = document.getElementById("map-container");
-    const svg = d3.select("#venezuela-map");
-    const tooltipEl = document.getElementById("map-tooltip");
-    const tooltipTextEl = document.getElementById("tooltip-text");
-
-    if (!container || !svg.node()) return;
-
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-
-    if (width === 0 || height === 0) {
-      setTimeout(initMap, 100);
-      return;
-    }
-
-    svg.attr("viewBox", `0 0 ${width} ${height}`);
-
-    try {
-      const response = await fetch(geoJsonUrl);
-      geoDataGlobal = await response.json();
-
-      const projection = (d3 as any).geoMercator()
-        .fitExtent([[40, 40], [width - 40, height - 40]], geoDataGlobal)
-        .translate([width / 2, height / 2]);
-
-      const pathGenerator = (d3 as any).geoPath().projection(projection);
-
-      svg
-        .append("g")
-        .selectAll("path")
-        .data(geoDataGlobal.features)
-        .enter()
-        .append("path")
-        .attr("d", (d: any) => pathGenerator(d))
-        .attr("data-estado", (d: any) => mapEstado(d.properties.NAME_1))
-        .attr("fill", "#D1D5DB")
-        .attr("stroke", "#9CA3AF")
-        .attr("stroke-width", 1)
-        .style("cursor", "pointer")
-        .style("transition", "fill 0.2s ease, stroke 0.2s ease")
-        .on("mouseenter", function (this: SVGPathElement, event: MouseEvent, d: any) {
-          const estado = mapEstado(d.properties.NAME_1);
-          const isSelected = selectedEstado === estado;
-          if (!isSelected) {
-            d3.select(this).attr("stroke", "#000000").attr("stroke-width", 2);
-          }
-
-          if (tooltipEl && tooltipTextEl) {
-            tooltipTextEl.textContent = estado;
-            tooltipEl.classList.remove("hidden");
-
-            const rect = container.getBoundingClientRect();
-            const tooltipRect = tooltipEl.getBoundingClientRect();
-            const x = event.clientX - rect.left - tooltipRect.width / 2;
-            const y = event.clientY - rect.top - tooltipRect.height - 10;
-
-            tooltipEl.style.left = `${Math.max(0, Math.min(x, rect.width - tooltipRect.width))}px`;
-            tooltipEl.style.top = `${Math.max(0, y)}px`;
-          }
-        })
-        .on("mouseleave", function (this: SVGPathElement, _event: MouseEvent) {
-          const estado = d3.select(this).attr("data-estado");
-          const isSelected = selectedEstado === estado;
-          d3.select(this)
-            .attr("stroke", isSelected ? "#000000" : "#9CA3AF")
-            .attr("stroke-width", isSelected ? 2 : 1);
-          if (tooltipEl) {
-            tooltipEl.classList.add("hidden");
-          }
-        })
-        .on("click", function (_event: MouseEvent, d: any) {
-          const estado = mapEstado(d.properties.NAME_1);
-          handleStateClick(estado);
-        });
-
-      const resizeObserver = new ResizeObserver(() => {
-        if (!geoDataGlobal) return;
-
-        const newWidth = container.clientWidth;
-        const newHeight = container.clientHeight;
-
-        if (newWidth === 0 || newHeight === 0) return;
-
-        svg.attr("viewBox", `0 0 ${newWidth} ${newHeight}`);
-
-        const newProjection = (d3 as any).geoMercator()
-          .fitExtent([[40, 40], [newWidth - 40, newHeight - 40]], geoDataGlobal)
-          .translate([newWidth / 2, newHeight / 2]);
-
-        const newPathGenerator = (d3 as any).geoPath().projection(newProjection);
-
-        svg.selectAll("path").attr("d", (d: any) => newPathGenerator(d));
-      });
-
-      resizeObserver.observe(container);
-    } catch (error) {
-      console.error("Error loading map:", error);
-    }
-  }
 
   function handleStateClick(estado: string) {
     if (selectedEstado === estado) {
@@ -209,9 +93,9 @@
       selectedStateName.textContent = estado;
     }
 
-    const mapPaths = document.querySelectorAll("#venezuela-map path");
+    const mapPaths = document.querySelectorAll("#map-container path");
     mapPaths.forEach((path) => {
-      const pathEstado = path.getAttribute("data-estado");
+      const pathEstado = path.getAttribute("title");
       if (pathEstado === estado) {
         path.setAttribute("stroke", "#000000");
         path.setAttribute("stroke-width", "2");
@@ -232,7 +116,7 @@
       filterIndicator.classList.add("hidden");
     }
 
-    const mapPaths = document.querySelectorAll("#venezuela-map path");
+    const mapPaths = document.querySelectorAll("#map-container path");
     mapPaths.forEach((path) => {
       path.setAttribute("stroke", "#9CA3AF");
       path.setAttribute("stroke-width", "1");
@@ -240,16 +124,87 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    initMap();
-  });
+  function initMap() {
+    const mapContainer = document.getElementById("map-container");
+    const tooltipEl = document.getElementById("map-tooltip");
+    const tooltipTextEl = document.getElementById("tooltip-text");
 
-  if (document.readyState === "complete" || document.readyState === "interactive") {
-    setTimeout(initMap, 100);
+    if (!mapContainer) return;
+
+    const paths = mapContainer.querySelectorAll("path");
+    
+    paths.forEach((path) => {
+      path.addEventListener("mouseenter", (e) => {
+        const estado = path.getAttribute("title");
+        if (!estado || estado === "Distrito Capital" || estado === "Dependencias Federales") return;
+
+        if (tooltipEl && tooltipTextEl) {
+          tooltipTextEl.textContent = estado;
+          tooltipEl.classList.remove("hidden");
+
+          const rect = mapContainer.getBoundingClientRect();
+          const event = e as MouseEvent;
+          const tooltipRect = tooltipEl.getBoundingClientRect();
+          const x = event.clientX - rect.left - tooltipRect.width / 2;
+          const y = event.clientY - rect.top - tooltipRect.height - 10;
+
+          tooltipEl.style.left = `${Math.max(0, Math.min(x, rect.width - tooltipRect.width))}px`;
+          tooltipEl.style.top = `${Math.max(0, y)}px`;
+        }
+
+        const isSelected = selectedEstado === estado;
+        if (!isSelected) {
+          path.setAttribute("stroke", "#000000");
+          path.setAttribute("stroke-width", "2");
+        }
+      });
+
+      path.addEventListener("mouseleave", () => {
+        const estado = path.getAttribute("title");
+        const isSelected = selectedEstado === estado;
+        
+        if (tooltipEl) {
+          tooltipEl.classList.add("hidden");
+        }
+
+        if (isSelected) {
+          path.setAttribute("stroke", "#000000");
+          path.setAttribute("stroke-width", "2");
+        } else {
+          path.setAttribute("stroke", "#9CA3AF");
+          path.setAttribute("stroke-width", "1");
+        }
+      });
+
+      path.addEventListener("click", () => {
+        const estado = path.getAttribute("title");
+        if (!estado || estado === "Distrito Capital" || estado === "Dependencias Federales") return;
+        handleStateClick(estado);
+      });
+    });
+
+    const clearBtn = document.getElementById("clear-filter-btn");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", clearFilter);
+    }
   }
 
-  const clearBtn = document.getElementById("clear-filter-btn");
-  if (clearBtn) {
-    clearBtn.addEventListener("click", clearFilter);
+  const mapObject = document.getElementById("venezuela-map") as HTMLObjectElement | null;
+  
+  if (mapObject) {
+    mapObject.addEventListener("load", () => {
+      initMap();
+    });
+
+    if (mapObject.data && mapObject.contentDocument && mapObject.contentDocument.readyState === "complete") {
+      initMap();
+    }
+  }
+
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    setTimeout(() => {
+      const loaded = document.querySelectorAll("#map-container path").length > 0;
+      if (loaded) initMap();
+    }, 500);
   }
 </script>
