@@ -1,4 +1,5 @@
 ---
+import venezuelasvg from '../../../../public/maps/venezuela-simple.svg?raw';
 ---
 
 <section class="w-full py-12 lg:py-20 bg-white">
@@ -14,7 +15,7 @@
 
     <div class="relative bg-gray-100 rounded-2xl p-4 lg:p-8 mb-8">
       <div id="map-container" class="w-full aspect-[16/10] relative">
-        <object id="venezuela-map" data="/maps/venezuela-simple.svg" type="image/svg+xml" class="w-full h-full"></object>
+        <div id="map-svg" class="w-full h-full" set:html={venezuelasvg}></div>
         <div
           id="map-tooltip"
           class="absolute hidden bg-black border border-gray-300 rounded-lg px-3 py-2 text-sm text-white pointer-events-none z-10 shadow-lg"
@@ -72,156 +73,135 @@
 </section>
 
 <script is:inline>
-  var selectedEstado = null;
-  var svgDoc = null;
+  (function() {
+    var selectedEstado = null;
+    var mapPaths = [];
 
-  function getMapPaths() {
-    if (!svgDoc) return [];
-    return svgDoc.querySelectorAll("path");
-  }
-
-  function handleStateClick(estado) {
-    if (selectedEstado === estado) {
-      selectedEstado = null;
-      clearFilter();
-    } else {
-      selectedEstado = estado;
-      applyFilter(estado);
-    }
-  }
-
-  function applyFilter(estado) {
-    var filterIndicator = document.getElementById("filter-indicator");
-    var selectedStateName = document.getElementById("selected-state-name");
-
-    if (filterIndicator && selectedStateName) {
-      filterIndicator.classList.remove("hidden");
-      selectedStateName.textContent = estado;
+    function getMapPathsFromDOM() {
+      var svg = document.querySelector('#map-svg svg');
+      if (svg) {
+        return svg.querySelectorAll('path');
+      }
+      return [];
     }
 
-    var mapPaths = getMapPaths();
-    mapPaths.forEach(function(path) {
-      var pathEstado = path.getAttribute("title");
-      if (pathEstado === estado) {
-        path.setAttribute("stroke", "#000000");
-        path.setAttribute("stroke-width", "2");
-        path.setAttribute("fill", "#000000");
+    function handleStateClick(estado) {
+      if (selectedEstado === estado) {
+        selectedEstado = null;
+        clearFilter();
       } else {
-        path.setAttribute("stroke", "#9CA3AF");
-        path.setAttribute("stroke-width", "1");
-        path.setAttribute("fill", "#D1D5DB");
+        selectedEstado = estado;
+        applyFilter(estado);
       }
-    });
-  }
-
-  function clearFilter() {
-    selectedEstado = null;
-
-    var filterIndicator = document.getElementById("filter-indicator");
-    if (filterIndicator) {
-      filterIndicator.classList.add("hidden");
     }
 
-    var mapPaths = getMapPaths();
-    mapPaths.forEach(function(path) {
-      path.setAttribute("stroke", "#9CA3AF");
-      path.setAttribute("stroke-width", "1");
-      path.setAttribute("fill", "#D1D5DB");
-    });
-  }
+    function applyFilter(estado) {
+      var filterIndicator = document.getElementById('filter-indicator');
+      var selectedStateName = document.getElementById('selected-state-name');
 
-  function initMap() {
-    var mapObject = document.getElementById("venezuela-map");
-    var mapContainer = document.getElementById("map-container");
-    var tooltipEl = document.getElementById("map-tooltip");
-    var tooltipTextEl = document.getElementById("tooltip-text");
+      if (filterIndicator && selectedStateName) {
+        filterIndicator.classList.remove('hidden');
+        selectedStateName.textContent = estado;
+      }
 
-    if (!mapObject || !mapContainer) return;
-
-    svgDoc = mapObject.contentDocument;
-
-    if (!svgDoc) {
-      console.error("Could not access SVG document");
-      return;
-    }
-
-    var paths = svgDoc.querySelectorAll("path");
-    console.log("Found", paths.length, "paths in SVG");
-
-    paths.forEach(function(path) {
-      path.addEventListener("mouseenter", function(e) {
-        var estado = path.getAttribute("title");
-        if (!estado || estado === "Distrito Capital" || estado === "Dependencias Federales") return;
-
-        if (tooltipEl && tooltipTextEl) {
-          tooltipTextEl.textContent = estado;
-          tooltipEl.classList.remove("hidden");
-
-          var rect = mapContainer.getBoundingClientRect();
-          var tooltipRect = tooltipEl.getBoundingClientRect();
-          var x = e.clientX - rect.left - tooltipRect.width / 2;
-          var y = e.clientY - rect.top - tooltipRect.height - 10;
-
-          tooltipEl.style.left = Math.max(0, Math.min(x, rect.width - tooltipRect.width)) + "px";
-          tooltipEl.style.top = Math.max(0, y) + "px";
-        }
-
-        var isSelected = selectedEstado === estado;
-        if (!isSelected) {
-          path.setAttribute("stroke", "#000000");
-          path.setAttribute("stroke-width", "2");
-        }
-      });
-
-      path.addEventListener("mouseleave", function() {
-        var estado = path.getAttribute("title");
-        var isSelected = selectedEstado === estado;
-
-        if (tooltipEl) {
-          tooltipEl.classList.add("hidden");
-        }
-
-        if (isSelected) {
-          path.setAttribute("stroke", "#000000");
-          path.setAttribute("stroke-width", "2");
+      mapPaths.forEach(function(path) {
+        var pathEstado = path.getAttribute('title');
+        if (pathEstado === estado) {
+          path.setAttribute('stroke', '#000000');
+          path.setAttribute('stroke-width', '2');
+          path.setAttribute('fill', '#000000');
         } else {
-          path.setAttribute("stroke", "#9CA3AF");
-          path.setAttribute("stroke-width", "1");
+          path.setAttribute('stroke', '#9CA3AF');
+          path.setAttribute('stroke-width', '1');
+          path.setAttribute('fill', '#D1D5DB');
         }
       });
-
-      path.addEventListener("click", function() {
-        var estado = path.getAttribute("title");
-        if (!estado || estado === "Distrito Capital" || estado === "Dependencias Federales") return;
-        handleStateClick(estado);
-      });
-    });
-
-    var clearBtn = document.getElementById("clear-filter-btn");
-    if (clearBtn) {
-      clearBtn.addEventListener("click", clearFilter);
     }
-  }
 
-  function setupMapListeners() {
-    var mapObject = document.getElementById("venezuela-map");
+    function clearFilter() {
+      selectedEstado = null;
 
-    if (mapObject) {
-      mapObject.addEventListener("load", function() {
-        console.log("SVG loaded, initializing map...");
-        initMap();
+      var filterIndicator = document.getElementById('filter-indicator');
+      if (filterIndicator) {
+        filterIndicator.classList.add('hidden');
+      }
+
+      mapPaths.forEach(function(path) {
+        path.setAttribute('stroke', '#9CA3AF');
+        path.setAttribute('stroke-width', '1');
+        path.setAttribute('fill', '#D1D5DB');
+      });
+    }
+
+    function initMap() {
+      var mapContainer = document.getElementById('map-container');
+      var tooltipEl = document.getElementById('map-tooltip');
+      var tooltipTextEl = document.getElementById('tooltip-text');
+
+      if (!mapContainer) return;
+
+      mapPaths = Array.from(getMapPathsFromDOM());
+      console.log('Found', mapPaths.length, 'paths in SVG');
+
+      mapPaths.forEach(function(path) {
+        path.addEventListener('mouseenter', function(e) {
+          var estado = path.getAttribute('title');
+          if (!estado || estado === 'Distrito Capital' || estado === 'Dependencias Federales') return;
+
+          if (tooltipEl && tooltipTextEl) {
+            tooltipTextEl.textContent = estado;
+            tooltipEl.classList.remove('hidden');
+
+            var rect = mapContainer.getBoundingClientRect();
+            var tooltipRect = tooltipEl.getBoundingClientRect();
+            var x = e.clientX - rect.left - tooltipRect.width / 2;
+            var y = e.clientY - rect.top - tooltipRect.height - 10;
+
+            tooltipEl.style.left = Math.max(0, Math.min(x, rect.width - tooltipRect.width)) + 'px';
+            tooltipEl.style.top = Math.max(0, y) + 'px';
+          }
+
+          var isSelected = selectedEstado === estado;
+          if (!isSelected) {
+            path.setAttribute('stroke', '#000000');
+            path.setAttribute('stroke-width', '2');
+          }
+        });
+
+        path.addEventListener('mouseleave', function() {
+          var estado = path.getAttribute('title');
+          var isSelected = selectedEstado === estado;
+
+          if (tooltipEl) {
+            tooltipEl.classList.add('hidden');
+          }
+
+          if (isSelected) {
+            path.setAttribute('stroke', '#000000');
+            path.setAttribute('stroke-width', '2');
+          } else {
+            path.setAttribute('stroke', '#9CA3AF');
+            path.setAttribute('stroke-width', '1');
+          }
+        });
+
+        path.addEventListener('click', function() {
+          var estado = path.getAttribute('title');
+          if (!estado || estado === 'Distrito Capital' || estado === 'Dependencias Federales') return;
+          handleStateClick(estado);
+        });
       });
 
-      if (mapObject.contentDocument && mapObject.contentDocument.readyState === "complete") {
-        console.log("SVG already loaded, initializing...");
-        initMap();
+      var clearBtn = document.getElementById('clear-filter-btn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', clearFilter);
       }
     }
-  }
 
-  if (document.readyState === "complete" || document.readyState === "interactive") {
-    setupMapListeners();
-  } else {
-    document.addEventListener("DOMContentLoaded", setupMapListeners);
-  }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMap);
+    } else {
+      initMap();
+    }
+  })();
 </script>
