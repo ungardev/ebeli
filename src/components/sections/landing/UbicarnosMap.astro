@@ -1,5 +1,5 @@
 ---
-import venezuelasvg from '../../../../public/maps/venezuela-simple.svg?raw';
+import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
 ---
 
 <section class="w-full py-12 lg:py-20 bg-white">
@@ -14,11 +14,18 @@ import venezuelasvg from '../../../../public/maps/venezuela-simple.svg?raw';
     </div>
 
     <div class="relative bg-gray-100 rounded-2xl p-4 lg:p-8 mb-8">
-      <div id="map-container" class="w-full aspect-[16/10] relative">
-        <div id="map-svg" class="w-full h-full" set:html={venezuelasvg}></div>
+      <div id="map-container" class="w-full relative" style="aspect-ratio: 964/851;">
+        <svg
+          id="map-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="-2 54.45 964 851.1"
+          class="w-full h-auto"
+          set:html={venezuelaSvg}
+        ></svg>
         <div
           id="map-tooltip"
           class="absolute hidden bg-black border border-gray-300 rounded-lg px-3 py-2 text-sm text-white pointer-events-none z-10 shadow-lg"
+          style="font-family: var(--font-manrope);"
         >
           <span id="tooltip-text"></span>
         </div>
@@ -72,13 +79,23 @@ import venezuelasvg from '../../../../public/maps/venezuela-simple.svg?raw';
   </div>
 </section>
 
+<style>
+  #map-svg path {
+    cursor: pointer;
+    transition: fill 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease;
+  }
+  #map-svg path:hover {
+    fill: #9CA3AF !important;
+  }
+</style>
+
 <script is:inline>
   (function() {
     var selectedEstado = null;
     var mapPaths = [];
 
     function getMapPathsFromDOM() {
-      var svg = document.querySelector('#map-svg svg');
+      var svg = document.querySelector('#map-svg');
       if (svg) {
         return svg.querySelectorAll('path');
       }
@@ -105,15 +122,15 @@ import venezuelasvg from '../../../../public/maps/venezuela-simple.svg?raw';
       }
 
       mapPaths.forEach(function(path) {
-        var pathEstado = path.getAttribute('title');
+        var pathEstado = path.getAttribute('data-name');
         if (pathEstado === estado) {
-          path.setAttribute('stroke', '#000000');
-          path.setAttribute('stroke-width', '2');
           path.setAttribute('fill', '#000000');
-        } else {
-          path.setAttribute('stroke', '#9CA3AF');
+          path.setAttribute('stroke', '#000000');
           path.setAttribute('stroke-width', '1');
-          path.setAttribute('fill', '#D1D5DB');
+        } else {
+          path.setAttribute('fill', '#dadada');
+          path.setAttribute('stroke', '#ffffff');
+          path.setAttribute('stroke-width', '0.5');
         }
       });
     }
@@ -127,9 +144,9 @@ import venezuelasvg from '../../../../public/maps/venezuela-simple.svg?raw';
       }
 
       mapPaths.forEach(function(path) {
-        path.setAttribute('stroke', '#9CA3AF');
-        path.setAttribute('stroke-width', '1');
-        path.setAttribute('fill', '#D1D5DB');
+        path.setAttribute('fill', '#dadada');
+        path.setAttribute('stroke', '#ffffff');
+        path.setAttribute('stroke-width', '0.5');
       });
     }
 
@@ -145,7 +162,7 @@ import venezuelasvg from '../../../../public/maps/venezuela-simple.svg?raw';
 
       mapPaths.forEach(function(path) {
         path.addEventListener('mouseenter', function(e) {
-          var estado = path.getAttribute('title');
+          var estado = path.getAttribute('data-name');
           if (!estado || estado === 'Distrito Capital' || estado === 'Dependencias Federales') return;
 
           if (tooltipEl && tooltipTextEl) {
@@ -164,12 +181,12 @@ import venezuelasvg from '../../../../public/maps/venezuela-simple.svg?raw';
           var isSelected = selectedEstado === estado;
           if (!isSelected) {
             path.setAttribute('stroke', '#000000');
-            path.setAttribute('stroke-width', '2');
+            path.setAttribute('stroke-width', '1');
           }
         });
 
         path.addEventListener('mouseleave', function() {
-          var estado = path.getAttribute('title');
+          var estado = path.getAttribute('data-name');
           var isSelected = selectedEstado === estado;
 
           if (tooltipEl) {
@@ -178,15 +195,15 @@ import venezuelasvg from '../../../../public/maps/venezuela-simple.svg?raw';
 
           if (isSelected) {
             path.setAttribute('stroke', '#000000');
-            path.setAttribute('stroke-width', '2');
-          } else {
-            path.setAttribute('stroke', '#9CA3AF');
             path.setAttribute('stroke-width', '1');
+          } else {
+            path.setAttribute('stroke', '#ffffff');
+            path.setAttribute('stroke-width', '0.5');
           }
         });
 
         path.addEventListener('click', function() {
-          var estado = path.getAttribute('title');
+          var estado = path.getAttribute('data-name');
           if (!estado || estado === 'Distrito Capital' || estado === 'Dependencias Federales') return;
           handleStateClick(estado);
         });
