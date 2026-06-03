@@ -46,22 +46,22 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
       <table class="w-full min-w-[640px]">
         <thead class="bg-gray-100">
           <tr>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Tipo
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Nombre
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Estado
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Ciudad
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Teléfono
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Email
             </th>
           </tr>
@@ -83,10 +83,6 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
           Estamos expandiendo nuestra presencia en Venezuela
         </p>
       </div>
-    </div>
-
-    <div id="empty-table-message" class="py-12 text-center text-black" style="font-family: var(--font-manrope);">
-      Selecciona un estado del mapa para ver los distribuidores en esa zona
     </div>
   </div>
 </section>
@@ -120,7 +116,6 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
 
     function renderTable(estado) {
       var tbody = document.getElementById('distribuidor-table-body');
-      var emptyMsg = document.getElementById('empty-table-message');
       var proximoMsg = document.getElementById('proximo-mensaje');
       var tableWrapper = document.querySelector('.overflow-x-auto');
 
@@ -135,7 +130,6 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
 
       tbody.innerHTML = '';
       proximoMsg.classList.add('hidden');
-      emptyMsg.classList.add('hidden');
       tableWrapper.classList.remove('hidden');
 
       filtrados.forEach(function(d) {
@@ -154,27 +148,13 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
 
     function mostrarMensajeProximo() {
       var proximoMsg = document.getElementById('proximo-mensaje');
-      var emptyMsg = document.getElementById('empty-table-message');
       var tableWrapper = document.querySelector('.overflow-x-auto');
 
       if (tableWrapper) tableWrapper.classList.add('hidden');
-      if (emptyMsg) emptyMsg.classList.add('hidden');
       if (proximoMsg) {
         proximoMsg.classList.remove('hidden');
         proximoMsg.classList.add('animate-fade-in');
       }
-    }
-
-    function mostrarEmptyDefault() {
-      var proximoMsg = document.getElementById('proximo-mensaje');
-      var emptyMsg = document.getElementById('empty-table-message');
-      var tableWrapper = document.querySelector('.overflow-x-auto');
-      var tbody = document.getElementById('distribuidor-table-body');
-
-      if (tableWrapper) tableWrapper.classList.remove('hidden');
-      if (proximoMsg) proximoMsg.classList.add('hidden');
-      if (emptyMsg) emptyMsg.classList.remove('hidden');
-      if (tbody) tbody.innerHTML = '';
     }
 
     function getMapPathsFromDOM() {
