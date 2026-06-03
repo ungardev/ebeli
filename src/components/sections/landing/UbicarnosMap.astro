@@ -10,12 +10,12 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
       </h2>
     </div>
 
-    <div class="relative bg-gray-100 rounded-2xl p-4 lg:p-8 mb-8">
-      <div id="map-container" class="w-full relative pt-16" style="aspect-ratio: 964/950;">
+    <div class="relative bg-gray-100 rounded-2xl p-4 lg:p-8 mb-8 overflow-visible">
+      <div id="map-container" class="w-full relative pt-8 overflow-visible">
         <svg
           id="map-svg"
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="-2 54.45 964 851.1"
+          viewBox="-2 48 964 860"
           class="w-full h-auto"
           set:html={venezuelaSvg}
         ></svg>
