@@ -69,7 +69,20 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
         <tbody id="distribuidor-table-body" class="divide-y divide-gray-100">
         </tbody>
       </table>
-      <div id="empty-table-message" class="py-12 text-center text-gray-500" style="font-family: var(--font-manrope);">
+      <div id="proximo-mensaje" class="hidden py-16 text-center">
+        <div class="flex flex-col items-center gap-4">
+          <svg class="w-16 h-16 text-gray-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+          <h3 class="text-2xl md:text-3xl font-[300] text-gray-700 tracking-wide" style="font-family: var(--font-manrope);">
+            Muy Pronto Llegaremos
+          </h3>
+          <p class="text-gray-500 text-sm md:text-base" style="font-family: var(--font-manrope);">
+            Estamos expandiendo nuestra presencia en Venezuela
+          </p>
+        </div>
+      </div>
+      <div id="empty-table-message" class="hidden py-12 text-center text-gray-500" style="font-family: var(--font-manrope);">
         Selecciona un estado del mapa para ver los distribuidores en esa zona
       </div>
     </div>
@@ -84,12 +97,83 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
   #map-svg path:hover {
     fill: #9CA3AF !important;
   }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
 </style>
 
 <script is:inline>
   (function() {
     var selectedEstado = null;
     var mapPaths = [];
+    var distribuidores = [];
+
+    function tieneDatosParaEstado(estado) {
+      return distribuidores.some(function(d) { return d.estado === estado; });
+    }
+
+    function renderTable(estado) {
+      var tbody = document.getElementById('distribuidor-table-body');
+      var emptyMsg = document.getElementById('empty-table-message');
+      var proximoMsg = document.getElementById('proximo-mensaje');
+      var tableWrapper = document.querySelector('.overflow-x-auto');
+
+      if (!tbody) return;
+
+      var filtrados = distribuidores.filter(function(d) { return d.estado === estado; });
+
+      if (filtrados.length === 0) {
+        mostrarMensajeProximo();
+        return;
+      }
+
+      tbody.innerHTML = '';
+      proximoMsg.classList.add('hidden');
+      emptyMsg.classList.add('hidden');
+      tableWrapper.classList.remove('hidden');
+
+      filtrados.forEach(function(d) {
+        var tr = document.createElement('tr');
+        tr.className = 'border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150';
+        tr.innerHTML = 
+          '<td class="px-4 py-3"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ' + (d.tipo === 'Distribuidor' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800') + '">' + d.tipo + '</span></td>' +
+          '<td class="px-4 py-3 text-sm text-gray-900">' + d.nombre + '</td>' +
+          '<td class="px-4 py-3 text-sm text-gray-600">' + d.estado + '</td>' +
+          '<td class="px-4 py-3 text-sm text-gray-600">' + d.ciudad + '</td>' +
+          '<td class="px-4 py-3 text-sm"><a href="tel:' + d.telefono + '" class="text-blue-600 hover:text-blue-800 hover:underline">' + d.telefono + '</a></td>' +
+          '<td class="px-4 py-3 text-sm"><a href="mailto:' + d.email + '" class="text-blue-600 hover:text-blue-800 hover:underline">' + d.email + '</a></td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    function mostrarMensajeProximo() {
+      var proximoMsg = document.getElementById('proximo-mensaje');
+      var emptyMsg = document.getElementById('empty-table-message');
+      var tableWrapper = document.querySelector('.overflow-x-auto');
+
+      if (tableWrapper) tableWrapper.classList.add('hidden');
+      if (emptyMsg) emptyMsg.classList.add('hidden');
+      if (proximoMsg) {
+        proximoMsg.classList.remove('hidden');
+        proximoMsg.classList.add('animate-fade-in');
+      }
+    }
+
+    function mostrarEmptyDefault() {
+      var proximoMsg = document.getElementById('proximo-mensaje');
+      var emptyMsg = document.getElementById('empty-table-message');
+      var tableWrapper = document.querySelector('.overflow-x-auto');
+      var tbody = document.getElementById('distribuidor-table-body');
+
+      if (tableWrapper) tableWrapper.classList.remove('hidden');
+      if (proximoMsg) proximoMsg.classList.add('hidden');
+      if (emptyMsg) emptyMsg.classList.remove('hidden');
+      if (tbody) tbody.innerHTML = '';
+    }
 
     function getMapPathsFromDOM() {
       var svg = document.querySelector('#map-svg');
@@ -130,6 +214,8 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
           path.setAttribute('stroke-width', '0.5');
         }
       });
+
+      renderTable(estado);
     }
 
     function clearFilter() {
@@ -145,6 +231,8 @@ import venezuelaSvg from '../../../../public/maps/venezuelaHigh.svg?raw';
         path.setAttribute('stroke', '#ffffff');
         path.setAttribute('stroke-width', '0.5');
       });
+
+      mostrarEmptyDefault();
     }
 
     function initMap() {
