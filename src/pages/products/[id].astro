@@ -55,6 +55,9 @@ const productImageUrl = Astro.url.origin + productImageRes.src;
 const subCategory = product.data.subCategory as string | undefined;
 
 const getProductScale = (category: string, sub?: string, productId?: string) => {
+  if (productId === 'bombillo-led-clasico') {
+    return 'object-center scale-[1.50] translate-x-[2%]';
+  }
   if (productId === 'bombillo-led-domo') {
     return 'object-center scale-[2.20]';
   }
