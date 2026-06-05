@@ -214,7 +214,3 @@ This project is for demonstration purposes as part of a professional portfolio.
 - Website: [ebelive.com](https://ebelive.com)
 
 ---
-
-<p align="center">
-  <strong>Built with ❤️ and cutting-edge technology.</strong>
-</p>
