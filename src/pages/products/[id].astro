@@ -82,6 +82,8 @@ const images = (product.data as any).images as string[] | undefined;
 const hasMultipleImages = images && images.length > 0;
 ---
 
+<MainLayout title={pageTitle} customDescription={metaDescription}>
+
   <!-- Product Detail Section -->
   <section class="bg-[#050505] pt-[88px] pb-12 md:pt-24 md:pb-16">
     <div class="max-w-7xl mx-auto px-4">
@@ -346,53 +348,53 @@ const hasMultipleImages = images && images.length > 0;
     </div>
   </section>
 
-</MainLayout>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const allImages = (window as any).__productImages || [];
+      if (allImages.length <= 1) return;
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const allImages = (window as any).__productImages || [];
-    if (allImages.length <= 1) return;
+      let currentIndex = 0;
+      const mainImage = document.getElementById('main-product-image') as HTMLImageElement | null;
+      const prevBtn = document.getElementById('prev-image-btn');
+      const nextBtn = document.getElementById('next-image-btn');
+      const thumbnails = document.querySelectorAll('.thumbnail-btn');
 
-    let currentIndex = 0;
-    const mainImage = document.getElementById('main-product-image') as HTMLImageElement | null;
-    const prevBtn = document.getElementById('prev-image-btn');
-    const nextBtn = document.getElementById('next-image-btn');
-    const thumbnails = document.querySelectorAll('.thumbnail-btn');
-
-    function updateGallery() {
-      if (mainImage) {
-        mainImage.src = allImages[currentIndex];
-      }
-      thumbnails.forEach((thumb, i) => {
-        if (i === currentIndex) {
-          thumb.classList.add('border-white');
-          thumb.classList.remove('border-transparent', 'opacity-60');
-        } else {
-          thumb.classList.remove('border-white');
-          thumb.classList.add('border-transparent', 'opacity-60');
+      function updateGallery() {
+        if (mainImage) {
+          mainImage.src = allImages[currentIndex];
         }
-      });
-    }
+        thumbnails.forEach((thumb, i) => {
+          if (i === currentIndex) {
+            thumb.classList.add('border-white');
+            thumb.classList.remove('border-transparent', 'opacity-60');
+          } else {
+            thumb.classList.remove('border-white');
+            thumb.classList.add('border-transparent', 'opacity-60');
+          }
+        });
+      }
 
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        currentIndex = currentIndex > 0 ? currentIndex - 1 : allImages.length - 1;
-        updateGallery();
-      });
-    }
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          currentIndex = currentIndex > 0 ? currentIndex - 1 : allImages.length - 1;
+          updateGallery();
+        });
+      }
 
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        currentIndex = currentIndex < allImages.length - 1 ? currentIndex + 1 : 0;
-        updateGallery();
-      });
-    }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          currentIndex = currentIndex < allImages.length - 1 ? currentIndex + 1 : 0;
+          updateGallery();
+        });
+      }
 
-    thumbnails.forEach((thumb, i) => {
-      thumb.addEventListener('click', () => {
-        currentIndex = i;
-        updateGallery();
+      thumbnails.forEach((thumb, i) => {
+        thumb.addEventListener('click', () => {
+          currentIndex = i;
+          updateGallery();
+        });
       });
     });
-  });
-</script>
+  </script>
+
+</MainLayout>
