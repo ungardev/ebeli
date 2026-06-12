@@ -78,63 +78,18 @@ const getProductScale = (category: string, sub?: string, productId?: string) => 
 
 const productScale = getProductScale(product.data.category, subCategory, product.id);
 
-const productSchema = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": product.data.title,
-  "image": productImageUrl,
-  "description": metaDescription,
-  "brand": {
-    "@type": "Brand",
-    "name": "Ébeli"
-  },
-  "category": categoryLabels[product.data.category] || product.data.category,
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock",
-    "url": Astro.url.href
-  },
-  "additionalProperty": [
-    { "@type": "PropertyValue", "name": "Voltaje", "value": product.data.voltage },
-    { "@type": "PropertyValue", "name": "Temperatura de Color", "value": product.data.colorTemperature },
-    { "@type": "PropertyValue", "name": "Garantía", "value": product.data.warranty }
-  ]
-};
+const images = (product.data as any).images as string[] | undefined;
+const allImages = [product.data.mainImage, ...(images || [])];
+const hasMultipleImages = allImages.length > 1;
 ---
-
-<MainLayout title={pageTitle} customDescription={metaDescription} structuredData={productSchema}>
-
-  <!-- Hero Section - Dark Luxury Visualizer -->
-  <section class="relative bg-black overflow-hidden pt-[60px] md:pt-0">
-    <!-- Subtle radial gradient simulating LED light -->
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,250,240,0.06)_0%,transparent_50%)]"></div>
-    
-    <div class="relative mx-auto max-w-[1078px] px-4 py-10 sm:px-6 lg:px-8 lg:py-20">
-      
-      <!-- Breadcrumb - Ultra Minimalist -->
-      <nav class="mb-4 flex items-center gap-1.5 text-xs tracking-wide text-white/30" aria-label="Breadcrumb">
-        <a href="/products" class="hover:text-white/70 transition-colors duration-200 ease-out">Productos</a>
-        <svg class="w-3 h-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"/>
-        </svg>
-        <a href={`/products?category=${product.data.category}`} class="hover:text-white/70 transition-colors duration-200 ease-out">
-          {categoryLabels[product.data.category] || product.data.category}
-        </a>
-        <svg class="w-3 h-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"/>
-        </svg>
-        <span class="text-white/60">{product.data.title}</span>
-      </nav>
 
       <div class="grid gap-8 lg:grid-cols-2 lg:gap-12 items-start">
         
-        <!-- LEFT: Product Image - OLED Mate Container -->
-        <div class="relative">
+        <!-- LEFT: Product Image - OLED Mate Container with Gallery -->
+        <div class="relative group">
           <div class="sticky top-24 overflow-hidden rounded-2xl bg-[#0a0a0a] border border-white/5 p-6 lg:p-8">
             <div class="relative aspect-[4/5] md:aspect-square w-full rounded-2xl bg-[#0a0a0a] border border-white/5 overflow-hidden flex items-center justify-center">
-              <!-- Wrapper Anidado - guillotina interna para el zoom -->
+              <!-- Main Image Container -->
               <div class="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center p-2 lg:p-2">
                 <Image
                   src={product.data.mainImage}
@@ -146,11 +101,59 @@ const productSchema = {
                   productScale
                 ]}
                   loading="eager"
+                  id="main-product-image"
                 />
               </div>
+              
+              <!-- Navigation Arrows (only if multiple images) -->
+              {hasMultipleImages && (
+                <>
+                  <button
+                    id="prev-image-btn"
+                    class="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/80 transition-all duration-200 opacity-0 group-hover:opacity-100"
+                    aria-label="Imagen anterior"
+                  >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button
+                    id="next-image-btn"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/80 transition-all duration-200 opacity-0 group-hover:opacity-100"
+                    aria-label="Siguiente imagen"
+                  >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </>
+              )}
+              
               <!-- Subtle glow effect on image -->
               <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
             </div>
+            
+            <!-- Thumbnails Gallery (only if multiple images) -->
+            {hasMultipleImages && (
+              <div class="flex items-center justify-center gap-2 mt-4 overflow-x-auto pb-2">
+                {allImages.map((img, index) => (
+                  <button
+                    class:list={[
+                      'thumbnail-btn flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200',
+                      index === 0 ? 'border-white' : 'border-transparent opacity-60 hover:opacity-100'
+                    ]}
+                    data-image-index={index}
+                  >
+                    <img
+                      src={img}
+                      alt={`${product.data.title} - Imagen ${index + 1}`}
+                      class="w-full h-full object-contain"
+                      loading="lazy"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -340,3 +343,52 @@ const productSchema = {
   </section>
 
 </MainLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const allImages = (window as any).__productImages || [];
+    if (allImages.length <= 1) return;
+
+    let currentIndex = 0;
+    const mainImage = document.getElementById('main-product-image') as HTMLImageElement | null;
+    const prevBtn = document.getElementById('prev-image-btn');
+    const nextBtn = document.getElementById('next-image-btn');
+    const thumbnails = document.querySelectorAll('.thumbnail-btn');
+
+    function updateGallery() {
+      if (mainImage) {
+        mainImage.src = allImages[currentIndex];
+      }
+      thumbnails.forEach((thumb, i) => {
+        if (i === currentIndex) {
+          thumb.classList.add('border-white');
+          thumb.classList.remove('border-transparent', 'opacity-60');
+        } else {
+          thumb.classList.remove('border-white');
+          thumb.classList.add('border-transparent', 'opacity-60');
+        }
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        currentIndex = currentIndex > 0 ? currentIndex - 1 : allImages.length - 1;
+        updateGallery();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        currentIndex = currentIndex < allImages.length - 1 ? currentIndex + 1 : 0;
+        updateGallery();
+      });
+    }
+
+    thumbnails.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => {
+        currentIndex = i;
+        updateGallery();
+      });
+    });
+  });
+</script>

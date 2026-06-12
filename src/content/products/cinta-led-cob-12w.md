@@ -1,23 +1,26 @@
 ---
-id: 'cinta-led-cob-12w'
-title: 'Cinta LED COB 12W'
+id: 'cinta-led-cob-directa'
+title: 'Cinta LED COB DIRECTA'
 category: cintas
-watts: [12]
-colorTemperature: '3000K / 6500K'
-voltage: 'AC85-285V'
+watts: [10]
+colorTemperature: '6500K'
+voltage: 'AC110-130V'
 warranty: '2 Años de Garantía'
 mainImage: '../../images/productos/CINTA_LED_2.png'
+images:
+  - '../../images/productos/CINTA_LED_1.png'
+  - '../../images/productos/CINTA_LED_3.png'
 isFeatured: false
 specs:
   type: 'COB (Chip on Board)'
-  flux: '1000 lm'
+  flux: '850 lm'
   angle: '120°'
   cutUnit: '10cm'
-  length: '100 metros'
+  length: '50 metros'
   lifespan: '25,000 hrs'
-  ipRating: 'IP66'
+  ipRating: 'IP20'
   material: 'Plástico'
   powerFactor: 'PF0.5'
 ---
 
-Cinta LED COB de 12W con protección IP66 para uso interior y exterior. Alta densidad sin puntos de luz visibles. Flexible y cortable cada 10cm.
+Cinta LED COB DIRECTA de alta densidad sin puntos de luz visibles. Flexible y cortable cada 10cm. Ideal para iluminación decorativa, señalización y ambientes.
