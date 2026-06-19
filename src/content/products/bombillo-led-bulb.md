@@ -1,10 +1,10 @@
 ---
-id: 'bombillo-led-clasico'
-title: 'Bombillo LED Bulb Clásico'
+id: 'bombillo-led-bulb'
+title: 'Bombillo LED Bulb'
 category: bombillos
 watts: [9, 12, 15]
 colorTemperature: '3000K / 6500K'
-voltage: 'AC85-285V'
+voltage: 'AC 85-285V'
 warranty: '2 Años de Garantía'
 mainImage: '../../images/productos/BOMBILLO_LED.png'
 isFeatured: false
